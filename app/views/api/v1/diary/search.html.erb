@@ -1,0 +1,42 @@
+<h1>상세 검색</h1>
+<%= form_with url: '/api/v1/diary/search', method: :post, local: true, data: {turbo: false} do |form| %>
+  <div>
+    <%= form.label :query %><br>
+<%= form.text_field :q %>
+  </div>
+  <div>
+<%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to "목록으로 돌아가기", '/api/v1/diary/list' %>
+
+<%#= form_tag url: '/api/v1/diary/search', method: :post do %>
+<!--  <div>-->
+    <%#= label_tag :query %>
+    <%#= text_field_tag :q %>
+<!--  </div>-->
+<!--  <div>-->
+    <%#= submit_tag %>
+<!--  </div>-->
+<%# end %>
+<% if @sd %>
+  <% @sd.each do |diary| %>
+    <li>
+      <a href="/api/v1/diary/detail/<%= diary.id %>">
+        <%= '✅' if @current_user.permission == "admin" and diary.admitted == true %>
+        <%= '❌' if @current_user.permission == "admin" and diary.admitted == false %>
+        <%= diary.date %>
+        <%= diary.user.name %></a>
+        <ul>
+          <% diary.events.each do |event| %>
+          <li>
+            <%= event.start_time.strftime("%H:%M") %>
+            <%= event.end_time.strftime("%H:%M") %>
+            <%= highlight(event.desc, @query) %>
+          </li>
+          <% end %>
+        </ul>
+    </li>
+  <% end %>
+<% end %>

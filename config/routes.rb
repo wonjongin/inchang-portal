@@ -1,0 +1,33 @@
+Rails.application.routes.draw do
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # Defines the root path route ("/")
+  # root "articles#index"
+
+  namespace :api do
+    namespace :v1 do
+      get 'feedback/new'
+      post 'feedback/create'
+      patch 'feedback/update/:id', to: 'feedback#update'
+      get 'event/new/:diary_id', to: 'event#new'
+      post 'event/create'
+      delete 'event/delete/:id', to: 'event#delete'
+      patch 'event/update/:id', to: 'event#update'
+      get 'diary/new'
+      post 'diary/create'
+      get 'diary/list'
+      get 'diary/search'
+      post 'diary/search'
+      get 'diary/my', to: 'diary#my_diaries'
+      get 'diary/detail/:id', to: 'diary#detail'
+      post 'diary/admit/:id', to: 'diary#admit'
+      get 'login/', to: 'login#sign_in'
+      post 'login/login', to: 'login#login'
+      get 'login/logout', to: 'login#logout'
+      get 'login/sign_up', to: 'login#sign_up'
+      get 'login/signed_up', to: 'login#signed_up'
+      get 'login/wrong_admin_pw', to: 'login#wrong_admin_pw'
+      post 'login/signingup', to: 'login#signingup'
+    end
+  end
+end

@@ -1,0 +1,28 @@
+<h1>회원가입</h1>
+
+<%= form_with url: '/api/v1/login/signingup', method: :post do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :pw %><br>
+    <%= form.password_field :pw %>
+  </div>
+
+  <div>
+  <%= form.radio_button :permission, "admin" %>
+  <%= form.label :permission_admin, "관리자" %>
+  <%= form.radio_button :permission, "normal" %>
+  <%= form.label :permission_normal, "직원" %>
+  </div>
+  <div>
+    <%= form.label :admin_pw %><br>
+    <%= form.password_field :admin_pw %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

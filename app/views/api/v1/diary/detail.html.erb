@@ -1,0 +1,25 @@
+<h1>Api::V1::Diary#detail</h1>
+<p>Find me in app/views/api/v1/diary/detail.html.erb</p>
+
+
+<%= @diary.user.name %>
+<%= @diary.date %>
+<ul>
+  <% @diary.events.order(start_time: :asc).each do |event| %>
+    <li>
+      <%= event.start_time.strftime("%H:%M") %>
+      <%= event.end_time.strftime("%H:%M") %>
+      <%= event.desc %>
+    </li>
+  <% end %>
+</ul>
+
+<a href="/api/v1/event/new/<%= @diary.id %>">수정</a>
+<a href="/api/v1/diary/list">목록</a>
+<%= '승인됨' if @diary.admitted == true %>
+<%= '승인되지 않음' if @diary.admitted == false %>
+<% if @current_user.permission == 'admin' %>
+  <%= button_to('승인', "/api/v1/diary/admit/#{@diary.id}", method: :post) if @diary.admitted == false %>
+<% end %>
+
+<%= render '/api/v1/feedback/new' %>

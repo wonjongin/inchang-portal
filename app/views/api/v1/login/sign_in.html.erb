@@ -1,0 +1,19 @@
+<h1>로그인</h1>
+
+<%= form_with url: '/api/v1/login/login', model: @user do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :pw %><br>
+    <%= form.password_field :pw %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to '회원가입', '/api/v1/login/sign_up' %>

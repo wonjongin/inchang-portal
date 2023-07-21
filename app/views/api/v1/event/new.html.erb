@@ -1,0 +1,47 @@
+<h1>Api::V1::Event#new</h1>
+<p>Find me in app/views/api/v1/event/new.html.erb</p>
+
+<h3>Edit actions </h3>
+<%# unless @diary.events == nil %>
+<%# @diary.events.each do |event| %>
+<%#= form_with model: event, url: '/api/v1/event/create', method: :patch do |form| %>
+<%#= form.label :start_time %>
+<%#= form.time_field :start_time, value = event.start_time %>
+<%#= form.label :end_time %>
+<%#= form.time_field :end_time, value = event.end_time %>
+<%#= form.label :desc %>
+<%#= form.text_field :desc, value = "#{event.desc}" %>
+<%#= form.submit "Edit action" %>
+<%# end %>
+<%#= button_to "Delete this action", url: "/api/v1/event/delete/#{event.id}", method: :delete %>
+<!--    <br>-->
+<%# end %>
+<%# end %>
+<%= button_to "작성완료", "/api/v1/diary/detail/#{@diary.id}", method: :get %>
+
+<h3>Add an event </h3>
+<%= form_with url: '/api/v1/event/create', method: :post do |form| %>
+  <%= form.time_field :start_time %>
+  <%= form.time_field :end_time %>
+  <%= form.text_field :desc %>
+  <%= form.hidden_field :diary_id, value: @diary.id %>
+  <%= form.submit %>
+<% end %>
+
+<br>
+<br>
+
+<% @diary.events.each do |event| %>
+  <%= form_tag "/api/v1/event/update/#{event.id}", method: :patch do %>
+    <%= label_tag :start_time %>
+    <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M') %>
+    <%= label_tag :end_time %>
+    <%= time_field_tag :end_time, value = event.end_time.time.strftime('%H:%M') %>
+    <%= label_tag :desc %>
+    <%= text_field_tag :desc, value = "#{event.desc}" %>
+    <%= submit_tag "수정" %>
+  <% end %>
+  <%= button_to "삭제", "/api/v1/event/delete/#{event.id}", method: :delete %>
+  <br>
+<% end %>
+
