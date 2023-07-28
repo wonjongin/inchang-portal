@@ -74,3 +74,13 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 2.0"
+gem "view_component"
+
+gem "cssbundling-rails", "~> 1.2"
+
+gem "jsbundling-rails", "~> 1.1"
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-binary-edge'
+gem 'dartsass-rails'

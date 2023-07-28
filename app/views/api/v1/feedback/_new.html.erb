@@ -1,19 +1,26 @@
-<h3> 피드백 모듈 </h3>
-<br>
-
-<h3>Add an feedback </h3>
+<h3>피드백</h3>
 <%= form_with url: '/api/v1/feedback/create', method: :post do |form| %>
-  <%= form.text_field :desc %>
-  <%= form.hidden_field :diary_id, value: @diary.id %>
-  <%= form.submit %>
+  <div class="input-group">
+    <%= form.text_field :desc, class: "form-control" %>
+    <%= form.hidden_field :diary_id, value: @diary.id %>
+    <%= form.submit class: "btn btn-primary", value: "피드백 작성" %>
+  </div>
 <% end %>
 
 <% @diary.feedbacks.each do |feedback| %>
-  <%= form_tag "/api/v1/feedback/update/#{feedback.id}", method: :patch do %>
-    <%= label_tag :desc %>
-    <%= text_field_tag :desc, value = "#{feedback.desc}" %>
-    <%= submit_tag "수정" %>
-  <% end %>
-  <br>
-<% end %>
+  <ul class="list-group list-group-horizontal">
+    <%#= form_tag "/api/v1/feedback/update/#{feedback.id}", method: :patch do %>
+    <%#= label_tag :desc %>
+    <%#= text_field_tag :desc, value = "#{feedback.desc}" %>
+    <%#= submit_tag "수정" %>
+    <%# end %>
+    <br>
 
+    <li class="list-group-item"><%= feedback.user.name %></li>
+    <li class="list-group-item flex-fill"><%= feedback.desc %></li>
+  </ul>
+<% end %>
+<br>
+<br>
+<br>
+<br>

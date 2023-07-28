@@ -16,8 +16,11 @@ Rails.application.routes.draw do
       get 'diary/new'
       post 'diary/create'
       get 'diary/list'
+      delete 'diary/delete/:id', to: 'diary#delete'
       get 'diary/search'
       post 'diary/search'
+      get 'diary/pdf/:id.pdf', to: 'diary#make_pdf', format: :pdf
+      # get 'diary/pdf_template/:id', to: 'diary#pdf_template'
       get 'diary/my', to: 'diary#my_diaries'
       get 'diary/detail/:id', to: 'diary#detail'
       post 'diary/admit/:id', to: 'diary#admit'

@@ -2,12 +2,12 @@
 
 <%= form_with url: '/api/v1/login/signingup', method: :post do |form| %>
   <div>
-    <%= form.label :name %><br>
+    <%= form.label "이름" %><br>
     <%= form.text_field :name %>
   </div>
 
   <div>
-    <%= form.label :pw %><br>
+    <%= form.label "비밀번호" %><br>
     <%= form.password_field :pw %>
   </div>
 
@@ -22,7 +22,7 @@
     <%= form.password_field :admin_pw %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="btn btn-primary">
+    <%= form.submit value:"회원가입"%>
   </div>
 <% end %>

@@ -1,0 +1,61 @@
+<div class="overflow-x-auto">
+  <table
+    class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm dark:divide-gray-700 "
+  >
+    <thead class="ltr:text-left rtl:text-right">
+    <tr>
+      <th
+        class="sticky inset-y-0 start-0 bg-white px-4 py-2 text-center"
+      >
+        승인여부
+      </th>
+      <th
+        class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center"
+      >
+        날짜
+      </th>
+      <th
+        class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center"
+      >
+        작성자
+      </th>
+      <th
+        class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center"
+      >
+        보기
+      </th>
+
+    </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+    <% @diaries.each do |diary| %>
+      <tr>
+        <td
+          class="sticky text-center inset-y-0 start-0 bg-white px-4 py-2 "
+        >
+          <%= diary.admitted ? '✅' : '❌'%>
+        </td>
+        <td
+          class="whitespace-nowrap text-center px-4 py-2 font-medium text-gray-900 "
+        >
+          <%= diary.date %> (<%= @weekdays[diary.date.wday] %>)
+        </td>
+        <td
+          class="whitespace-nowrap text-center px-4 py-2 text-gray-700 "
+        >
+          <%= diary.user.name %>
+        </td>
+        <td class="whitespace-nowrap text-center px-4 py-2">
+          <a
+            href="/api/v1/diary/detail/<%= diary.id %>"
+            class="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+          >
+            보기
+          </a>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

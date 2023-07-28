@@ -1,19 +1,32 @@
 <h1>로그인</h1>
 
+<div class="d-grid gap-2 d-md-block">
 <%= form_with url: '/api/v1/login/login', model: @user do |form| %>
   <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name %>
+<!--    <%#= form.label :name %><br>-->
+    <%= form.text_field :name, class: "form-control mb-3", placeholder: "이름"%>
   </div>
 
   <div>
-    <%= form.label :pw %><br>
-    <%= form.password_field :pw %>
+<!--    <%#= form.label :pw %><br>-->
+    <%= form.password_field :pw, class: "form-control mb-3", placeholder: "비밀번호" %>
   </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+<!--  <div>-->
+    <%#= form.submit %>
+<!--  </div>-->
+  <%#= render SubmitButtonComponent.new(value: "로그인", form: form) %>
+    <%= form.submit value: "로그인", class: "btn btn-primary w-full" %>
 <% end %>
+<div class="">
+  <a
+    class="btn btn-primary w-full"
+    href="/api/v1/login/sign_up"
+  >
 
-<%= link_to '회원가입', '/api/v1/login/sign_up' %>
+    회원가입
+  </a>
+  <%#= render BasicButtonComponent.new(title: '회원가입', path: '/api/v1/login/sign_up') %>
+</div>
+<%#= link_to '회원가입', '/api/v1/login/sign_up' %>
+</div>

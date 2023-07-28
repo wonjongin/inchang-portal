@@ -1,25 +1,77 @@
-<h1>Api::V1::Diary#detail</h1>
-<p>Find me in app/views/api/v1/diary/detail.html.erb</p>
+<h1 class="text-2xl">업무일지 </h1>
 
 
-<%= @diary.user.name %>
-<%= @diary.date %>
-<ul>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <td class="text-center font-bold">
+      일자
+    </td>
+    <td class="text-center font-bold">
+      작성자
+    </td>
+    <td class="text-center font-bold">
+      승인
+    </td>
+  </tr>
+  <tr>
+    <td class="text-center">
+      <%= @diary.date %> (<%= ['일', '월', '화', '수', '목', '금', '토'][@diary.date.wday] %>)
+    </td>
+    <td class="text-center">
+      <%= @diary.user.name %>
+    </td>
+    <td class="text-center">
+      <%= @diary.admitted ? '✅' : '❌' %>
+    </td>
+  </tr>
+  <tr class="text-center">
+    <th>시간</th>
+    <th colspan="2">내용</th>
+  </tr>
+  </thead>
+  <tbody class="table-group-divider">
+
   <% @diary.events.order(start_time: :asc).each do |event| %>
-    <li>
-      <%= event.start_time.strftime("%H:%M") %>
-      <%= event.end_time.strftime("%H:%M") %>
-      <%= event.desc %>
-    </li>
+    <tr>
+      <td class="text-center">
+        <%= event.start_time.strftime("%H:%M") %> ~
+        <%= event.end_time.strftime("%H:%M") %>
+      </td>
+      <td colspan="2">
+        <%= event.desc %>
+      </td>
+    </tr>
   <% end %>
-</ul>
 
-<a href="/api/v1/event/new/<%= @diary.id %>">수정</a>
-<a href="/api/v1/diary/list">목록</a>
-<%= '승인됨' if @diary.admitted == true %>
-<%= '승인되지 않음' if @diary.admitted == false %>
-<% if @current_user.permission == 'admin' %>
-  <%= button_to('승인', "/api/v1/diary/admit/#{@diary.id}", method: :post) if @diary.admitted == false %>
-<% end %>
 
+  </tbody>
+</table>
+
+
+<br>
+<div class="btn-group" role="group" aria-label="Basic example">
+  <%= render(BasicButtonComponent.new(title: "수정", path: "/api/v1/event/new/#{@diary.id}")) if (@current_user.permission == 'admin' && @diary.admitted == true) || (@diary.admitted == false) %>
+  <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list") %>
+  <%= link_to("출력", "/api/v1/diary/pdf/#{@diary.id}.pdf", class: "btn btn-primary") %>
+  <% if @current_user.permission == 'admin' %>
+    <div class="btn btn-primary">
+      <%= button_to("삭제", "/api/v1/diary/delete/#{@diary.id}", method: :delete, form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
+    </div>
+  <% end %>
+  <% if @diary.admitted == false && @current_user.permission == 'admin' %>
+    <div class="btn btn-primary">
+      <%= button_to("승인", "/api/v1/diary/admit/#{@diary.id}", method: :post) %>
+    </div>
+  <% end %>
+</div>
+<!--<a href="/api/v1/event/new/<%#= @diary.id %>">수정</a>-->
+<!--<a href="/api/v1/diary/list">목록</a>-->
+<br>
+<%#= '승인됨' if @diary.admitted == true %>
+<%#= '승인되지 않음' if @diary.admitted == false %>
+
+
+<br>
+<br>
 <%= render '/api/v1/feedback/new' %>
