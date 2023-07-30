@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       get 'diary/new'
       post 'diary/create'
       get 'diary/list'
+      get 'diary/list_of_unadmitted'
+      get 'diary/back_up'
       delete 'diary/delete/:id', to: 'diary#delete'
       get 'diary/search'
       post 'diary/search'

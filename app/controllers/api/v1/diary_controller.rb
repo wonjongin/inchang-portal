@@ -18,6 +18,10 @@ class Api::V1::DiaryController < ApplicationController
     @diaries = Diary.all.order(date: :desc)
   end
 
+  def list_of_unadmitted
+    @diaries = Diary.all.where(admitted: false)
+  end
+
   def my_diaries
     @diaries = @current_user.diaries
     render '/api/v1/diary/list'
@@ -77,16 +81,15 @@ class Api::V1::DiaryController < ApplicationController
     # end
 
     @html = render_to_string(
-            template: 'api/v1/diary/make_pdf',
-            formats: [:html],
-            layout: 'pdf',
-            orientation: "Landscape",
-            page_size: 'A4',
-            encoding: "UTF-8"
-          )
+      template: 'api/v1/diary/make_pdf',
+      formats: [:html],
+      layout: 'pdf',
+      orientation: "Landscape",
+      page_size: 'A4',
+      encoding: "UTF-8"
+    )
     @pdf = WickedPdf.new.pdf_from_string(@html)
-    send_data @pdf, file_name:  "업무일지 #{@diary.user.name} #{@diary.date}.pdf", disposition: 'inline'
-
+    send_data @pdf, file_name: "업무일지 #{@diary.user.name} #{@diary.date}.pdf", disposition: 'inline'
 
     # respond_to do |format|
     #   format.html
@@ -106,5 +109,10 @@ class Api::V1::DiaryController < ApplicationController
 
   def detail
     @diary = Diary.find_by(id: params[:id])
+  end
+
+  def back_up
+    data = [Diary.all, Event.all, Feedback.all, User.all]
+    send_data data.to_json, type: 'application/json; header=present', disposition: "attachment; filename=backup.json"
   end
 end

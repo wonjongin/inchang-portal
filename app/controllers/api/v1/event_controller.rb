@@ -1,4 +1,6 @@
 class Api::V1::EventController < ApplicationController
+  include AuthRequest
+  before_action :current_user
   def new
     @diary = Diary.find_by(id: params[:diary_id])
   end
