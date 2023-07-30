@@ -14,5 +14,5 @@ Rails.application.config.assets.paths << Rails.root.join("node_modules/bootstrap
 
 Rails.application.config.assets.precompile += %w( tailwind.css )
 # Rails.application.config.dartsass.builds = {
-#   "application.scss" => "application.css",
+#   "application.bootstrap.scss" => "application.css",
 # }

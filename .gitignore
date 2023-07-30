@@ -8,7 +8,7 @@
 /.bundle
 /vendor/bundle
 /Gemfile.lock
-/.env
+/.env*
 /.idea
 
 # Ignore the default SQLite database.
