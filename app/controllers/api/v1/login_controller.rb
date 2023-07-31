@@ -9,10 +9,10 @@ class Api::V1::LoginController < ApplicationController
     encoded = Digest::SHA256.hexdigest(params[:pw] + ENV['SALT'])
     if encoded == u.pw
       session[:user_id] = u.id
+      redirect_to '/api/v1/diary/list'
     else
       redirect_to '/api/v1/login/wrong_user_pw'
     end
-    redirect_to '/api/v1/diary/list'
   end
 
   def logout
