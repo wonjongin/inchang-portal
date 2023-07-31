@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get '/', to: redirect('api/v1/login/')
+
   namespace :api do
     namespace :v1 do
       get 'feedback/new'
