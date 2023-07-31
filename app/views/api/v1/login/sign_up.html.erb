@@ -10,6 +10,10 @@
     <%= form.label "비밀번호" %><br>
     <%= form.password_field :pw %>
   </div>
+  <div>
+    <%= form.label "비밀번호 확인" %><br>
+    <%= form.password_field :pw_check %>
+  </div>
 
   <div>
   <%= form.radio_button :permission, "admin" %>

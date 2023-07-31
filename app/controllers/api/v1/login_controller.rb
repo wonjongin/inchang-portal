@@ -35,17 +35,25 @@ class Api::V1::LoginController < ApplicationController
 
   end
 
+  def wrong_pw_check
+
+  end
+
   def signingup
-    if params[:admin_pw] == ENV['ADMIN_PW']
-      pwsh = Digest::SHA256.hexdigest(params[:pw] + ENV['SALT'])
-      u = User.create do |t|
-        t.name = params[:name]
-        t.pw = pwsh
-        t.permission = params[:permission]
+    if params[:pw] == params[:pw_check]
+      if params[:admin_pw] == ENV['ADMIN_PW']
+        pwsh = Digest::SHA256.hexdigest(params[:pw] + ENV['SALT'])
+        u = User.create do |t|
+          t.name = params[:name]
+          t.pw = pwsh
+          t.permission = params[:permission]
+        end
+        redirect_to '/api/v1/login/signed_up'
+      else
+        redirect_to '/api/v1/login/wrong_admin_pw'
       end
-      redirect_to '/api/v1/login/signed_up'
     else
-      redirect_to '/api/v1/login/wrong_admin_pw'
+      redirect_to '/api/v1/login/wrong_pw_check'
     end
   end
 end
