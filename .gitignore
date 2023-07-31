@@ -10,6 +10,8 @@
 /Gemfile.lock
 /.env*
 /.idea
+/backup/*
+!/backup/.keep
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

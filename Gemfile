@@ -83,3 +83,4 @@ gem "jsbundling-rails", "~> 1.1"
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-binary-edge'
+gem 'whenever'
