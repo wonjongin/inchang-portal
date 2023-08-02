@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       patch 'feedback/update/:id', to: 'feedback#update'
       get 'event/new/:diary_id', to: 'event#new'
       post 'event/create'
-      delete 'event/delete/:id', to: 'event#delete'
+      delete 'event/delete/:diary_id/:id', to: 'event#delete'
       patch 'event/update/:id', to: 'event#update'
       get 'diary/new'
       post 'diary/create'

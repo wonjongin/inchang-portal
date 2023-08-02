@@ -18,7 +18,9 @@ class Api::V1::EventController < ApplicationController
 
   def delete
     Event.find(params[:id]).destroy
-    redirect_to "/api/v1/event/new/#{params[:diary_id]}"
+    render json: {}
+    # redirect_to controller: 'api/v1/event', action: 'new', id: params[:diary_id]
+    # redirect_to "/api/v1/event/new/#{params[:diary_id]}"
   end
 
   def update

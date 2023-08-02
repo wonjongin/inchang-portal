@@ -26,19 +26,58 @@
 
 <br>
 <br>
-
 <% @diary.events.each do |event| %>
-  <%= form_tag "/api/v1/event/update/#{event.id}", method: :patch, class: "input-group" do %>
-    <%#= label_tag :start_time %>
-    <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M'), class: "form-control" %>
-    <%#= label_tag :end_time %>
-    <%= time_field_tag :end_time, value = event.end_time.time.strftime('%H:%M'), class: "form-control" %>
-    <%#= label_tag :desc %>
-    <%= text_field_tag :desc, value = "#{event.desc}", class: "form-control" %>
-    <%= submit_tag "수정", class: "btn btn-primary" %>
-  <% end %>
-  <%= button_to "삭제", "/api/v1/event/delete/#{event.id}", method: :delete, class: "btn btn-primary" %>
-  <br>
+  <div id="event <%= event.id %>">
+    <%= form_tag "/api/v1/event/update/#{event.id}", method: :patch, class: "input-group flex-auto" do %>
+      <%#= label_tag :start_time %>
+      <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M'), class: "form-control" %>
+      <%#= label_tag :end_time %>
+      <%= time_field_tag :end_time, value = event.end_time.time.strftime('%H:%M'), class: "form-control" %>
+      <%#= label_tag :desc %>
+      <%= text_field_tag :desc, value = "#{event.desc}", class: "form-control" %>
+      <%= submit_tag "수정", class: "btn btn-primary" %>
+      <%= button_tag "삭제", type: :button, onclick: "deleteEvent(#{event.id}, #{@diary.id})", class: "btn btn-primary", id: "deleteBtn" %>
+    <% end %>
+    <%#= button_to "삭제", "/api/v1/event/delete/#{event.id}", method: :delete, class: "btn btn-primary" %>
+    <br>
+  </div>
 <% end %>
-
 <%= button_to "작성완료", "/api/v1/diary/detail/#{@diary.id}", method: :get, class: "btn btn-primary" %>
+
+<script>
+    // $('#deleteBtn').on("click", () => async {
+    //     const res = await fetch("/api/v1/event/delete/" + id.toString(), {
+    //         method: "DELETE",
+    //     });
+    //     console.log(res);
+    // })
+
+    function csrfToken() {
+        const meta = document.querySelector('meta[name=csrf-token]');
+        const token = meta && meta.getAttribute('content');
+
+        return token ?? false;
+    }
+
+    async function deleteEvent(id, diary_id) {
+        const res = await fetch("/api/v1/event/delete/" + diary_id.toString() + "/" + id.toString(), {
+            method: "DELETE",
+            headers: {
+                'X-CSRF-Token': csrfToken(),
+            }
+        });
+        if (res.status == 200) {
+            const dh = document.getElementById("event " + id.toString());
+            dh.remove();
+        }
+        console.log(res);
+    }
+
+    // $.ajax({
+    //     url: "/api/v1/event/delete/" + id.toString(),
+    //     type: "DELETE",
+    //     success: (res) => console.log(res),
+    //     error: (err) => console.log(err),
+    // })
+    // }
+</script>
