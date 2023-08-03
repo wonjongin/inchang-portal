@@ -17,24 +17,29 @@
 <h3>업무내용 추가 및 수정</h3>
 <br>
 <%= form_with url: '/api/v1/event/create', method: :post, class: "input-group" do |form| %>
-  <%= form.time_field :start_time, class: "form-control", placeholder: "시작 시각" %>
-  <%= form.time_field :end_time, class: "form-control", placeholder: "종료 시각" %>
-  <%= form.text_field :desc, class: "form-control", placeholder: "업무 내용" %>
+  <%#= form.time_field :start_time, class: "form-control", placeholder: "시작 시각", tabindex: "1"%>
+  <%#= form.time_field :end_time, class: "form-control", placeholder: "종료 시각", tabindex: "2" %>
+  <%= form.text_field :start_time, class: "form-control", placeholder: "09:40", tabindex: "1", id: "timepicker 1" %>
+  <%= form.text_field :end_time, class: "form-control", placeholder: "16:30", tabindex: "2", id: "timepicker 2" %>
+  <%= form.text_field :desc, class: "form-control", placeholder: "업무 내용", tabindex: "3"%>
   <%= form.hidden_field :diary_id, value: @diary.id %>
   <%= form.submit class: "btn btn-primary", value: "추가" %>
 <% end %>
 
 <br>
 <br>
-<% @diary.events.each do |event| %>
+<% @diary.events.each_with_index do |event, index| %>
   <div id="event <%= event.id %>">
-    <%= form_tag "/api/v1/event/update/#{event.id}", method: :patch, class: "input-group flex-auto" do %>
+    <%= form_tag "/api/v1/event/update/#{@diary.id}/#{event.id}", method: :patch, class: "input-group mb-0", local: true, data: { turbo: "false" } do %>
       <%#= label_tag :start_time %>
-      <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M'), class: "form-control" %>
+      <%# <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M'), class: "form-control", tabindex: "#{4+3*index}"  %> 
       <%#= label_tag :end_time %>
-      <%= time_field_tag :end_time, value = event.end_time.time.strftime('%H:%M'), class: "form-control" %>
+      <%# <%= time_field_tag :end_time, value = event.end_time.time.strftime('%H:%M'), class: "form-control", tabindex: "#{4+3*index+1}" %>
+      
+      <%= text_field_tag :start_time, "#{event.start_time.strftime('%H:%M')}", class: "form-control", tabindex: "#{4+3*index}" %>
+      <%= text_field_tag :end_time, "#{event.end_time.strftime('%H:%M')}", class: "form-control", tabindex: "#{4+3*index+1}" %>
       <%#= label_tag :desc %>
-      <%= text_field_tag :desc, value = "#{event.desc}", class: "form-control" %>
+      <%= text_field_tag :desc, value = "#{event.desc}", class: "form-control", tabindex: "#{4+3*index+2}" %>
       <%= submit_tag "수정", class: "btn btn-primary" %>
       <%= button_tag "삭제", type: :button, onclick: "deleteEvent(#{event.id}, #{@diary.id})", class: "btn btn-primary", id: "deleteBtn" %>
     <% end %>
@@ -44,6 +49,7 @@
 <% end %>
 <%= button_to "작성완료", "/api/v1/diary/detail/#{@diary.id}", method: :get, class: "btn btn-primary" %>
 
+<script src="https://unpkg.com/imask"></script>
 <script>
     // $('#deleteBtn').on("click", () => async {
     //     const res = await fetch("/api/v1/event/delete/" + id.toString(), {
@@ -70,14 +76,75 @@
             const dh = document.getElementById("event " + id.toString());
             dh.remove();
         }
-        console.log(res);
     }
 
-    // $.ajax({
-    //     url: "/api/v1/event/delete/" + id.toString(),
-    //     type: "DELETE",
-    //     success: (res) => console.log(res),
-    //     error: (err) => console.log(err),
-    // })
-    // }
+
+    var element1 = document.getElementById('timepicker 1');
+    var element2 = document.getElementById('timepicker 2');
+    var maskOptions = {
+        mask: 'HH:mm',
+        blocks : {
+            HH: {
+                mask: IMask.MaskedRange,
+                from: 0,
+                to: 23,
+                maxLength: 2,
+            },
+            mm: {
+                mask: IMask.MaskedRange,
+                from: 0,
+                to: 59,
+                maxLength: 2,
+            }
+        }
+    };
+    var mask1 = IMask(element1, maskOptions);
+    var mask2 = IMask(element2, maskOptions);
+
+    // window.addEventListener("DOMContentLoaded", 
+    
+    function enterToTab(){
+      const inputs = document.querySelectorAll("input,select");
+        for (let i = 0 ; i < inputs.length; i++) {
+            inputs[i].addEventListener("keypress", function(e){
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    var nextInput = document.querySelectorAll('[tabIndex="' + (this.tabIndex + 1) + '"]');
+                    if (nextInput.length === 0) {
+                        // Run submit function here
+                        alert("다음 입력란이 없어요!");
+                    } else {
+                        nextInput[0].focus();
+                    }
+                }
+            })
+        }
+    }
+
+    enterToTab()
+
+    // $(document).ready(function () {
+    //     $(window).keydown(function (event) {
+    //         console.log(event.keyCode);
+    //         if (event.keyCode == 13) {
+    //             event.preventDefault();
+    //             return false;
+    //         }
+    //     });
+    // });
+
+
+    // $('body').on('keydown', 'input, select', function(e) {
+    //     if (e.key === "Enter") {
+    //         let self = $(this), form = self.parents('form:eq(0)'), focusable, next;
+    //         focusable = form.find("input,a,select,button,textarea").filter(':visible');
+    //         next = focusable.eq(focusable.index(this)+1);
+    //         if (next.length) {
+    //             next.focus();
+    //         } else {
+    //             form.submit();
+    //         }
+    //         return false;
+    //     }
+    // });
 </script>

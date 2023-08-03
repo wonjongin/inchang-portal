@@ -7,13 +7,22 @@ class Api::V1::EventController < ApplicationController
 
   def create
     d = Diary.find_by(id: params[:diary_id])
-    e = Event.create do |t|
-      t.start_time = params[:start_time]
-      t.end_time = params[:end_time]
-      t.desc = params[:desc]
-      t.diary = d
+    # start_time = DateTime.parse("#{d.date.strftime('%F')} #{params[:start_time]}:00").strftime('%Q')
+    # end_time = DateTime.parse("#{d.date.strftime('%F')} #{params[:end_time]}:00").strftime('%Q')
+    begin
+      start_time = DateTime.new(d.date.year, d.date.month, d.date.day, params[:start_time].split(':')[0].to_i, params[:start_time].split(':')[1].to_i, 0).strftime('%F %T')
+      end_time = DateTime.new(d.date.year, d.date.month, d.date.day, params[:end_time].split(':')[0].to_i, params[:end_time].split(':')[1].to_i, 0).strftime('%F %T')
+    rescue
+      render html: '<h1>시간 입력 형식이 잘못됨</h1>'
+    else
+      e = Event.create do |t|
+        t.start_time = start_time
+        t.end_time = end_time
+        t.desc = params[:desc]
+        t.diary = d
+      end
+      redirect_to "/api/v1/event/new/#{params[:diary_id]}", turbolinks: false
     end
-    redirect_to "/api/v1/event/new/#{params[:diary_id]}"
   end
 
   def delete
@@ -24,13 +33,20 @@ class Api::V1::EventController < ApplicationController
   end
 
   def update
-    e = Event.find_by(id: params[:id])
-    e.update(
-      start_time: params[:start_time],
-      end_time: params[:end_time],
-      desc: params[:desc]
-    )
-
+    begin
+      d = Diary.find_by(id: params[:diary_id])
+      start_time = DateTime.new(d.date.year, d.date.month, d.date.day, params[:start_time].split(':')[0].to_i, params[:start_time].split(':')[1].to_i, 0).strftime('%F %T')
+      end_time = DateTime.new(d.date.year, d.date.month, d.date.day, params[:end_time].split(':')[0].to_i, params[:end_time].split(':')[1].to_i, 0).strftime('%F %T')
+    rescue
+      render html: '<h1>시간 입력 형식이 잘못됨</h1>'
+    else
+      e = Event.find_by(id: params[:id])
+      e.update(
+        start_time: start_time,
+        end_time: end_time,
+        desc: params[:desc]
+      )
+    end
     # redirect_to "/api/v1/event/new/#{params[:diary_id]}"
   end
 end

@@ -6,6 +6,9 @@ class Api::V1::LoginController < ApplicationController
   end
   def login
     u = User.find_by(name: params[:name])
+    if u == nil
+      return
+    end
     encoded = Digest::SHA256.hexdigest(params[:pw] + ENV['SALT'])
     if encoded == u.pw
       session[:user_id] = u.id

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get 'event/new/:diary_id', to: 'event#new'
       post 'event/create'
       delete 'event/delete/:diary_id/:id', to: 'event#delete'
-      patch 'event/update/:id', to: 'event#update'
+      patch 'event/update/:diary_id/:id', to: 'event#update'
       get 'diary/new'
       post 'diary/create'
       get 'diary/list'
