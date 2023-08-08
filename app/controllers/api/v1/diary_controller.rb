@@ -3,15 +3,92 @@ class Api::V1::DiaryController < ApplicationController
   before_action :current_user
 
   def new
+
+    render 'api/v1/diary/one_new'
+  end
+
+  def edit
+    @diary = Diary.find_by(id: params[:id])
+    @desc = ""
+    @diary.events.each do |event|
+      @desc << "#{event.start_time.strftime('%H:%M')}, #{event.end_time.strftime('%H:%M')},#{event.desc}\n"
+    end
+    render 'api/v1/diary/one_edit'
   end
 
   def create
     d = Diary.create do |t|
       t.date = params[:date]
-      t.user = @current_user
+      t.user = params[:author]
       t.admitted = false
     end
     redirect_to "/api/v1/event/new/#{d.id}"
+  end
+
+  def create2
+    d = Diary.create do |t|
+      t.date = params[:date]
+      t.user = User.find_by(name: params[:author])
+      t.admitted = false
+    end
+    
+    rows = params[:desc].split("\n")
+    rows.each do |row|
+      cols = row.split(",")
+      puts "#{cols}"
+      start_time = DateTime.new(
+        d.date.year, 
+        d.date.month, 
+        d.date.day, 
+        cols[0].gsub(" ", "").split(':')[0].to_i, 
+        cols[0].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      end_time = DateTime.new(
+        d.date.year, 
+        d.date.month, 
+        d.date.day, 
+        cols[1].gsub(" ", "").split(':')[0].to_i, 
+        cols[1].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      e = Event.create do |t|
+        t.start_time = start_time
+        t.end_time = end_time
+        t.desc = cols[2]
+        t.diary = d
+      end
+    end
+    redirect_to "/api/v1/diary/detail/#{d.id}"
+  end
+
+  def update
+    d = Diary.find_by(id: params[:id])
+    d.update(date: params[:date], user: User.find_by(name: params[:author]))
+    Event.where(diary: d).destroy_all
+    rows = params[:desc].gsub("\n\n", "").split("\n")
+    rows.each do |row|
+      cols = row.split(",")
+      puts "#{cols}"
+      start_time = DateTime.new(
+        d.date.year, 
+        d.date.month, 
+        d.date.day, 
+        cols[0].gsub(" ", "").split(':')[0].to_i, 
+        cols[0].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      end_time = DateTime.new(
+        d.date.year, 
+        d.date.month, 
+        d.date.day, 
+        cols[1].gsub(" ", "").split(':')[0].to_i, 
+        cols[1].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      e = Event.create do |t|
+        t.start_time = start_time
+        t.end_time = end_time
+        t.desc = cols[2]
+        t.diary = d
+      end
+    end
   end
 
   def list

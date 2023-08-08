@@ -4,7 +4,7 @@
 <table class="table table-hover">
   <thead>
   <tr>
-    <td class="text-center font-bold">
+    <td class="text-center font-bold" style="width: 25%">
       일자
     </td>
     <td class="text-center font-bold">
@@ -51,7 +51,7 @@
 
 <br>
 <div class="btn-group" role="group" aria-label="Basic example">
-  <%= render(BasicButtonComponent.new(title: "수정", path: "/api/v1/event/new/#{@diary.id}")) if (@current_user.permission == 'admin' && @diary.admitted == true) || (@diary.admitted == false) %>
+  <%= render(BasicButtonComponent.new(title: "수정", path: "/api/v1/diary/edit/#{@diary.id}")) if (@current_user.permission == 'admin' && @diary.admitted == true) || (@diary.admitted == false) %>
   <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list") %>
   <%= link_to("출력", "/api/v1/diary/pdf/#{@diary.id}.pdf", class: "btn btn-primary") %>
   <% if @current_user.permission == 'admin' %>

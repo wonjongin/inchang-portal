@@ -1,0 +1,81 @@
+<h1>업무일지 수정</h1> <br>
+<%= form_with url: '/api/v1/diary/update', method: :post, class: "w-full", id: "newDiaryForm" do |form| %>
+  <div class="row g-2 mb-3 w-full">
+    <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
+    <%= form.date_field :date, class: "col form-control", id: "datePicker", value: @diary.date%>
+  </div>
+  <div class="row g-2 mb-3">
+    <%= form.label "작성자: ", class: "col-sm-2 form-label" %>
+    <%= form.text_field :author, class: "col form-control", value: @diary.user.name %>
+  </div>
+  <div class="row g-2 mb-3">
+    <%= form.label "업무내용: ", class: "col-sm-2 form-label" %>
+    <%= form.text_area :desc, class: "col form-control", placeholder: "08:00, 16:40, 업무내용 형식으로 적어주세요!", rows: "10", value: @desc.chomp %>
+  </div>
+  <%# <%= form.submit class: "btn btn-primary", value: "저장", id: "saveBtn", disabled: false %>
+<% end %>
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button class="btn btn-primary" value="저장" id="saveBtn">저장</button>
+  <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/detail/#{@diary.id}") %>
+</div>
+<script>
+  function csrfToken() {
+    const meta = document.querySelector('meta[name=csrf-token]');
+    const token = meta && meta.getAttribute('content');
+
+    return token ?? false;
+    }
+
+  document.getElementById("saveBtn").addEventListener("click", () => {
+    const validation = /^(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*\n){1,}(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*)$/g;
+    const form = document.getElementById("newDiaryForm");
+    console.log(form.elements["date"].value);
+    console.log(form.elements["author"].value);
+    console.log(form.elements["desc"].value);
+
+    if(!validation.test(form.elements["desc"].value)) {
+      alert("업무 내용이 형식에 맞지 않습니다.");
+      console.log(1);
+      return;
+    }
+
+    fetch('/api/v1/diary/update/<%= @diary.id %>', {
+      method: 'post',
+      headers: {
+        'X-CSRF-Token': csrfToken(),
+        'Content-type': "application/json"
+      },
+      body: JSON.stringify({
+        date: form.elements["date"].value,
+        author: form.elements["author"].value,
+        desc: form.elements["desc"].value,
+      })
+    }).then((data) => {
+      if(data.status >= 200 && data.status < 300){
+        alert('저장되었습니다.');
+        console.log(200)
+      } else if (data.status == 500) {
+        alert('서버에 문제가 발생했습니다.');
+        console.log(500)
+      }
+    }).catch((err) => {
+      alert(err);
+      console.log(err);
+      return;
+    });
+  })
+
+  function enableBtn() {
+
+  }
+
+
+  // function enableBtn() {
+  //     const addBtn = document.getElementById("addBtn");
+  //     const datePicker = document.getElementById("datePicker");
+  //     if(!( datePicker.value == null || datePicker.value == "")){
+  //         addBtn.disabled = false;
+  //     }
+  //     return
+  // }
+</script>
