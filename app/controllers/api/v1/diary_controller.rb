@@ -10,7 +10,7 @@ class Api::V1::DiaryController < ApplicationController
   def edit
     @diary = Diary.find_by(id: params[:id])
     @desc = ""
-    @diary.events.each do |event|
+    @diary.events.order(start_time: :asc).each do |event|
       @desc << "#{event.start_time.strftime('%H:%M')}, #{event.end_time.strftime('%H:%M')},#{event.desc}\n"
     end
     render 'api/v1/diary/one_edit'
@@ -26,9 +26,17 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def create2
+    author = User.find_by(name: params[:author])
+    if author == nil
+      render json: {
+        status: :fail,
+        code: :not_found_user,
+        message: "There is no user of #{params[:author]}",
+      } and return
+    end
     d = Diary.create do |t|
       t.date = params[:date]
-      t.user = User.find_by(name: params[:author])
+      t.user = author
       t.admitted = false
     end
     
@@ -57,12 +65,25 @@ class Api::V1::DiaryController < ApplicationController
         t.diary = d
       end
     end
-    redirect_to "/api/v1/diary/detail/#{d.id}"
+    render json: {
+      status: :ok,
+      message: "Success!",
+      code: :success,
+      diary_id: d.id,
+    }
   end
 
   def update
     d = Diary.find_by(id: params[:id])
-    d.update(date: params[:date], user: User.find_by(name: params[:author]))
+    author = User.find_by(name: params[:author])
+    if author == nil
+      render json: {
+        status: :fail,
+        code: :not_found_user,
+        message: "There is no user of #{params[:author]}",
+      } and return
+    end
+    d.update(date: params[:date], user: author)
     Event.where(diary: d).destroy_all
     rows = params[:desc].gsub("\n\n", "").split("\n")
     rows.each do |row|
@@ -89,6 +110,12 @@ class Api::V1::DiaryController < ApplicationController
         t.diary = d
       end
     end
+
+    render json: {
+      status: :ok,
+      message: "Success!",
+      code: :success,
+    }
   end
 
   def list

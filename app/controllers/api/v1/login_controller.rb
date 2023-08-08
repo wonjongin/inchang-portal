@@ -2,7 +2,11 @@ class Api::V1::LoginController < ApplicationController
   require 'digest'
 
   def sign_in
-
+    if session[:user_id] != nil
+      redirect_to '/api/v1/diary/list'
+    else
+      render
+    end
   end
   def login
     u = User.find_by(name: params[:name])

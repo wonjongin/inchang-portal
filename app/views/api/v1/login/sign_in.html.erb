@@ -1,6 +1,8 @@
-<h1>로그인</h1>
-
-<div class="d-grid gap-2 d-md-block">
+<div class="mx-auto">
+  <%= image_tag("https://pumpin.kr/_next/image?url=%2Flogo%2Flogo-h-black-302x91.png&w=384&q=75", class: "mx-auto") %>
+</div>
+<h1 class="text-center">로그인</h1>
+<div class="mx-auto d-grid gap-2 d-md-block" style="max-width: 24rem">
 <%= form_with url: '/api/v1/login/login', model: @user do |form| %>
   <div>
 <!--    <%#= form.label :name %><br>-->
