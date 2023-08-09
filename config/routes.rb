@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       post 'diary/create'
       post 'diary/create2'
       get 'diary/list'
+      get 'diary/list_my_diaries'
       get 'diary/list_of_unadmitted'
       get 'diary/back_up'
       delete 'diary/delete/:id', to: 'diary#delete'

@@ -122,6 +122,10 @@ class Api::V1::DiaryController < ApplicationController
     @diaries = Diary.all.order(date: :desc)
   end
 
+  def list_my_diaries
+    @diaries = Diary.all.where(user: @current_user)
+  end
+
   def list_of_unadmitted
     @diaries = Diary.all.where(admitted: false)
   end

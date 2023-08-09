@@ -1,12 +1,13 @@
-<h1 class="text-2xl">업무일지 목록</h1>
+<h1 class="text-2xl">승인되지 않은 업무일지</h1>
 로그인된 사용자: <%= @current_user.name %><br>
+
 <div class="btn-group mb-3 mt-3" role="group" aria-label="tools">
   <%= render BasicButtonComponent.new(title: '로그아웃', path: '/api/v1/login/logout') %>
   <%= render BasicButtonComponent.new(title: '새 업무일지', path: '/api/v1/diary/new') %>
-  <%= render(BasicButtonComponent.new(title: '승인되지 않은 업무일지', path: '/api/v1/diary/list_of_unadmitted')) if @current_user.permission == 'admin' %>
-  <%= render(BasicButtonComponent.new(title: '나의 업무일지', path: '/api/v1/diary/list_my_diaries')) %>
-  <%= render(BasicButtonComponent.new(title: '백업파일', path: '/api/v1/diary/back_up')) if @current_user.permission == 'admin' %>
+  <%= render(BasicButtonComponent.new(title: '전체 업무일지', path: '/api/v1/diary/list')) if @current_user.permission == 'admin' %>
 </div>
+
+
 <%= form_with url: '/api/v1/diary/search', local: true, method: :post, data: { turbo: false } do |form| %>
   <div class="input-group">
     <!--    <div class="form-control">-->
@@ -16,24 +17,29 @@
     <div class="btn btn-primary">
       <%= form.submit value: "검색" %>
     </div>
+
   </div>
 <% end %>
+
 <%#= render SearchButtonComponent.new() %>
+
 <%= render DiariesTableComponent.new(diaries: @diaries) %>
+
 <br>
 <br>
 <br>
 <br>
 <br>
 <br>
+
 <!--<ul>-->
 <%# @diaries.each do |diary| %>
-  <!--    <li>-->
-  <!--      <a href="/api/v1/diary/detail/<%#= diary.id %>">-->
-  <%#= '✅' if @current_user.permission == "admin" and diary.admitted == true %>
-  <%#= '❌' if @current_user.permission == "admin" and diary.admitted == false %>
-  <%#= diary.date %>
-  <!--        <%#= diary.user.name %></a>-->
-  <!--    </li>-->
-  <%# end %>
-  <!--</ul>-->
+<!--    <li>-->
+<!--      <a href="/api/v1/diary/detail/<%#= diary.id %>">-->
+<%#= '✅' if @current_user.permission == "admin" and diary.admitted == true %>
+<%#= '❌' if @current_user.permission == "admin" and diary.admitted == false %>
+<%#= diary.date %>
+<!--        <%#= diary.user.name %></a>-->
+<!--    </li>-->
+<%# end %>
+<!--</ul>-->
