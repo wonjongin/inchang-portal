@@ -24,7 +24,7 @@
       </td>
     </tr>
     <tr class="text-center">
-      <th>시간</th>
+      <th>시각</th>
       <th colspan="2">내용</th>
     </tr>
   </thead>
@@ -32,8 +32,9 @@
     <% @diary.events.order(start_time: :asc).each do |event| %>
       <tr>
         <td class="text-center">
-          <%= event.start_time.strftime("%H:%M") %> ~
-          <%= event.end_time.strftime("%H:%M") %>
+          <%= event.start_time.strftime("%H:%M") %>
+          <%# ~ %>
+          <%#= event.end_time.strftime("%H:%M") %>
         </td>
         <td colspan="2">
           <%= event.desc %>

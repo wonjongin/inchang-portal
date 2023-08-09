@@ -11,7 +11,7 @@ class Api::V1::DiaryController < ApplicationController
     @diary = Diary.find_by(id: params[:id])
     @desc = ""
     @diary.events.order(start_time: :asc).each do |event|
-      @desc << "#{event.start_time.strftime('%H:%M')}, #{event.end_time.strftime('%H:%M')},#{event.desc}\n"
+      @desc << "#{event.start_time.strftime('%H:%M')} #{event.desc}\n"
     end
     render 'api/v1/diary/one_edit'
   end
@@ -42,7 +42,7 @@ class Api::V1::DiaryController < ApplicationController
     
     rows = params[:desc].split("\n")
     rows.each do |row|
-      cols = row.split(",")
+      cols = row.split(" ", 2)
       puts "#{cols}"
       start_time = DateTime.new(
         d.date.year, 
@@ -51,17 +51,17 @@ class Api::V1::DiaryController < ApplicationController
         cols[0].gsub(" ", "").split(':')[0].to_i, 
         cols[0].gsub(" ", "").split(':')[1].to_i, 0
       ).strftime('%F %T')
-      end_time = DateTime.new(
-        d.date.year, 
-        d.date.month, 
-        d.date.day, 
-        cols[1].gsub(" ", "").split(':')[0].to_i, 
-        cols[1].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T')
+      # end_time = DateTime.new(
+      #   d.date.year, 
+      #   d.date.month, 
+      #   d.date.day, 
+      #   cols[1].gsub(" ", "").split(':')[0].to_i, 
+      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
+      # ).strftime('%F %T')
       e = Event.create do |t|
         t.start_time = start_time
-        t.end_time = end_time
-        t.desc = cols[2]
+        t.end_time = nil
+        t.desc = cols[1]
         t.diary = d
       end
     end
@@ -87,7 +87,7 @@ class Api::V1::DiaryController < ApplicationController
     Event.where(diary: d).destroy_all
     rows = params[:desc].gsub("\n\n", "").split("\n")
     rows.each do |row|
-      cols = row.split(",")
+      cols = row.split(" ", 2)
       puts "#{cols}"
       start_time = DateTime.new(
         d.date.year, 
@@ -96,17 +96,17 @@ class Api::V1::DiaryController < ApplicationController
         cols[0].gsub(" ", "").split(':')[0].to_i, 
         cols[0].gsub(" ", "").split(':')[1].to_i, 0
       ).strftime('%F %T')
-      end_time = DateTime.new(
-        d.date.year, 
-        d.date.month, 
-        d.date.day, 
-        cols[1].gsub(" ", "").split(':')[0].to_i, 
-        cols[1].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T')
+      # end_time = DateTime.new(
+      #   d.date.year, 
+      #   d.date.month, 
+      #   d.date.day, 
+      #   cols[1].gsub(" ", "").split(':')[0].to_i, 
+      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
+      # ).strftime('%F %T')
       e = Event.create do |t|
         t.start_time = start_time
-        t.end_time = end_time
-        t.desc = cols[2]
+        t.end_time = nil
+        t.desc = cols[1]
         t.diary = d
       end
     end
@@ -159,7 +159,6 @@ class Api::V1::DiaryController < ApplicationController
     if @current_user.permission == 'admin'
       @d = Diary.find_by(id: params[:id])
       @d.destroy!
-      flash.alert = "업무일지를 삭제했어요?"
       redirect_to "/api/v1/diary/list"
     else
       flash.alert = "권한이 없어요"

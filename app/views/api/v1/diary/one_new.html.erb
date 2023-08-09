@@ -12,7 +12,7 @@
   </div>
   <div class="row g-2 mb-3">
     <%= form.label "업무내용: ", class: "col-sm-2 form-label" %>
-    <%= form.text_area :desc, class: "col form-control h-50", placeholder: "08:00, 16:40, 업무내용 형식으로 적어주세요!", id: "descInput", rows: "10" %>
+    <%= form.text_area :desc, class: "col form-control h-50", placeholder: "08:00 업무내용\n09:00 업무내용\n10:00 업무내용\n\n위 형식으로 적어주세요!", id: "descInput", rows: "10", style: "line-height: 4ch; background-image: linear-gradient(transparent, transparent calc(4ch - 2px), #E7EFF8 0px);background-size: 100% 4ch;" %>
   </div>
   <%# <%= form.submit class: "btn btn-primary", value: "저장", id: "saveBtn", disabled: false %>
 <% end %>
@@ -29,11 +29,14 @@
     }
 
   document.getElementById("saveBtn").addEventListener("click", async () => {
-    const validation = /^(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*\n){0,}(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*)$/g;
+    // const validation = /^(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*\n){0,}(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*)$/g;
+    const validation = /^(([01]?[0-9]|2[0-3]):[0-5][0-9]\s.*\n){0,}(([01]?[0-9]|2[0-3]):[0-5][0-9]\s.*)$/g;
     const form = document.getElementById("newDiaryForm");
+    const desc = form.elements["desc"].value.replace(/\n+$/, "");
     console.log(form.elements["date"].value);
     console.log(form.elements["author"].value);
     console.log(form.elements["desc"].value);
+
 
     if(form.elements["date"].value === "" || form.elements["author"].value === "" || form.elements["desc"].value == "") {
       alert("빈 값이 있습니다.");
@@ -41,7 +44,7 @@
       return;
     }
 
-    if(!validation.test(form.elements["desc"].value)) {
+    if(!validation.test(desc)) {
       alert("업무 내용이 형식에 맞지 않습니다.");
       console.log(1);
       return;
@@ -55,7 +58,7 @@
       body: JSON.stringify({
         date: form.elements["date"].value,
         author: form.elements["author"].value,
-        desc: form.elements["desc"].value,
+        desc: desc,
       })
     });
     let data = await response.json();
