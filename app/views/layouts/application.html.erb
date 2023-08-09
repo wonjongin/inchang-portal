@@ -6,14 +6,15 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%#= javascript_importmap_tags %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <%#= javascript_include_tag "application" %>
   </head>
-
   <body>
+    <% unless request.path.start_with?('/api/v1/login') %>
+      <%= render HeaderComponent.new(current_user: @current_user) %>
+    <% end %>
     <main class="container mx-auto mt-28 px-5">
       <%= yield %>
     </main>

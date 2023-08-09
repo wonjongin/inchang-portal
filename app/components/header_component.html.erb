@@ -1,0 +1,71 @@
+<nav class="navbar bg-body-tertiary navbar-expand-md">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <%= image_tag "https://pumpin.kr/_next/image?url=%2Flogo%2Flogo-h-black-302x91.png&w=384&q=75", alt: "Logo", width: "100", height: "28", class: "d-inline-block align-text-top" %>
+      업무포털
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-md-0">
+        <%# <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li> %>
+        <%# <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li> %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            업무일지
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to "업무일지 목록", "/api/v1/diary/list", class: "dropdown-item"%>
+            </li>
+            <li>
+              <%= link_to "업무일지 추가", "/api/v1/diary/new", class: "dropdown-item"%>
+            </li>
+            <li>
+              <%= link_to "나의 업무일지", "/api/v1/diary/list_my_diaries", class: "dropdown-item"%>
+            </li>
+            <% if @current_user.permission == 'admin' %>
+              <li>
+                <%= link_to "승인되지 않은 업무일지", "/api/v1/diary/list_of_unadmitted", class: "dropdown-item"%>
+              </li>
+              <li>
+                <%= link_to "백업파일", "/api/v1/diary/back_up", class: "dropdown-item"%>
+              </li>
+            <% end %>
+            <li><hr class="dropdown-divider"></li>
+          </ul>
+        </li>
+        <%# <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li> %>
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            계정
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "로그아웃", "/api/v1/login/logout", class: "dropdown-item"%></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item disabled" href="#">계정: <%= @current_user.name %></a></li>
+          </ul>
+        </li>
+      </ul>
+      <%= form_with url: '/api/v1/diary/search', local: true, class: "d-flex", role: "search", method: :post, data: { turbo: false } do |form| %>
+        <%= form.text_field :q, value: @query, placeholder: "검색어를 입력하세요", class: "form-control me-2" %>
+        <div class="btn btn-outline-primary">
+          <%= form.submit value: "검색" %>
+        </div>
+      <% end %>
+      <%# <form class="d-flex justify-content-start"> %>
+      <%#= render IconButtonComponent.new(class_name: "btn btn-outline-primary me-2", icon: 'bi bi-file-earmark-plus', path: '/api/v1/diary/new') %>
+      <%#= render IconButtonComponent.new(class_name: "btn btn-outline-primary me-2", icon: 'bi bi-box-arrow-right', path: '/api/v1/login/logout') %>
+      <%# </form> %>
+    </div>
+  </div>
+</nav>
