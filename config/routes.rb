@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       get 'diary/detail/:id', to: 'diary#detail'
       post 'diary/admit/:id', to: 'diary#admit'
       get 'login/', to: 'login#sign_in'
+      get 'login/sing_in/:user_name', to: 'login#sign_in'
       post 'login/login', to: 'login#login'
       get 'login/logout', to: 'login#logout'
       get 'login/sign_up', to: 'login#sign_up'

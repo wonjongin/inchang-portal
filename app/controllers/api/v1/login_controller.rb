@@ -11,14 +11,19 @@ class Api::V1::LoginController < ApplicationController
   def login
     u = User.find_by(name: params[:name])
     if u == nil
-      return
+      flash.now[:alert] = "없는 회원입니다."
+      redirect_to '/api/v1/login', alert: "없는 회원입니다." and return
     end
     encoded = Digest::SHA256.hexdigest(params[:pw] + ENV['SALT'])
     if encoded == u.pw
       session[:user_id] = u.id
       redirect_to '/api/v1/diary/list'
     else
-      redirect_to '/api/v1/login/wrong_user_pw'
+      # flash.now[:alert] = "비밀번호가 잘못됐습니다."
+      # 쿠키에 유저네임 저장했다가 꺼내든지 해야지
+      redirect_to "/api/v1/login", alert: "비밀번호가 잘못됐습니다." and return
+
+      # redirect_to '/api/v1/login/wrong_user_pw'
     end
   end
 
