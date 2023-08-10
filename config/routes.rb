@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get 'diary/list'
       get 'diary/list_my_diaries'
       get 'diary/list_of_unadmitted'
+      get 'diary/calendar'
       get 'diary/back_up'
       delete 'diary/delete/:id', to: 'diary#delete'
       get 'diary/search'

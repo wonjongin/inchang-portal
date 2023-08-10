@@ -11,7 +11,7 @@
   </div>
   <div class="row g-2 mb-3">
     <%= form.label "업무내용: ", class: "col-sm-2 form-label" %>
-    <%= form.text_area :desc, class: "col form-control", placeholder: "08:00 업무내용1\n09:00 업무내용2\n10:00 업무내용3\n이 형식으로 적어주세요!", rows: "10", value: @desc.chomp %>
+    <%= form.text_area :desc, class: "col form-control", placeholder: "08:00 업무내용1\n09:00 업무내용2\n10:00 업무내용3\n이 형식으로 적어주세요!", rows: "10", style: "line-height: 4ch; background-image: linear-gradient(transparent, transparent calc(4ch - 2px), #E7EFF8 0px);background-size: 100% 4ch;", value: @desc.chomp %>
   </div>
   <%# <%= form.submit class: "btn btn-primary", value: "저장", id: "saveBtn", disabled: false %>
 <% end %>

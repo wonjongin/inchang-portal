@@ -135,6 +135,11 @@ class Api::V1::DiaryController < ApplicationController
     render '/api/v1/diary/list'
   end
 
+  def calendar
+    start_date = params.fetch(:start_date, Date.today).to_date
+    @diaries = Diary.all.where(date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week).order(date: :desc)
+  end
+
   def admit
     d = Diary.find_by(id: params[:id])
     d.update(admitted: true) if @current_user.permission == 'admin'
