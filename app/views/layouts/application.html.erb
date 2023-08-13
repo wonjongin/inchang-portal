@@ -10,12 +10,14 @@
     <%#= javascript_importmap_tags %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <%#= javascript_include_tag "application" %>
+<!--    <script src="https://unpkg.com/imask"></script>-->
   </head>
   <body>
     <% unless request.path.start_with?('/api/v1/login') %>
       <%= render HeaderComponent.new(current_user: @current_user) %>
     <% end %>
-    <main class="container mx-auto mt-28 px-5">
+    <main class="tw-container tw-mx-auto tw-mt-12 tw-px-5" >
+<!--      class="tw-container tw-mx-auto tw-mt-28 tw-px-5 p-5"-->
       <%= yield %>
       <br>
       <br>

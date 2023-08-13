@@ -3,7 +3,7 @@ class Api::V1::DiaryController < ApplicationController
   before_action :current_user
 
   def new
-
+    @preset_date = params[:date] if params[:date]
     render 'api/v1/diary/one_new'
   end
 
@@ -73,6 +73,94 @@ class Api::V1::DiaryController < ApplicationController
     }
   end
 
+  def create3
+    author = User.find_by(name: params[:author])
+    if author == nil
+      render json: {
+        status: :fail,
+        code: :not_found_user,
+        message: "There is no user of #{params[:author]}",
+      } and return
+    end
+    d = Diary.create do |t|
+      t.date = params[:date]
+      t.user = author
+      t.admitted = false
+    end
+
+    rows = params[:desc]
+    rows.each do |row|
+      start_time = DateTime.new(
+        d.date.year,
+        d.date.month,
+        d.date.day,
+        row[:time].gsub(" ", "").split(':')[0].to_i,
+        row[:time].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      # end_time = DateTime.new(
+      #   d.date.year,
+      #   d.date.month,
+      #   d.date.day,
+      #   cols[1].gsub(" ", "").split(':')[0].to_i,
+      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
+      # ).strftime('%F %T')
+      e = Event.create do |t|
+        t.start_time = start_time
+        t.end_time = nil
+        t.desc = row[:content]
+        t.diary = d
+      end
+    end
+    render json: {
+      status: :ok,
+      message: "Success!",
+      code: :success,
+      diary_id: d.id,
+    }
+  end
+
+  def update3
+    d = Diary.find_by(id: params[:id])
+    author = User.find_by(name: params[:author])
+    if author == nil
+      render json: {
+        status: :fail,
+        code: :not_found_user,
+        message: "There is no user of #{params[:author]}",
+      } and return
+    end
+    d.update(date: params[:date], user: author)
+    Event.where(diary: d).destroy_all
+    rows = params[:desc]
+    rows.each do |row|
+      start_time = DateTime.new(
+        d.date.year,
+        d.date.month,
+        d.date.day,
+        row[:time].gsub(" ", "").split(':')[0].to_i,
+        row[:time].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      # end_time = DateTime.new(
+      #   d.date.year,
+      #   d.date.month,
+      #   d.date.day,
+      #   cols[1].gsub(" ", "").split(':')[0].to_i,
+      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
+      # ).strftime('%F %T')
+      e = Event.create do |t|
+        t.start_time = start_time
+        t.end_time = nil
+        t.desc = row[:content]
+        t.diary = d
+      end
+    end
+
+    render json: {
+      status: :ok,
+      message: "Success!",
+      code: :success,
+    }
+  end
   def update
     d = Diary.find_by(id: params[:id])
     author = User.find_by(name: params[:author])
