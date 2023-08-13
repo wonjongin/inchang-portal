@@ -7,7 +7,11 @@
   </div>
   <% diaries.each do |diary| %>
     <div class="w-full ">
-      <%= link_to "#{diary.admit_status_icon} #{diary.user.name}", "/api/v1/diary/detail/#{diary.id}", class: "link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" %>
+      <%= link_to(
+            "#{diary.admit_status_icon} #{diary.user.name}",
+            "/api/v1/diary/detail/#{diary.id}",
+            class: "link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover")
+      %>
     </div>
   <% end %>
 <% end %>
