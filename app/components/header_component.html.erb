@@ -32,7 +32,7 @@
             <li>
               <%= link_to "업무일지 달력", "/api/v1/diary/calendar", class: "dropdown-item"%>
             </li>
-            <% if @current_user.permission == 'admin' %>
+            <% if @current_user.is_admin? %>
               <li>
                 <%= link_to "승인되지 않은 업무일지", "/api/v1/diary/list_of_unadmitted", class: "dropdown-item"%>
               </li>
@@ -65,10 +65,6 @@
           <%= form.submit value: "검색" %>
         </div>
       <% end %>
-      <%# <form class="d-flex justify-content-start"> %>
-      <%#= render IconButtonComponent.new(class_name: "btn btn-outline-primary me-2", icon: 'bi bi-file-earmark-plus', path: '/api/v1/diary/new') %>
-      <%#= render IconButtonComponent.new(class_name: "btn btn-outline-primary me-2", icon: 'bi bi-box-arrow-right', path: '/api/v1/login/logout') %>
-      <%# </form> %>
     </div>
   </div>
 </nav>

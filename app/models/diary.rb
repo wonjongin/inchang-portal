@@ -7,4 +7,12 @@ class Diary < ApplicationRecord
   def start_time
     self.date ##Where 'start' is a attribute of type 'Date' accessible through MyModel's relationship
   end
+
+  def wday_name
+    ['일', '월', '화', '수', '목', '금', '토'][self.date.wday]
+  end
+
+  def admit_status_icon
+    self.admitted ? '✅' : '❌'
+  end
 end

@@ -9,64 +9,64 @@
 <% end %>
 <br>
 <%#= form_tag url: '/api/v1/diary/search', method: :post do %>
-  <!--  <div>-->
-  <%#= label_tag :query %>
-  <%#= text_field_tag :q %>
-  <!--  </div>-->
-  <!--  <div>-->
-  <%#= submit_tag %>
-  <!--  </div>-->
-  <%# end %>
-  <% if @sd %>
-    <% @sd.each do |diary| %>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <td colspan="2">
-              <a
+<!--  <div>-->
+<%#= label_tag :query %>
+<%#= text_field_tag :q %>
+<!--  </div>-->
+<!--  <div>-->
+<%#= submit_tag %>
+<!--  </div>-->
+<%# end %>
+<% if @sd %>
+  <% @sd.each do |diary| %>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <td colspan="2">
+          <a
             class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
             href=<%= "/api/v1/diary/detail/#{diary.id}" %>
           >
-                <%= diary.admitted ? '✅' : '❌' %>
-                <%= diary.date %> (<%= ['일', '월', '화', '수', '목', '금', '토'][diary.date.wday] %>)
-                <%= diary.user.name %>
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>시간</td>
-            <td>내용</td>
-          </tr>
-        </thead>
-        <tbody>
-          <% diary.events.each do |event| %>
-            <tr>
-              <td>
-                <%= event.start_time.strftime("%H:%M") %>
-              </td>
-              <td>
-                <%= highlight(event.desc, @query) %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <br>
-      <!--    <li>-->
-      <!--      <a href="/api/v1/diary/detail/<%#= diary.id %>">-->
-      <%#= '✅' if @current_user.permission == "admin" and diary.admitted == true %>
-      <%#= '❌' if @current_user.permission == "admin" and diary.admitted == false %>
-      <%#= diary.date %>
-      <!--        <%#= diary.user.name %></a>-->
-      <!--      <ul>-->
-      <%# diary.events.each do |event| %>
-        <!--          <li>-->
-        <%#= event.start_time.strftime("%H:%M") %>
-        <%#= event.end_time.strftime("%H:%M") %>
-        <%#= highlight(event.desc, @query) %>
-        <!--          </li>-->
-        <%# end %>
-        <!--      </ul>-->
-        <!--    </li>-->
+            <%= diary.admit_status_icon %>
+            <%= diary.date %> (<%= diary.wday_name %>)
+            <%= diary.user.name %>
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>시간</td>
+        <td>내용</td>
+      </tr>
+      </thead>
+      <tbody>
+      <% diary.events.each do |event| %>
+        <tr>
+          <td>
+            <%= event.start_time.strftime("%H:%M") %>
+          </td>
+          <td>
+            <%= highlight(event.desc, @query) %>
+          </td>
+        </tr>
       <% end %>
-    <% end %>
+      </tbody>
+    </table>
+    <br>
+    <!--    <li>-->
+    <!--      <a href="/api/v1/diary/detail/<%#= diary.id %>">-->
+    <%#= '✅' if @current_user.permission == "admin" and diary.admitted == true %>
+    <%#= '❌' if @current_user.permission == "admin" and diary.admitted == false %>
+    <%#= diary.date %>
+    <!--        <%#= diary.user.name %></a>-->
+    <!--      <ul>-->
+    <%# diary.events.each do |event| %>
+    <!--          <li>-->
+    <%#= event.start_time.strftime("%H:%M") %>
+    <%#= event.end_time.strftime("%H:%M") %>
+    <%#= highlight(event.desc, @query) %>
+    <!--          </li>-->
+    <%# end %>
+    <!--      </ul>-->
+    <!--    </li>-->
+  <% end %>
+<% end %>

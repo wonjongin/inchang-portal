@@ -1,60 +1,60 @@
 <h1 class="text-2xl">업무일지 </h1>
 <table class="table table-hover">
   <thead>
-    <tr>
-      <td class="text-center font-bold" style="width: 25%">
-        일자
-      </td>
-      <td class="text-center font-bold">
-        작성자
-      </td>
-      <td class="text-center font-bold">
-        승인
-      </td>
-    </tr>
-    <tr>
-      <td class="text-center">
-        <%= @diary.date %> (<%= ['일', '월', '화', '수', '목', '금', '토'][@diary.date.wday] %>)
-      </td>
-      <td class="text-center">
-        <%= @diary.user.name %>
-      </td>
-      <td class="text-center">
-        <%= @diary.admitted ? '✅' : '❌' %>
-      </td>
-    </tr>
-    <tr class="text-center">
-      <th>시각</th>
-      <th colspan="2">내용</th>
-    </tr>
+  <tr>
+    <td class="text-center font-bold" style="width: 25%">
+      일자
+    </td>
+    <td class="text-center font-bold">
+      작성자
+    </td>
+    <td class="text-center font-bold">
+      승인
+    </td>
+  </tr>
+  <tr>
+    <td class="text-center">
+      <%= @diary.date %> (<%= @diary.wday_name %>)
+    </td>
+    <td class="text-center">
+      <%= @diary.user.name %>
+    </td>
+    <td class="text-center">
+      <%= @diary.admit_status_icon %>
+    </td>
+  </tr>
+  <tr class="text-center">
+    <th>시각</th>
+    <th colspan="2">내용</th>
+  </tr>
   </thead>
   <tbody class="table-group-divider">
-    <% @diary.events.order(start_time: :asc).each do |event| %>
-      <tr>
-        <td class="text-center">
-          <%= event.start_time.strftime("%H:%M") %>
-          <%# ~ %>
-          <%#= event.end_time.strftime("%H:%M") %>
-        </td>
-        <td colspan="2">
-          <%= event.desc %>
-        </td>
-      </tr>
-    <% end %>
+  <% @diary.events.order(start_time: :asc).each do |event| %>
+    <tr>
+      <td class="text-center">
+        <%= event.start_time.strftime("%H:%M") %>
+        <%# ~ %>
+        <%#= event.end_time.strftime("%H:%M") %>
+      </td>
+      <td colspan="2">
+        <%= event.desc %>
+      </td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 <br>
 <div class="btn-group" role="group" aria-label="Basic example">
-  <%= render(BasicButtonComponent.new(title: "수정", path: "/api/v1/diary/edit/#{@diary.id}")) if (@current_user.permission == 'admin' && @diary.admitted == true) || (@diary.admitted == false) %>
+  <%= render(BasicButtonComponent.new(title: "수정", path: "/api/v1/diary/edit/#{@diary.id}")) if (@current_user.is_admin? && @diary.admitted == true) || (@diary.admitted == false) %>
   <%#= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list") %>
   <%= link_to '목록', :back, class: "btn btn-primary" %>
-  <%= link_to("출력", "/api/v1/diary/pdf/#{@diary.id}/업무일지 #{@diary.user.name} #{@diary.date} (#{['일', '월', '화', '수', '목', '금', '토'][@diary.date.wday]}).pdf", class: "btn btn-primary") %>
-  <% if @current_user.permission == 'admin' %>
+  <%= link_to("출력", "/api/v1/diary/pdf/#{@diary.id}/업무일지 #{@diary.user.name} #{@diary.date} (#{@diary.wday_name}).pdf", class: "btn btn-primary") %>
+  <% if @current_user.is_admin? %>
     <div class="btn btn-primary">
       <%= button_to("삭제", "/api/v1/diary/delete/#{@diary.id}", method: :delete, form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
     </div>
   <% end %>
-  <% if @diary.admitted == false && @current_user.permission == 'admin' %>
+  <% if @diary.admitted == false && @current_user.is_admin? %>
     <div class="btn btn-primary">
       <%= button_to("승인", "/api/v1/diary/admit/#{@diary.id}", method: :post) %>
     </div>

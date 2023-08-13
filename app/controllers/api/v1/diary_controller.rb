@@ -39,16 +39,16 @@ class Api::V1::DiaryController < ApplicationController
       t.user = author
       t.admitted = false
     end
-    
+
     rows = params[:desc].split("\n")
     rows.each do |row|
       cols = row.split(" ", 2)
       puts "#{cols}"
       start_time = DateTime.new(
-        d.date.year, 
-        d.date.month, 
-        d.date.day, 
-        cols[0].gsub(" ", "").split(':')[0].to_i, 
+        d.date.year,
+        d.date.month,
+        d.date.day,
+        cols[0].gsub(" ", "").split(':')[0].to_i,
         cols[0].gsub(" ", "").split(':')[1].to_i, 0
       ).strftime('%F %T')
       # end_time = DateTime.new(
@@ -161,6 +161,7 @@ class Api::V1::DiaryController < ApplicationController
       code: :success,
     }
   end
+
   def update
     d = Diary.find_by(id: params[:id])
     author = User.find_by(name: params[:author])
@@ -178,10 +179,10 @@ class Api::V1::DiaryController < ApplicationController
       cols = row.split(" ", 2)
       puts "#{cols}"
       start_time = DateTime.new(
-        d.date.year, 
-        d.date.month, 
-        d.date.day, 
-        cols[0].gsub(" ", "").split(':')[0].to_i, 
+        d.date.year,
+        d.date.month,
+        d.date.day,
+        cols[0].gsub(" ", "").split(':')[0].to_i,
         cols[0].gsub(" ", "").split(':')[1].to_i, 0
       ).strftime('%F %T')
       # end_time = DateTime.new(
@@ -230,7 +231,7 @@ class Api::V1::DiaryController < ApplicationController
 
   def admit
     d = Diary.find_by(id: params[:id])
-    d.update(admitted: true) if @current_user.permission == 'admin'
+    d.update(admitted: true) if @current_user.is_admin?
     redirect_to "/api/v1/diary/detail/#{params[:id]}"
   end
 
@@ -249,7 +250,7 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def delete
-    if @current_user.permission == 'admin'
+    if @current_user.is_admin?
       @d = Diary.find_by(id: params[:id])
       @d.destroy!
       redirect_to "/api/v1/diary/list"

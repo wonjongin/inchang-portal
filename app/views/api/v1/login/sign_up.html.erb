@@ -1,32 +1,32 @@
-<h1>회원가입</h1>
+<h1 class="text-center">회원가입</h1>
 
-<%= form_with url: '/api/v1/login/signingup', method: :post do |form| %>
-  <div>
-    <%= form.label "이름" %><br>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label "비밀번호" %><br>
-    <%= form.password_field :pw %>
-  </div>
-  <div>
-    <%= form.label "비밀번호 확인" %><br>
-    <%= form.password_field :pw_check %>
+<%= form_with url: '/api/v1/login/signingup', method: :post, class: "tw-max-w-sm tw-mx-auto" do |form| %>
+  <div class="row g-2">
+    <%= form.label "이름", class: "col-auto col-form-label" %><br>
+    <%= form.text_field :name, class: "col-auto form-control" %>
   </div>
 
-  <div>
-  <%= form.radio_button :permission, "admin" %>
-  <%= form.label :permission_admin, "관리자" %>
-  <%= form.radio_button :permission, "normal" %>
-  <%= form.label :permission_normal, "직원" %>
+  <div class="row g-2">
+    <%= form.label "비밀번호", class: "col-auto col-form-label" %><br>
+    <%= form.password_field :pw, class: "col-auto form-control" %>
   </div>
-  <div>
-    <%= form.label :admin_pw %><br>
-    <%= form.password_field :admin_pw %>
+  <div class="row g-2">
+    <%= form.label "비밀번호 확인", class: "col-auto col-form-label" %><br>
+    <%= form.password_field :pw_check, class: "col-auto form-control" %>
   </div>
 
-  <div class="btn btn-primary">
-    <%= form.submit value:"회원가입"%>
+  <div>
+    <%= form.radio_button :permission, "admin" %>
+    <%= form.label :permission_admin, "관리자" %>
+    <%= form.radio_button :permission, "normal" %>
+    <%= form.label :permission_normal, "직원" %>
+  </div>
+  <div class="row g-2">
+    <%= form.label :admin_pw, class: "col-auto col-form-label" %><br>
+    <%= form.password_field :admin_pw, class: "col-auto form-control" %>
+  </div>
+
+  <div class="btn btn-primary tw-w-full mt-3">
+    <%= form.submit value: "회원가입" %>
   </div>
 <% end %>

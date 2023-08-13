@@ -3,57 +3,57 @@
     class="table table-bordered table-hover mt-3"
   >
     <thead class="">
-      <tr>
-        <th
+    <tr>
+      <th
         class="text-center"
       >
-          승인여부
-        </th>
-        <th
+        승인여부
+      </th>
+      <th
         class="text-center"
       >
-          날짜
-        </th>
-        <th
+        날짜
+      </th>
+      <th
         class="text-center"
       >
-          작성자
-        </th>
-        <th
+        작성자
+      </th>
+      <th
         class="text-center"
       >
-          보기
-        </th>
-      </tr>
+        보기
+      </th>
+    </tr>
     </thead>
     <tbody class="">
-      <% @diaries.each do |diary| %>
-        <tr>
-          <td
+    <% @diaries.each do |diary| %>
+      <tr>
+        <td
           class="text-center"
         >
-            <%= diary.admitted ? '✅' : '❌'%>
-          </td>
-          <td
+          <%= diary.admit_status_icon %>
+        </td>
+        <td
           class="text-center"
         >
-            <%= diary.date %> (<%= @weekdays[diary.date.wday] %>)
-          </td>
-          <td
+          <%= diary.date %> (<%= diary.wday_name %>)
+        </td>
+        <td
           class="text-center"
         >
-            <%= diary.user.name %>
-          </td>
-          <td class="text-center">
-            <a
+          <%= diary.user.name %>
+        </td>
+        <td class="text-center">
+          <a
             href="/api/v1/diary/detail/<%= diary.id %>"
             class="btn btn-outline-primary btn-sm"
-            >
-              → 
-            </a>
-          </td>
-        </tr>
-      <% end %>
+          >
+            →
+          </a>
+        </td>
+      </tr>
+    <% end %>
     </tbody>
   </table>
 </div>

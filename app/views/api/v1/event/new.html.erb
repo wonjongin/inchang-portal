@@ -21,7 +21,7 @@
   <%#= form.time_field :end_time, class: "form-control", placeholder: "종료 시각", tabindex: "2" %>
   <%= form.text_field :start_time, class: "form-control", placeholder: "09:40", tabindex: "1", id: "timepicker 1" %>
   <%= form.text_field :end_time, class: "form-control", placeholder: "16:30", tabindex: "2", id: "timepicker 2" %>
-  <%= form.text_field :desc, class: "form-control", placeholder: "업무 내용", tabindex: "3"%>
+  <%= form.text_field :desc, class: "form-control", placeholder: "업무 내용", tabindex: "3" %>
   <%= form.hidden_field :diary_id, value: @diary.id %>
   <%= form.submit class: "btn btn-primary", value: "추가" %>
 <% end %>
@@ -32,14 +32,14 @@
   <div id="event <%= event.id %>">
     <%= form_tag "/api/v1/event/update/#{@diary.id}/#{event.id}", method: :patch, class: "input-group mb-0", local: true, data: { turbo: "false" } do %>
       <%#= label_tag :start_time %>
-      <%# <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M'), class: "form-control", tabindex: "#{4+3*index}"  %> 
+      <%# <%= time_field_tag :start_time, value = event.start_time.strftime('%H:%M'), class: "form-control", tabindex: "#{4+3*index}"  %>
       <%#= label_tag :end_time %>
       <%# <%= time_field_tag :end_time, value = event.end_time.time.strftime('%H:%M'), class: "form-control", tabindex: "#{4+3*index+1}" %>
-      
-      <%= text_field_tag :start_time, "#{event.start_time.strftime('%H:%M')}", class: "form-control", tabindex: "#{4+3*index}" %>
-      <%= text_field_tag :end_time, "#{event.end_time.strftime('%H:%M')}", class: "form-control", tabindex: "#{4+3*index+1}" %>
+
+      <%= text_field_tag :start_time, "#{event.start_time.strftime('%H:%M')}", class: "form-control", tabindex: "#{4 + 3 * index}" %>
+      <%= text_field_tag :end_time, "#{event.end_time.strftime('%H:%M')}", class: "form-control", tabindex: "#{4 + 3 * index + 1}" %>
       <%#= label_tag :desc %>
-      <%= text_field_tag :desc, value = "#{event.desc}", class: "form-control", tabindex: "#{4+3*index+2}" %>
+      <%= text_field_tag :desc, value = "#{event.desc}", class: "form-control", tabindex: "#{4 + 3 * index + 2}" %>
       <%= submit_tag "수정", class: "btn btn-primary" %>
       <%= button_tag "삭제", type: :button, onclick: "deleteEvent(#{event.id}, #{@diary.id})", class: "btn btn-primary", id: "deleteBtn" %>
     <% end %>
@@ -83,7 +83,7 @@
     var element2 = document.getElementById('timepicker 2');
     var maskOptions = {
         mask: 'HH:mm',
-        blocks : {
+        blocks: {
             HH: {
                 mask: IMask.MaskedRange,
                 from: 0,
@@ -102,11 +102,11 @@
     var mask2 = IMask(element2, maskOptions);
 
     // window.addEventListener("DOMContentLoaded", 
-    
-    function enterToTab(){
-      const inputs = document.querySelectorAll("input,select");
-        for (let i = 0 ; i < inputs.length; i++) {
-            inputs[i].addEventListener("keypress", function(e){
+
+    function enterToTab() {
+        const inputs = document.querySelectorAll("input,select");
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener("keypress", function (e) {
                 if (e.keyCode == 13) {
                     e.preventDefault();
                     var nextInput = document.querySelectorAll('[tabIndex="' + (this.tabIndex + 1) + '"]');
