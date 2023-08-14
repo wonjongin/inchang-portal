@@ -17,63 +17,6 @@ class Api::V1::DiaryController < ApplicationController
     render 'api/v1/diary/one_edit'
   end
 
-  def create
-    d = Diary.create do |t|
-      t.date = params[:date]
-      t.user = params[:author]
-      t.admitted = false
-    end
-    redirect_to "/api/v1/event/new/#{d.id}"
-  end
-
-  def create2
-    author = User.find_by(name: params[:author])
-    if author == nil
-      render json: {
-        status: :fail,
-        code: :not_found_user,
-        message: "There is no user of #{params[:author]}",
-      } and return
-    end
-    d = Diary.create do |t|
-      t.date = params[:date]
-      t.user = author
-      t.admitted = false
-    end
-
-    rows = params[:desc].split("\n")
-    rows.each do |row|
-      cols = row.split(" ", 2)
-      puts "#{cols}"
-      start_time = DateTime.new(
-        d.date.year,
-        d.date.month,
-        d.date.day,
-        cols[0].gsub(" ", "").split(':')[0].to_i,
-        cols[0].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T')
-      # end_time = DateTime.new(
-      #   d.date.year, 
-      #   d.date.month, 
-      #   d.date.day, 
-      #   cols[1].gsub(" ", "").split(':')[0].to_i, 
-      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
-      # ).strftime('%F %T')
-      e = Event.create do |t|
-        t.start_time = start_time
-        t.end_time = nil
-        t.desc = cols[1]
-        t.diary = d
-      end
-    end
-    render json: {
-      status: :ok,
-      message: "Success!",
-      code: :success,
-      diary_id: d.id,
-    }
-  end
-
   def create3
     author = User.find_by(name: params[:author])
     if author == nil
@@ -164,51 +107,6 @@ class Api::V1::DiaryController < ApplicationController
     }
   end
 
-  def update
-    d = Diary.find_by(id: params[:id])
-    author = User.find_by(name: params[:author])
-    if author == nil
-      render json: {
-        status: :fail,
-        code: :not_found_user,
-        message: "There is no user of #{params[:author]}",
-      } and return
-    end
-    d.update(date: params[:date], user: author)
-    Event.where(diary: d).destroy_all
-    rows = params[:desc].gsub("\n\n", "").split("\n")
-    rows.each do |row|
-      cols = row.split(" ", 2)
-      puts "#{cols}"
-      start_time = DateTime.new(
-        d.date.year,
-        d.date.month,
-        d.date.day,
-        cols[0].gsub(" ", "").split(':')[0].to_i,
-        cols[0].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T')
-      # end_time = DateTime.new(
-      #   d.date.year, 
-      #   d.date.month, 
-      #   d.date.day, 
-      #   cols[1].gsub(" ", "").split(':')[0].to_i, 
-      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
-      # ).strftime('%F %T')
-      e = Event.create do |t|
-        t.start_time = start_time
-        t.end_time = nil
-        t.desc = cols[1]
-        t.diary = d
-      end
-    end
-
-    render json: {
-      status: :ok,
-      message: "Success!",
-      code: :success,
-    }
-  end
-
   def list
     @now_page = params[:page] if params[:page]
     @now_page = 1 unless params[:page]
@@ -220,25 +118,12 @@ class Api::V1::DiaryController < ApplicationController
                     .where(user: @current_user)
                     .order(date: :desc)
                     .page(@now_page)
-                    .per(10) if params[:type] == 'my'
+                    .per(50) if params[:type] == 'my'
     @diaries = Diary.all
                     .where(admitted: false)
                     .order(date: :desc)
                     .page(@now_page)
-                    .per(10) if params[:type] == 'unadmitted'
-  end
-
-  def list_my_diaries
-    @diaries = Diary.all.where(user: @current_user).order(date: :desc)
-  end
-
-  def list_of_unadmitted
-    @diaries = Diary.all.where(admitted: false).order(date: :desc)
-  end
-
-  def my_diaries
-    @diaries = @current_user.diaries
-    render '/api/v1/diary/list'
+                    .per(50) if params[:type] == 'unadmitted'
   end
 
   def calendar

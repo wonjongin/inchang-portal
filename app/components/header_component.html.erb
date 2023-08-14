@@ -29,23 +29,23 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <%= link_to "업무일지 목록", "/api/v1/diary/list", class: "dropdown-item" %>
+              <%= link_to "업무일지 목록", "/api/v1/diary/list", class: "dropdown-item tw-text-sm" %>
             </li>
             <li>
-              <%= link_to "업무일지 추가", "/api/v1/diary/new", class: "dropdown-item" %>
+              <%= link_to "업무일지 추가", "/api/v1/diary/new", class: "dropdown-item tw-text-sm" %>
             </li>
             <li>
-              <%= link_to "나의 업무일지", "/api/v1/diary/list?type=my", class: "dropdown-item" %>
+              <%= link_to "나의 업무일지", "/api/v1/diary/list?type=my", class: "dropdown-item tw-text-sm" %>
             </li>
             <li>
-              <%= link_to "업무일지 달력", "/api/v1/diary/calendar", class: "dropdown-item" %>
+              <%= link_to "업무일지 달력", "/api/v1/diary/calendar", class: "dropdown-item tw-text-sm" %>
             </li>
             <% if @current_user.is_admin? %>
               <li>
-                <%= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item" %>
+                <%= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
               </li>
               <li>
-                <%= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item" %>
+                <%= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
               </li>
             <% end %>
             <li>
@@ -63,11 +63,11 @@
             계정
           </a>
           <ul class="dropdown-menu">
-            <li><%= link_to "로그아웃", "/api/v1/login/logout", class: "dropdown-item" %></li>
+            <li><%= link_to "로그아웃", "/api/v1/login/logout", class: "dropdown-item tw-text-sm" %></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item disabled" href="#">계정: <%= @current_user.name %></a></li>
+            <li><a class="dropdown-item disabled tw-text-sm" href="#">계정: <%= @current_user.name %></a></li>
           </ul>
         </li>
       </ul>
@@ -80,8 +80,8 @@
             data: { turbo: false }
           ) do |form|
       %>
-        <%= form.text_field :q, value: @query, placeholder: "검색어를 입력하세요", class: "form-control me-2" %>
-        <div class="btn btn-outline-primary">
+        <%= form.text_field :q, value: @query, placeholder: "검색어를 입력하세요", class: "form-control form-control-sm me-2" %>
+        <div class="btn btn-sm btn-outline-primary">
           <%= form.submit value: "검색" %>
         </div>
       <% end %>
