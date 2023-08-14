@@ -210,7 +210,22 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def list
-    @diaries = Diary.all.order(date: :desc)
+    @now_page = params[:page] if params[:page]
+    @now_page = 1 unless params[:page]
+    @title = '업무일지 목록' unless params[:type]
+    @title = '나의 업무일지' if params[:type] == 'my'
+    @title = '승인되지 않은 업무일지' if params[:type] == 'unadmitted'
+    @diaries = Diary.all.order(date: :desc).page(@now_page).per(50) unless params[:type]
+    @diaries = Diary.all
+                    .where(user: @current_user)
+                    .order(date: :desc)
+                    .page(@now_page)
+                    .per(10) if params[:type] == 'my'
+    @diaries = Diary.all
+                    .where(admitted: false)
+                    .order(date: :desc)
+                    .page(@now_page)
+                    .per(10) if params[:type] == 'unadmitted'
   end
 
   def list_my_diaries

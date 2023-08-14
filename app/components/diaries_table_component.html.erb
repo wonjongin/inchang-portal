@@ -48,6 +48,7 @@
           <a
             href="/api/v1/diary/detail/<%= diary.id %>"
             class="btn btn-outline-primary btn-sm"
+            style="--bs-btn-padding-y: .2rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .5rem;"
           >
             →
           </a>
@@ -56,4 +57,5 @@
     <% end %>
     </tbody>
   </table>
+  <%= paginate @diaries %>
 </div>

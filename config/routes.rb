@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post 'diary/create2'
       post 'diary/create3'
       get 'diary/list'
+      get 'diary/list/:page', to: 'diary#list'
       get 'diary/list_my_diaries'
       get 'diary/list_of_unadmitted'
       get 'diary/calendar'

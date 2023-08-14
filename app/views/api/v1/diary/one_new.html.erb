@@ -1,15 +1,15 @@
-<h1>새 업무일지</h1>
+<h1 class="tw-text-2xl">새 업무일지</h1>
 <br>
 <%# url: '/api/v1/diary/create2', method: :post, %>
 <div data-controller="diary">
   <%= form_with url: '/api/v1/diary/create3', method: :post, class: "w-full", id: "newDiaryForm" do |form| %>
     <div class="row g-2 mb-3 w-full">
       <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :date, class: "col form-control", id: "datePicker", value: @preset_date %>
+      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @preset_date %>
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "작성자: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :author, class: "col form-control", value: @current_user.name %>
+      <%= form.text_field :author, class: "col form-control form-control-sm", value: @current_user.name %>
     </div>
     <!--  <div class="row g-2 mb-3">-->
     <%#= form.label "업무내용: ", class: "col-sm-2 form-label" %>
@@ -26,10 +26,10 @@
       <% 5.times do |index| %>
         <tr>
           <td>
-            <%= form.text_field 'desc_time[]', class: "form-control" %>
+            <%= form.text_field 'desc_time[]', class: "form-control form-control-sm" %>
           </td>
           <td>
-            <%= form.text_field 'desc_content[]', class: "form-control" %>
+            <%= form.text_field 'desc_content[]', class: "form-control form-control-sm" %>
           </td>
         </tr>
       <% end %>
@@ -38,15 +38,15 @@
 
     <%# <%= form.submit class: "btn btn-primary", value: "저장", id: "saveBtn", disabled: false %>
   <% end %>
-  <div class="btn-group" role="group" aria-label="Basic example">
-    <button class="btn btn-primary" value="저장" id="saveBtn"
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
             data-controller="diary"
             data-action="click->diary#saveDiary"
             data-diary-type-param="create"
     >저장
     </button>
-    <button class="btn btn-primary" value="행 추가" onclick="addRow()">행 추가</button>
-    <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list/") %>
+    <button class="btn btn-outline-primary" value="행 추가" onclick="addRow()">행 추가</button>
+    <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/diary/list/") %>
   </div>
 </div>
 <script>
@@ -63,8 +63,8 @@
     const cell1 = row.insertCell(0);
     const cell2 = row.insertCell(1);
     //<![CDATA[
-    const td1 = '<%= text_field_tag "desc_time[]", "", class: "form-control" %>';
-    const td2 = '<%= text_field_tag "desc_content[]", "", class: "form-control" %>';
+    const td1 = '<%= text_field_tag "desc_time[]", "", class: "form-control form-control-sm" %>';
+    const td2 = '<%= text_field_tag "desc_content[]", "", class: "form-control form-control-sm" %>';
     //]]>
     cell1.innerHTML = td1;
     cell2.innerHTML = td2;

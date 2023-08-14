@@ -1,4 +1,5 @@
-<h1 class="text-2xl">업무일지 </h1>
+<h1 class="tw-text-2xl">업무일지 </h1>
+<br>
 <table class="table table-hover">
   <thead>
   <tr>
@@ -44,27 +45,27 @@
   </tbody>
 </table>
 <br>
-<div class="btn-group" role="group" aria-label="Basic example">
-  <%= render(BasicButtonComponent.new(
+<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+  <%= render(BasicButtonComponent.new("btn btn-outline-primary",
     title: "수정", path: "/api/v1/diary/edit/#{@diary.id}")) if (
     @current_user.is_admin? && @diary.admitted == true) || (@diary.admitted == false) %>
-  <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list") %>
+  <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/diary/list") %>
   <%#= link_to '목록', :back, class: "btn btn-primary" %>
   <%= link_to("출력",
               "/api/v1/diary/pdf/#{@diary.id}/업무일지 #{@diary.user.name} #{@diary.date} (#{@diary.wday_name}).pdf",
-              class: "btn btn-primary") %>
+              class: "btn btn-outline-primary") %>
   <% if @current_user.is_admin? %>
-    <div class="btn btn-primary">
+    <div class="btn btn-outline-danger">
       <%= button_to(
-            "삭제",
+            "🔐 삭제",
             "/api/v1/diary/delete/#{@diary.id}",
             method: :delete,
             form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
     </div>
   <% end %>
   <% if @diary.admitted == false && @current_user.is_admin? %>
-    <div class="btn btn-primary">
-      <%= button_to("승인", "/api/v1/diary/admit/#{@diary.id}", method: :post) %>
+    <div class="btn btn-outline-success">
+      <%= button_to("🔐 승인", "/api/v1/diary/admit/#{@diary.id}", method: :post) %>
     </div>
   <% end %>
 </div>

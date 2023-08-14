@@ -1,10 +1,10 @@
 <div class="simple-calendar">
   <div class="calendar-heading mb-3 row">
-    <%= link_to '이전', calendar.url_for_previous_view, class: "btn btn-outline-primary col-2 col-md-1" %>
-    <span class="calendar-title h2 col text-center">
+    <%= link_to '이전', calendar.url_for_previous_view, class: "btn btn-sm btn-outline-primary col-2 col-sm-1" %>
+    <span class="calendar-title col text-center tw-text-2xl">
       <%= start_date.year %>년 <%= start_date.month %>월
     </span>
-    <%= link_to '다음', calendar.url_for_next_view, class: "btn btn-outline-primary col-2 col-md-1" %>
+    <%= link_to '다음', calendar.url_for_next_view, class: "btn btn-sm btn-outline-primary col-2 col-sm-1" %>
   </div>
   <table class="table table-bordered">
     <thead>

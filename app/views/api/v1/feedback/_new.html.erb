@@ -1,9 +1,9 @@
 <h3>피드백</h3>
 <%= form_with url: '/api/v1/feedback/create', method: :post do |form| %>
-  <div class="input-group">
+  <div class="input-group input-group-sm">
     <%= form.text_field :desc, class: "form-control" %>
     <%= form.hidden_field :diary_id, value: @diary.id %>
-    <%= form.submit class: "btn btn-primary", value: "피드백 작성" %>
+    <%= form.submit class: "btn btn-outline-primary", value: "피드백 작성" %>
   </div>
 <% end %>
 

@@ -1,9 +1,11 @@
-<h1>달력보기</h1>
+<h1 class="tw-text-2xl">달력보기</h1>
 <br>
 <%= month_calendar(events: @diaries) do |date, diaries| %>
   <div class="<%= 'mark' if date == Date.today %> tw-flex tw-justify-between">
     <%= date.day %>
-    <%= link_to '+', "/api/v1/diary/new/#{date.to_s}", class: "btn btn-outline-secondary btn-sm" %>
+    <%= link_to '+', "/api/v1/diary/new/#{date.to_s}", class: "btn btn-outline-secondary btn-sm",
+                style: "--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .7rem;"
+    %>
   </div>
   <% diaries.each do |diary| %>
     <div class="w-full ">

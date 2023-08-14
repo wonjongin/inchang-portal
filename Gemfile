@@ -85,3 +85,4 @@ gem 'wkhtmltopdf-binary'
 gem 'wkhtmltopdf-binary-edge'
 gem 'whenever'
 gem "simple_calendar", "~> 2.4"
+gem 'kaminari'
