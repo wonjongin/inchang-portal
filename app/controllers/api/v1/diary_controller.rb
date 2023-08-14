@@ -4,6 +4,7 @@ class Api::V1::DiaryController < ApplicationController
 
   def new
     @preset_date = params[:date] if params[:date]
+    @preset_date = Date.today unless params[:date]
     render 'api/v1/diary/one_new'
   end
 
@@ -159,6 +160,7 @@ class Api::V1::DiaryController < ApplicationController
       status: :ok,
       message: "Success!",
       code: :success,
+      diary_id: d.id,
     }
   end
 

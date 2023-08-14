@@ -48,8 +48,8 @@
   <%= render(BasicButtonComponent.new(
     title: "수정", path: "/api/v1/diary/edit/#{@diary.id}")) if (
     @current_user.is_admin? && @diary.admitted == true) || (@diary.admitted == false) %>
-  <%#= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list") %>
-  <%= link_to '목록', :back, class: "btn btn-primary" %>
+  <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/list") %>
+  <%#= link_to '목록', :back, class: "btn btn-primary" %>
   <%= link_to("출력",
               "/api/v1/diary/pdf/#{@diary.id}/업무일지 #{@diary.user.name} #{@diary.date} (#{@diary.wday_name}).pdf",
               class: "btn btn-primary") %>

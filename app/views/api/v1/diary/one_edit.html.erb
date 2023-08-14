@@ -46,137 +46,67 @@
   <%# <%= form.submit class: "btn btn-primary", value: "저장", id: "saveBtn", disabled: false %>
 <% end %>
 <div class="btn-group" role="group" aria-label="Basic example">
-  <button class="btn btn-primary" value="저장" id="saveBtn">저장</button>
+  <button class="btn btn-primary" value="저장" id="saveBtn"
+          data-controller="diary"
+          data-action="click->diary#saveDiary"
+          data-diary-type-param="update"
+          data-diary-diary-id-param="<%= @diary.id %>"
+  >저장
+  </button>
   <%= render BasicButtonComponent.new(title: "목록", path: "/api/v1/diary/detail/#{@diary.id}") %>
 </div>
 <script>
-    function csrfToken() {
-        const meta = document.querySelector('meta[name=csrf-token]');
-        const token = meta && meta.getAttribute('content');
+  function csrfToken() {
+    const meta = document.querySelector('meta[name=csrf-token]');
+    const token = meta && meta.getAttribute('content');
 
-        return token ?? false;
-    }
-    document.getElementById("saveBtn").addEventListener("click", async () => {
-        // const validation = /^(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*\n){0,}(([01]?[0-9]|2[0-3]):[0-5][0-9]\s*?,\s*?([01]?[0-9]|2[0-3]):[0-5][0-9],.*)$/g;
-        const validation = /^(([01]?[0-9]|2[0-3]):[0-5][0-9]\s.*\n){0,}(([01]?[0-9]|2[0-3]):[0-5][0-9]\s.*)$/g;
-        const timeValidation = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-        const form = document.getElementById("newDiaryForm");
-        // const desc = form.elements["desc_time[]"].value.replace(/\n+$/, "");
-        console.log(form.elements["date"].value);
-        console.log(form.elements["author"].value);
-        console.log(form.elements["desc_time[]"]);
-        console.log(form.elements["desc_content[]"]);
+    return token ?? false;
+  }
 
 
-        if (
-          form.elements["desc_content[]"][0].value === "" ||
-          form.elements["desc_time[]"][0].value === "" ||
-          form.elements["author"].value === "" ||
-          form.elements["date"].value === ""
-        ) {
-            alert("빈 값이 있습니다.");
-            console.log(1);
-            return;
+  function addRow() {
+    const descTable = document.querySelector('#desc-table');
+    const row = descTable.insertRow(-1);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    //<![CDATA[
+    const td1 = '<%= text_field_tag "desc_time[]", "", class: "form-control" %>';
+    const td2 = '<%= text_field_tag "desc_content[]", "", class: "form-control" %>';
+    //]]>
+    cell1.innerHTML = td1;
+    cell2.innerHTML = td2;
+  }
+
+  function autoAddRow() {
+    document.addEventListener("change", function (event) {
+      if (event.target.nodeName === 'INPUT') {
+        var form = event.target.form;
+        var index = Array.prototype.indexOf.call(form, event.target);
+        console.log(index);
+        if (form.elements[index + 5] === undefined) {
+          addRow();
         }
+      }
+    });
+  }
 
-        const descs = [];
-        const elements = form.elements["desc_time[]"].entries();
-        for (const [index, t] of elements) {
-            if (t.value === "") {
-                continue;
-            }
-            const vali = !timeValidation.test(t.value);
-            if (vali) {
-                alert(t.value + " 시간이 형식에 맞지 않습니다.");
-                console.log(vali);
-                console.log(t.value);
+  autoAddRow();
 
-                return;
-            }
-            descs.push({
-                time: t.value,
-                content: form.elements["desc_content[]"][index].value
-            });
+  function enterToTab() {
+    document.addEventListener("keypress", function (event) {
+      if (event.keyCode === 13 && event.target.nodeName === 'INPUT') {
+        event.preventDefault();
+        var form = event.target.form;
+        var index = Array.prototype.indexOf.call(form, event.target);
+        console.log(index);
+        if (form.elements[index + 4] === undefined) {
+          addRow();
         }
-        console.log(descs)
+        form.elements[index + 1].focus();
+      }
+    });
+  }
 
-        let response = await fetch('/api/v1/diary/update3/<%= @diary.id %>', {
-            method: 'post',
-            headers: {
-                'X-CSRF-Token': csrfToken(),
-                'Content-type': "application/json"
-            },
-            body: JSON.stringify({
-                date: form.elements["date"].value,
-                author: form.elements["author"].value,
-                desc: descs,
-            })
-        });
-        let data = await response.json();
-        if (data.code === "not_found_user") {
-            alert("작성자를 찾을 수 없습니다.");
-            return;
-        }
+  enterToTab();
 
-        if (response.status >= 200 && response.status < 300) {
-            alert('저장되었습니다.');
-            let url = '/api/v1/diary/detail/' + data.diary_id.toString();
-            window.location.replace(url);
-            return;
-        } else if (response.status == 500) {
-            alert('서버에 문제가 발생했습니다.');
-            return;
-        }
-    })
-
-    function enableBtn() {
-
-    }
-
-
-    function addRow() {
-        const descTable = document.querySelector('#desc-table');
-        const row = descTable.insertRow(-1);
-        const cell1 = row.insertCell(0);
-        const cell2 = row.insertCell(1);
-        //<![CDATA[
-        const td1 = '<%= text_field_tag "desc_time[]", "", class: "form-control" %>';
-        const td2 = '<%= text_field_tag "desc_content[]", "", class: "form-control" %>';
-        //]]>
-        cell1.innerHTML = td1;
-        cell2.innerHTML = td2;
-    }
-
-    function autoAddRow() {
-        document.addEventListener("change", function (event) {
-            if (event.target.nodeName === 'INPUT') {
-                var form = event.target.form;
-                var index = Array.prototype.indexOf.call(form, event.target);
-                console.log(index);
-                if (form.elements[index + 5] === undefined) {
-                    addRow();
-                }
-            }
-        });
-    }
-
-    autoAddRow();
-
-    function enterToTab() {
-        document.addEventListener("keypress", function (event) {
-            if (event.keyCode === 13 && event.target.nodeName === 'INPUT') {
-                event.preventDefault();
-                var form = event.target.form;
-                var index = Array.prototype.indexOf.call(form, event.target);
-                console.log(index);
-                if (form.elements[index + 4] === undefined) {
-                    addRow();
-                }
-                form.elements[index + 1].focus();
-            }
-        });
-
-    }
-
-    enterToTab();
 </script>
