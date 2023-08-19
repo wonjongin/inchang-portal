@@ -16,7 +16,8 @@
   <table class="tw-w-full mb-3" id="desc-table">
     <thead>
     <tr>
-      <td class="text-center tw-w-1/6">시간</td>
+      <td class="text-center tw-w-1/6">시작</td>
+      <td class="text-center tw-w-1/6">종료</td>
       <td class="text-center tw-w-5/6">업무 내용</td>
     </tr>
     </thead>
@@ -24,7 +25,10 @@
     <% @diary.events.order(start_time: :asc).each do |event| %>
       <tr>
         <td>
-          <%= form.text_field 'desc_time[]', class: "form-control form-control-sm", value: "#{event.start_time.strftime('%H:%M')}" %>
+          <%= form.text_field 'desc_start_time[]', class: "form-control form-control-sm", value: "#{event.start_time.strftime('%H:%M')}" %>
+        </td>
+        <td>
+          <%= form.text_field 'desc_end_time[]', class: "form-control form-control-sm", value: "#{event.end_time_to_string_nil_safe}" %>
         </td>
         <td>
           <%= form.text_field 'desc_content[]', class: "form-control form-control-sm", value: "#{event.desc}" %>
@@ -34,7 +38,10 @@
     <% 3.times do |index| %>
       <tr>
         <td>
-          <%= form.text_field 'desc_time[]', class: "form-control form-control-sm" %>
+          <%= form.text_field 'desc_start_time[]', class: "form-control form-control-sm" %>
+        </td>
+        <td>
+          <%= form.text_field 'desc_end_time[]', class: "form-control form-control-sm" %>
         </td>
         <td>
           <%= form.text_field 'desc_content[]', class: "form-control form-control-sm" %>
@@ -70,12 +77,15 @@
     const row = descTable.insertRow(-1);
     const cell1 = row.insertCell(0);
     const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
     //<![CDATA[
-    const td1 = '<%= text_field_tag "desc_time[]", "", class: "form-control form-control-sm" %>';
-    const td2 = '<%= text_field_tag "desc_content[]", "", class: "form-control form-control-sm" %>';
+    const td1 = '<%= text_field_tag "desc_start_time[]", "", class: "form-control form-control-sm" %>';
+    const td2 = '<%= text_field_tag "desc_end_time[]", "", class: "form-control form-control-sm" %>';
+    const td3 = '<%= text_field_tag "desc_content[]", "", class: "form-control form-control-sm" %>';
     //]]>
     cell1.innerHTML = td1;
     cell2.innerHTML = td2;
+    cell3.innerHTML = td3;
   }
 
   function autoAddRow() {
@@ -84,7 +94,7 @@
         var form = event.target.form;
         var index = Array.prototype.indexOf.call(form, event.target);
         console.log(index);
-        if (form.elements[index + 5] === undefined) {
+        if (form.elements[index + 8] === undefined) {
           addRow();
         }
       }
@@ -100,7 +110,7 @@
         var form = event.target.form;
         var index = Array.prototype.indexOf.call(form, event.target);
         console.log(index);
-        if (form.elements[index + 4] === undefined) {
+        if (form.elements[index + 7] === undefined) {
           addRow();
         }
         form.elements[index + 1].focus();

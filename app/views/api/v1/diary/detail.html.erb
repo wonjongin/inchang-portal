@@ -33,9 +33,7 @@
   <% @diary.events.order(start_time: :asc).each do |event| %>
     <tr>
       <td class="text-center">
-        <%= event.start_time.strftime("%H:%M") %>
-        <%# ~ %>
-        <%#= event.end_time.strftime("%H:%M") %>
+        <%= event.times_string %>
       </td>
       <td colspan="2">
         <%= event.desc %>

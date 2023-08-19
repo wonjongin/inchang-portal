@@ -42,7 +42,7 @@
       <% diary.events.each do |event| %>
         <tr>
           <td>
-            <%= event.start_time.strftime("%H:%M") %>
+            <%= event.times_string %>
           </td>
           <td>
             <%= highlight(event.desc, @query) %>

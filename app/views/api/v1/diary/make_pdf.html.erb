@@ -50,10 +50,10 @@
   <table class="tw-table text-[18px] tw-w-full tw-divide-y-2 tw-divide-gray-200 tw-bg-white">
     <thead class="ltr:tw-text-left rtl:tw-text-right">
     <tr class="tw-border tw-border-gray-200" style="min-height: 50px">
-      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 10%">
+      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 15%">
         일자
       </td>
-      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 45%">
+      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 40%">
         작성자
       </td>
       <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 25%">
@@ -73,7 +73,7 @@
     </tr>
     <tr class="tw-border tw-border-gray-200">
       <th class="tw-whitespace-nowrap tw-px-4 tw-py-2 tw-font-bold tw-text-gray-900 tw-text-xs">
-        시각
+        시간
       </th>
       <th colspan="2" class="tw-whitespace-nowrap tw-px-4 tw-py-2 tw-font-bold tw-text-gray-900 tw-text-xs">
         내용
@@ -84,9 +84,7 @@
     <% @diary.events.order(start_time: :asc).each do |event| %>
       <tr class="tw-border tw-border-gray-200">
         <td class="tw-text-center tw-whitespace-nowrap tw-px-4 tw-py-2 tw-font-medium tw-text-gray-900 tw-text-xs">
-          <%= event.start_time.strftime("%H:%M") %>
-          <%# ~ %>
-          <%# <%= event.end_time.strftime("%H:%M") %>
+          <%= event.times_string %>
         </td>
         <td colspan="2" class="tw-whitespace-nowrap tw-px-4 tw-py-2 tw-text-gray-700 tw-text-xs">
           <%= event.desc %>

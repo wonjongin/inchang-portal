@@ -31,30 +31,8 @@ class Api::V1::DiaryController < ApplicationController
       t.user = author
       t.admitted = false
     end
-
-    rows = params[:desc]
-    rows.each do |row|
-      start_time = DateTime.new(
-        d.date.year,
-        d.date.month,
-        d.date.day,
-        row[:time].gsub(" ", "").split(':')[0].to_i,
-        row[:time].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T')
-      # end_time = DateTime.new(
-      #   d.date.year,
-      #   d.date.month,
-      #   d.date.day,
-      #   cols[1].gsub(" ", "").split(':')[0].to_i,
-      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
-      # ).strftime('%F %T')
-      e = Event.create do |t|
-        t.start_time = start_time
-        t.end_time = nil
-        t.desc = row[:content]
-        t.diary = d
-      end
-    end
+    add_events params[:desc], d
+    fill_end_times d.id
     render json: {
       status: :ok,
       message: "Success!",
@@ -75,30 +53,8 @@ class Api::V1::DiaryController < ApplicationController
     end
     d.update(date: params[:date], user: author)
     Event.where(diary: d).destroy_all
-    rows = params[:desc]
-    rows.each do |row|
-      start_time = DateTime.new(
-        d.date.year,
-        d.date.month,
-        d.date.day,
-        row[:time].gsub(" ", "").split(':')[0].to_i,
-        row[:time].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T')
-      # end_time = DateTime.new(
-      #   d.date.year,
-      #   d.date.month,
-      #   d.date.day,
-      #   cols[1].gsub(" ", "").split(':')[0].to_i,
-      #   cols[1].gsub(" ", "").split(':')[1].to_i, 0
-      # ).strftime('%F %T')
-      e = Event.create do |t|
-        t.start_time = start_time
-        t.end_time = nil
-        t.desc = row[:content]
-        t.diary = d
-      end
-    end
-
+    add_events params[:desc], d
+    fill_end_times d.id
     render json: {
       status: :ok,
       message: "Success!",
@@ -223,5 +179,49 @@ class Api::V1::DiaryController < ApplicationController
       users: User.all
     }
     send_data data.to_json, type: 'application/json; header=present', disposition: "attachment; filename=#{Date.today.to_s}.json"
+  end
+
+  private
+
+  def add_events(data, d)
+    rows = data
+    rows.each do |row|
+      start_time = DateTime.new(
+        d.date.year,
+        d.date.month,
+        d.date.day,
+        row[:start_time].gsub(" ", "").split(':')[0].to_i,
+        row[:start_time].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T')
+      end_time = nil
+      end_time = DateTime.new(
+        d.date.year,
+        d.date.month,
+        d.date.day,
+        row[:end_time].gsub(" ", "").split(':')[0].to_i,
+        row[:end_time].gsub(" ", "").split(':')[1].to_i, 0
+      ).strftime('%F %T') if row[:end_time] != ""
+      e = Event.create do |t|
+        t.start_time = start_time
+        t.end_time = end_time
+        t.desc = row[:content]
+        t.diary = d
+      end
+    end
+  end
+
+  def fill_end_times(diary_id)
+    diary = Diary.find_by(id: diary_id)
+    events = diary.events.order(start_time: :asc)
+    start_times = []
+    events.each do |event|
+      start_times << event.start_time
+    end
+    events.each_with_index do |event, index|
+      unless event.end_time
+        event.end_time = start_times[index + 1]
+        event.save!
+      end
+    end
   end
 end

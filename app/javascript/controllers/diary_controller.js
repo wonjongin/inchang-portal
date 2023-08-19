@@ -15,7 +15,7 @@ export default class extends Controller {
     // const form = this.diaryFormTarget;
     if (
       form.elements["desc_content[]"][0].value === "" ||
-      form.elements["desc_time[]"][0].value === "" ||
+      form.elements["desc_start_time[]"][0].value === "" ||
       form.elements["author"].value === "" ||
       form.elements["date"].value === ""
     ) {
@@ -25,21 +25,34 @@ export default class extends Controller {
     }
 
     const descs = [];
-    const elements = form.elements["desc_time[]"].entries();
-    for (const [index, t] of elements) {
+    const start_times_entries = form.elements["desc_start_time[]"].entries();
+    const end_times = form.elements["desc_end_time[]"]
+    for (const [index, t] of start_times_entries) {
       if (t.value === "") {
         continue;
       }
-      const vali = !timeValidation.test(t.value);
-      if (vali) {
+      const vali_start = !timeValidation.test(t.value);
+      const vali_end = !timeValidation.test(end_times[index].value);
+      if (vali_start) {
         alert(t.value + " 시간이 형식에 맞지 않습니다.");
-        console.log(vali);
+        console.log(vali_start);
         console.log(t.value);
-
         return;
       }
+      if (end_times[index].value === "") {
+        // if (form.elements["desc_start_time[]"][index + 1] !== "" || form.elements["desc_start_time[]"][index + 1] !== undefined) {
+        //   end_times[index].value = form.elements["desc_start_time[]"][index + 1].value
+        // }
+      } else if (vali_end) {
+        alert(end_times[index].value + " 시간이 형식에 맞지 않습니다.");
+        console.log(vali_end);
+        console.log(end_times[index].value);
+        return;
+      }
+
       descs.push({
-        time: t.value,
+        start_time: t.value,
+        end_time: end_times[index].value,
         content: form.elements["desc_content[]"][index].value
       });
     }
