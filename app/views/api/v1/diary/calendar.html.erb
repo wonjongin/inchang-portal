@@ -4,15 +4,18 @@
   <div class="<%= 'mark' if date == Date.today %> tw-flex tw-justify-between">
     <%= date.day %>
     <%= link_to '+', "/api/v1/diary/new/#{date.to_s}", class: "btn btn-outline-secondary btn-sm",
-                style: "--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .7rem;"
+                style: "--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .7rem;"
     %>
   </div>
+  <div class="tw-text-red-500">
+    <%= @holidays[date.year.to_s][date.to_s] %>
+  </div>
   <% diaries.each do |diary| %>
-    <div class="w-full ">
+    <div class="w-full">
       <%= link_to(
-            "#{diary.admit_status_icon} #{diary.user.name}",
+            "#{diary.user.name}",
             "/api/v1/diary/detail/#{diary.id}",
-            class: "link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover")
+            class: "tw-no-underline tw-block tw-w-full tw-mb-0.5 tw-text-center tw-py-[1px] tw-text-[12px] tw-bg-#{diary.admitted? ? 'green' : 'red'}-500 hover:tw-bg-#{diary.admitted? ? 'green' : 'red'}-700 tw-rounded-sm tw-text-white sm:tw-text-sm")
       %>
     </div>
   <% end %>

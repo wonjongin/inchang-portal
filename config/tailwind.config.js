@@ -24,5 +24,12 @@ module.exports = {
   ],
   corePlugins: {
     preflight: true,
-  }
+  },
+
+  safelist: [
+    {
+      pattern: /tw-bg-(red|green)-(500|600|700)/,
+      variants: ['hover'],
+    },
+  ],
 }

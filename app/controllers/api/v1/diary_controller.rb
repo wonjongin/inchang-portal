@@ -128,6 +128,7 @@ class Api::V1::DiaryController < ApplicationController
 
   def calendar
     start_date = params.fetch(:start_date, Date.today).to_date
+    @holidays = JSON.parse(File.read(File.join('app/assets/data', 'holidays.json')))
     @diaries = Diary.all.where(date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week).order(date: :desc)
   end
 
@@ -215,7 +216,12 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def back_up
-    data = [Diary.all, Event.all, Feedback.all, User.all]
-    send_data data.to_json, type: 'application/json; header=present', disposition: "attachment; filename=backup.json"
+    data = {
+      diaries: Diary.all,
+      events: Event.all,
+      feedbacks: Feedback.all,
+      users: User.all
+    }
+    send_data data.to_json, type: 'application/json; header=present', disposition: "attachment; filename=#{Date.today.to_s}.json"
   end
 end
