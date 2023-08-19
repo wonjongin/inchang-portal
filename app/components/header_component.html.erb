@@ -1,6 +1,6 @@
 <nav class="navbar bg-body-tertiary navbar-expand-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand tw-font-[KorailRoundGothicBold] tw-font-light" href="/">
       <%= image_tag "logos/logo-h-black-302x91.png", alt: "Logo", width: "100", height: "28", class: "d-inline-block align-text-top" %>
       업무포털
     </a>
@@ -76,7 +76,7 @@
             local: true,
             class: "d-flex",
             role: "search",
-            method: :post,
+            method: :get,
             data: { turbo: false }
           ) do |form|
       %>

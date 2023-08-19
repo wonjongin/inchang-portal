@@ -51,9 +51,6 @@ class Api::V1::LoginController < ApplicationController
   def wrong_admin_pw
 
   end
-  def wrong_user_pw
-
-  end
 
   def wrong_pw_check
 

@@ -38,7 +38,6 @@ Rails.application.routes.draw do
       get 'login/sign_up', to: 'login#sign_up'
       get 'login/signed_up', to: 'login#signed_up'
       get 'login/wrong_admin_pw', to: 'login#wrong_admin_pw'
-      get 'login/wrong_user_pw', to: 'login#wrong_user_pw'
       get 'login/wrong_pw_check', to: 'login#wrong_pw_check'
       post 'login/signingup', to: 'login#signingup'
     end

@@ -103,7 +103,8 @@ class Api::V1::DiaryController < ApplicationController
       return
     else
       @query = params[:q]
-      @sd = Diary.joins(:events).where("desc LIKE ?", "%" + @query + "%")
+      @sd = Diary.order(date: :desc).joins(:events).where("desc LIKE ?", "%" + @query + "%").uniq
+
       render '/api/v1/diary/search'
     end
   end

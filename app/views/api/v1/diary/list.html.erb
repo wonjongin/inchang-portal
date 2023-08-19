@@ -1,6 +1,6 @@
 <h1 class="tw-text-2xl"><%= @title %></h1>
 <br>
-<%= form_with url: '/api/v1/diary/search', local: true, method: :post, data: { turbo: false } do |form| %>
+<%= form_with url: '/api/v1/diary/search', local: true, method: :get, data: { turbo: false } do |form| %>
   <div class="input-group input-group-sm">
     <%= form.text_field :q, value: @query, class: "form-control" %>
     <div class="btn btn-outline-primary">

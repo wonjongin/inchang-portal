@@ -1,8 +1,8 @@
 <h1>검색</h1>
-<%= form_with url: '/api/v1/diary/search', local: true, method: :post, data: { turbo: false } do |form| %>
+<%= form_with url: '/api/v1/diary/search', local: true, method: :get, data: { turbo: false } do |form| %>
   <div class="input-group">
     <%= form.text_field :q, value: @query, class: "form-control" %>
-    <div class="btn btn-primary">
+    <div class="btn btn-outline-primary">
       <%= form.submit value: "검색" %>
     </div>
   </div>
@@ -39,7 +39,7 @@
       </tr>
       </thead>
       <tbody>
-      <% diary.events.each do |event| %>
+      <% diary.events.order(start_time: :asc).each do |event| %>
         <tr>
           <td>
             <%= event.times_string %>

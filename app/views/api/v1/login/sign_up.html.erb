@@ -16,10 +16,10 @@
   </div>
 
   <div>
-    <%= form.radio_button :permission, "admin" %>
-    <%= form.label :permission_admin, "관리자" %>
-    <%= form.radio_button :permission, "normal" %>
-    <%= form.label :permission_normal, "직원" %>
+    <%= form.radio_button :permission, "admin", class: "form-check-input" %>
+    <%= form.label :permission_admin, "관리자", class: "form-check-label" %>
+    <%= form.radio_button :permission, "normal", class: "form-check-input" %>
+    <%= form.label :permission_normal, "직원", class: "form-check-label"  %>
   </div>
   <div class="row g-2">
     <%= form.label :admin_pw, class: "col-auto col-form-label" %><br>
