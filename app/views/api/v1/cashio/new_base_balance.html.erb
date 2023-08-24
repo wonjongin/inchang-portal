@@ -1,0 +1,25 @@
+<h1 class="tw-text-2xl">초기이월잔액 입력</h1>
+<br>
+<div data-controller="cashio">
+  <%= form_with url: '/api/v1/cashio/create', method: :post, class: "w-full", id: "newBalanceForm" do |form| %>
+    <div class="row g-2 mb-3 w-full">
+      <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @preset_date %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "금액: ", class: "col-sm-2 form-label" %>
+      <%= form.number_field :price, class: "col form-control form-control-sm" %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="cashio"
+            data-action="click->cashio#saveBalance"
+            data-cashio-type-param="create"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/diary/list/") %>
+  </div>
+</div>

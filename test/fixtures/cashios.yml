@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2023-08-20
+  io: 1
+  account: MyString
+  desc: MyText
+  note: MyText
+  price: 1
+  is_base_balance: false
+  admitted: false
+
+two:
+  date: 2023-08-20
+  io: 1
+  account: MyString
+  desc: MyText
+  note: MyText
+  price: 1
+  is_base_balance: false
+  admitted: false

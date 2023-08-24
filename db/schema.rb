@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_21_043123) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_20_105036) do
+  create_table "cashios", force: :cascade do |t|
+    t.date "date", null: false
+    t.integer "io"
+    t.string "account"
+    t.text "desc"
+    t.text "note"
+    t.integer "price", null: false
+    t.boolean "is_base_balance"
+    t.boolean "admitted"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cashios_on_user_id"
+  end
+
   create_table "diaries", force: :cascade do |t|
     t.date "date"
     t.integer "user_id", null: false

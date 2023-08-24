@@ -7,11 +7,6 @@
       <th
         class="text-center"
       >
-        승인여부
-      </th>
-      <th
-        class="text-center"
-      >
         날짜
       </th>
       <th
@@ -24,16 +19,17 @@
       >
         보기
       </th>
+      <th
+        class="text-center"
+      >
+        승인여부
+      </th>
     </tr>
     </thead>
     <tbody class="">
     <% @diaries.each do |diary| %>
       <tr>
-        <td
-          class="text-center"
-        >
-          <%= diary.admit_status_icon %>
-        </td>
+
         <td
           class="text-center"
         >
@@ -52,6 +48,11 @@
           >
             →
           </a>
+        </td>
+        <td
+          class="text-center"
+        >
+          <%= diary.admit_status_icon %>
         </td>
       </tr>
     <% end %>

@@ -8,6 +8,16 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'cashio/new'
+      get 'cashio/new_base_balance'
+      post 'cashio/create'
+      post 'cashio/create_base_balance'
+      get 'cashio/edit/:id', to: 'cashio#edit'
+      post 'cashio/update/:id', to: 'cashio#update'
+      delete 'cashio/delete/:id', to: 'cashio#delete'
+      post 'cashio/admit/:id', to: 'cashio#admit'
+      get 'cashio/search'
+      get 'cashio/list'
       get 'feedback/new'
       post 'feedback/create'
       patch 'feedback/update/:id', to: 'feedback#update'

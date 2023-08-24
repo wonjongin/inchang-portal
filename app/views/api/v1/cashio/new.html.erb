@@ -1,0 +1,44 @@
+<h1 class="tw-text-2xl">입출금 추가</h1>
+<br>
+<div data-controller="cashio">
+  <%= form_with url: '/api/v1/cashio/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
+    <div class="row g-2 mb-3 w-full">
+      <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @preset_date %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "거래처: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :account, class: "col form-control form-control-sm" %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "거래내용: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :desc, class: "col form-control form-control-sm" %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "비고: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :note, class: "col form-control form-control-sm" %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "금액: ", class: "col-sm-2 form-label" %>
+      <%= form.number_field :price, class: "col form-control form-control-sm" %>
+    </div>
+    <div>
+      <%= form.radio_button :io, "input", class: "form-check-input" %>
+      <%= form.label :io_input, "입금", class: "form-check-label" %>
+      <%= form.radio_button :io, "output", class: "form-check-input" %>
+      <%= form.label :io_output, "출금", class: "form-check-label"  %>
+    </div>
+    <%# <%= form.submit class: "btn btn-primary", value: "저장", id: "saveBtn", disabled: false %>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="cashio"
+            data-action="click->cashio#saveCashio"
+            data-cashio-type-param="create"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/cashio/list/") %>
+  </div>
+</div>

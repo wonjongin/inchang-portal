@@ -31,5 +31,8 @@ module.exports = {
       pattern: /tw-bg-(red|green)-(500|600|700)/,
       variants: ['hover'],
     },
+    {
+      pattern: /tw-text-(red|green|blue)-700/,
+    },
   ],
 }

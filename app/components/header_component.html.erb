@@ -62,9 +62,12 @@
             현금출납부
           </a>
           <ul class="dropdown-menu">
-            <!--            <li>-->
-            <%#= link_to "업무일지 목록", "/api/v1/diary/list", class: "dropdown-item tw-text-sm" %>
-            <!--            </li>-->
+            <li>
+              <%= link_to "입출금내역", "/api/v1/cashio/list", class: "dropdown-item tw-text-sm" %>
+            </li>
+            <li>
+              <%= link_to "#{Cashio.has_base_balance? ? '입출금내역 추가' : '초기이월잔액 입력'}", "#{Cashio.has_base_balance? ? '/api/v1/cashio/new' : '/api/v1/cashio/new_base_balance'}", class: "dropdown-item tw-text-sm" %>
+            </li>
 
             <%# if @current_user.is_admin? %>
             <!--              <li>-->
@@ -74,9 +77,6 @@
             <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
             <!--              </li>-->
             <%# end %>
-            <li>
-              <a class="dropdown-item disabled tw-text-sm" href="#">준비중</a>
-            </li>
             <li>
               <hr class="dropdown-divider">
             </li>
