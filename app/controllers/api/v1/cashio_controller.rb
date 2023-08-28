@@ -16,6 +16,7 @@ class Api::V1::CashioController < ApplicationController
     @now_page = params[:page] if params[:page]
     @now_page = 1 unless params[:page]
     @cashios = Cashio.all.order(date: :desc).order(id: :desc).page(@now_page).per(50)
+    @summaries = Cashio.all_day
   end
 
   def create_base_balance
@@ -116,5 +117,20 @@ class Api::V1::CashioController < ApplicationController
   end
 
   def search
+  end
+
+  def calendar
+    start_date = params.fetch(:start_date, Date.today).to_date
+    @holidays = JSON.parse(File.read(File.join('app/assets/data', 'holidays.json')))
+    @cashios = Cashio.all.where(date: start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week).order(date: :desc)
+  end
+
+  def day
+    @date = params[:date]
+    @cashios = Cashio.where(date: @date)
+    @total_day = Cashio.total_day(@date)
+    @total_day_input = Cashio.total_day_input(@date)
+    @total_day_output = Cashio.total_day_output(@date).abs
+    @balance_by = Cashio.balance_by(@date)
   end
 end

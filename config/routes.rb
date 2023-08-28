@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'cashio/new'
+      get 'cashio/new/:date', to: 'cashio#new'
       get 'cashio/new_base_balance'
       post 'cashio/create'
       post 'cashio/create_base_balance'
@@ -16,8 +17,10 @@ Rails.application.routes.draw do
       post 'cashio/update/:id', to: 'cashio#update'
       delete 'cashio/delete/:id', to: 'cashio#delete'
       post 'cashio/admit/:id', to: 'cashio#admit'
+      get 'cashio/day/:date', to: 'cashio#day'
       get 'cashio/search'
       get 'cashio/list'
+      get 'cashio/calendar'
       get 'feedback/new'
       post 'feedback/create'
       patch 'feedback/update/:id', to: 'feedback#update'

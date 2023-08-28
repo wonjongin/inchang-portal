@@ -1,8 +1,6 @@
 class Cashio < ApplicationRecord
-  enum io: {input: 0, output: 1}
+  enum io: { input: 0, output: 1 }
   belongs_to :user
-
-
 
   def io_string
     return "입금" if self.io == "input"
@@ -15,11 +13,11 @@ class Cashio < ApplicationRecord
 
   def balance
     privious_total = Cashio
-                      .order(date: :asc)
-                      .order(id: :asc)
-                      .where(date: ..self.date)
-                      .where.not(date: self.date)
-                      .sum(:price)
+                       .order(date: :asc)
+                       .order(id: :asc)
+                       .where(date: ..self.date)
+                       .where.not(date: self.date)
+                       .sum(:price)
     today_total = 0
     today_data = Cashio
                    .order(date: :asc)
@@ -42,8 +40,60 @@ class Cashio < ApplicationRecord
     end
   end
 
+  def self.balance_by(date_string)
+    total = Cashio
+              .order(date: :asc)
+              .order(id: :asc)
+              .where(date: ..date_string)
+              .sum(:price)
+    total
+  end
+
   def self.total
     total = Cashio.all.sum(:price)
     total
+  end
+
+  def self.total_day(date_string)
+    total = Cashio.where(date: date_string).sum(:price)
+    total
+  end
+
+  def self.total_day_input(date_string)
+    total = Cashio.where(date: date_string, io: 'input').sum(:price)
+    total
+  end
+
+  def self.total_day_output(date_string)
+    total = Cashio.where(date: date_string, io: 'output').sum(:price)
+    total
+  end
+
+  def self.summary_at(date_string)
+    one_day = Cashio.order(date: :asc).order(id: :asc).where(date: date_string)
+
+    {
+      date: date_string.to_date,
+      count: one_day.count,
+      total_input: one_day.where(io: 'input').sum(:price),
+      total_output: one_day.where(io: 'output').sum(:price),
+      total_day: one_day.sum(:price),
+      title: one_day.first.desc,
+      balance: Cashio.balance_by(date_string),
+    }
+  end
+
+  def self.all_day
+    day_list = Cashio.order(date: :desc).pluck(:date).uniq
+    all_day = []
+
+    day_list.each do |date|
+      all_day << Cashio.summary_at(date)
+    end
+    all_day
+  end
+
+  def start_time
+    self.date
   end
 end

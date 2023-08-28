@@ -173,11 +173,15 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def back_up
+    unless @current_user.is_admin?
+      redirect_to '/api/v1/diary/list' and return
+    end
     data = {
       diaries: Diary.all,
       events: Event.all,
       feedbacks: Feedback.all,
-      users: User.all
+      users: User.all,
+      cashio: Cashio.all,
     }
     send_data data.to_json, type: 'application/json; header=present', disposition: "attachment; filename=#{Date.today.to_s}.json"
   end

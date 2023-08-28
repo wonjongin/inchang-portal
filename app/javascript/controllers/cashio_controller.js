@@ -162,4 +162,41 @@ export default class extends Controller {
   }
 
 
+  priceString(event) {
+    let display = document.querySelector("#priceDisplay");
+    let price = event.target.value;
+    let digit = price.length;
+    let result = "";
+
+    let bUnit = ['', '만', '억', '조', '경'];
+    let sUnit = ['', '십', '백', '천'];
+    let numberString = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+
+
+    let slicedPrice = [];
+
+    for (let i = 0; i < digit; i = i + 4) {
+      if (digit - i < 4) break;
+      slicedPrice.unshift(price.slice(digit - 4 - i, digit - i));
+    }
+    if(digit % 4 !== 0) slicedPrice.unshift(price.slice(0, digit % 4));
+
+    console.log(slicedPrice)
+
+    for (let i = 0; i < slicedPrice.length; i++) {
+      let tmp = "";
+      for (let j = 0; j < slicedPrice[i].length; j++) {
+        if (+slicedPrice[i][j] === 0) continue;
+        tmp += numberString[+slicedPrice[i][j]];
+        tmp += sUnit[slicedPrice[i].length - 1 - j];
+      }
+      tmp += bUnit[slicedPrice.length - 1 - i];
+      tmp += " ";
+      result += tmp;
+    }
+
+    console.log(result);
+
+    display.innerText = `${result}원`
+  }
 }

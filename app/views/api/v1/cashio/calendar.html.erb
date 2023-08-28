@@ -1,0 +1,24 @@
+<h1 class="tw-text-2xl">달력보기</h1>
+<br>
+<%= month_calendar(events: @cashios) do |date, cashios| %>
+  <div class="<%= 'mark' if date == Date.today %> tw-flex tw-justify-between">
+    <%#= date.day %>
+    <%= link_to date.day, "/api/v1/cashio/day/#{date.to_s}", class: "" %>
+    <%= link_to '+', "/api/v1/cashio/new/#{date.to_s}", class: "btn btn-outline-secondary btn-sm",
+                style: "--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .7rem;"
+    %>
+  </div>
+  <div class="tw-text-red-500">
+    <%= @holidays[date.year.to_s][date.to_s] %>
+  </div>
+  <div>
+    <span class="tw-text-blue-700">
+      + <%= number_with_delimiter(Cashio.total_day_input(date), delimiter: ',')  %>
+    </span><br>
+    <span class="tw-text-red-500">
+      - <%= number_with_delimiter(Cashio.total_day_output(date).abs, delimiter: ',') %>
+    </span><br>
+    = <%= number_with_delimiter(Cashio.total_day(date), delimiter: ',') %><br>
+    % <%= number_with_delimiter(Cashio.balance_by(date), delimiter: ',') %>
+  </div>
+<% end %>

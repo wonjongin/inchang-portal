@@ -66,6 +66,9 @@
               <%= link_to "입출금내역", "/api/v1/cashio/list", class: "dropdown-item tw-text-sm" %>
             </li>
             <li>
+              <%= link_to "입출금내역 달력", "/api/v1/cashio/calendar", class: "dropdown-item tw-text-sm" %>
+            </li>
+            <li>
               <%= link_to "#{Cashio.has_base_balance? ? '입출금내역 추가' : '초기이월잔액 입력'}", "#{Cashio.has_base_balance? ? '/api/v1/cashio/new' : '/api/v1/cashio/new_base_balance'}", class: "dropdown-item tw-text-sm" %>
             </li>
 
@@ -93,6 +96,11 @@
           </a>
           <ul class="dropdown-menu">
             <li><%= link_to "로그아웃", "/api/v1/login/logout", class: "dropdown-item tw-text-sm" %></li>
+            <% if @current_user.is_admin? %>
+              <li>
+                <%= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
+              </li>
+            <% end %>
             <li>
               <hr class="dropdown-divider">
             </li>

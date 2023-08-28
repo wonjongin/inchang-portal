@@ -1,0 +1,127 @@
+<h1 class="tw-text-2xl"><%= @date %> (<%= %w[일 월 화 수 목 금 토][@date.to_date.wday] %>)</h1>
+<% flash.each do |type, msg| %>
+  <div class="alert alert-warning mt-3" role="alert">
+    <%= msg %>
+  </div>
+<% end %>
+<div class="tw-flex tw-justify-end">
+  <%= link_to("+", "/api/v1/cashio/new/#{@date}", class: "btn btn-outline-primary btn-sm") %>
+</div>
+<table class="table table-bordered table-hover mt-3">
+  <thead class="">
+  <tr>
+    <th class="text-center">
+      작성자
+    </th>
+    <th class="text-center">
+      거래처
+    </th>
+    <th class="text-center">
+      거래내용
+    </th>
+    <th class="text-center">
+      거래구분
+    </th>
+    <th class="text-center">
+      금액
+    </th>
+    <th class="text-center">
+      잔액
+    </th>
+    <th class="text-center">
+      비고
+    </th>
+    <th class="text-center">
+      수정
+    </th>
+    <th class="text-center">
+      삭제
+    </th>
+    <th class="text-center">
+      승인
+    </th>
+  </tr>
+  </thead>
+  <tbody class="">
+  <% @cashios.each do |cashio| %>
+    <tr>
+      <!--      <td class="text-center">-->
+      <!--        <%#= cashio.date %> (<%#= cashio.wday_name %>)-->
+      <!--      </td>-->
+      <td class="text-center">
+        <%= cashio.user.name %>
+      </td>
+      <% if cashio.is_base_balance %>
+        <td class="text-center" colspan="3">
+          초기이월잔액
+        </td>
+      <% else %>
+
+        <td class="text-center">
+          <%= cashio.account %>
+        </td>
+        <td class="text-center">
+          <%= cashio.desc %>
+        </td>
+        <td class="text-center">
+          <%= cashio.io_string %>
+        </td>
+      <% end %>
+      <td class="text-center" style="color: <%= cashio.io == 'input' ? 'blue' : 'red' %>;">
+        <%= cashio.io == 'input' ? '+' : '' %><%= number_with_delimiter(cashio.price, :delimiter => ',') %>
+      </td>
+      <td class="text-center">
+        <%= number_with_delimiter(cashio.balance, :delimiter => ',') %>
+      </td>
+      <td class="text-center">
+        <%= cashio.note %>
+      </td>
+      <td class="text-center">
+        <%= link_to "✏️", "/api/v1/cashio/edit/#{cashio.id}", class: "btn btn-sm btn-outline-primary #{(cashio.admitted && !@current_user.is_admin?) ? 'disabled' : ''}" %>
+      </td>
+      <td class="text-center">
+        <%= button_to("🗑️", "/api/v1/cashio/delete/#{cashio.id}", method: :delete, class: "btn btn-sm btn-outline-danger #{(cashio.admitted && !@current_user.is_admin?) ? 'disabled' : ''}", form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) unless cashio.is_base_balance %>
+      </td>
+      <td class="text-center">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="flexCheckDefault"
+            data-controller="cashio"
+            data-action="change->cashio#admit"
+            data-cashio-cashio-id-param="<%= cashio.id %>"
+            <%= cashio.admitted ? 'checked' : '' %>
+            <%= @current_user.is_admin? ? '' : 'disabled' %>
+          >
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<table class="table table-bordered table-hover mt-3">
+  <thead>
+  <th class="text-center">
+    일입금액
+  </th>
+  <th class="text-center">
+    일출금액
+  </th>
+  <th class="text-center">
+    일계
+  </th>
+  <th class="text-center">
+    잔액
+  </th>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="text-center"><%= number_with_delimiter(@total_day_input, :delimiter => ',') %> 원</td>
+    <td class="text-center"><%= number_with_delimiter(@total_day_output, :delimiter => ',') %> 원</td>
+    <td class="text-center"><%= number_with_delimiter(@total_day, :delimiter => ',') %> 원</td>
+    <td class="text-center"><%= number_with_delimiter(@balance_by, :delimiter => ',') %> 원</td>
+  </tr>
+  </tbody>
+</table>
