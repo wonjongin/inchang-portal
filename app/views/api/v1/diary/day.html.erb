@@ -1,3 +1,12 @@
+<h1 class="tw-text-2xl"><%= @date %> (<%= %w[일 월 화 수 목 금 토][@date.to_date.wday] %>)</h1>
+<% flash.each do |type, msg| %>
+  <div class="alert alert-warning mt-3" role="alert">
+    <%= msg %>
+  </div>
+<% end %>
+<div class="tw-flex tw-justify-end">
+  <%= link_to("+", "/api/v1/diary/new/#{@date}", class: "btn btn-outline-primary btn-sm") %>
+</div>
 <div class="overflow-x-auto">
   <table
     class="table table-bordered table-hover mt-3"
@@ -8,32 +17,34 @@
         날짜
       </th>
       <th class="text-center">
-        개수
+        작성자
       </th>
+
       <th class="text-center">
         승인여부
       </th>
     </tr>
     </thead>
     <tbody class="">
-    <% @dates.each do |date| %>
+    <% @diaries.each do |diary| %>
       <tr>
+
         <td class="text-center">
           <%= link_to(
-              "#{date} (#{%w[일 월 화 수 목 금 토][date.to_date.wday]})",
-              "/api/v1/diary/day/#{date}",
-              class: "link-opacity-50-hover")
+                "#{diary.date} (#{diary.wday_name})",
+                "/api/v1/diary/detail/#{diary.id}",
+                class: "link-opacity-50-hover")
           %>
           <!--          <%#= diary.date %> (<%#= diary.wday_name %>)-->
         </td>
         <td class="text-center">
-          <%= Diary.count_day_diaries(date) %>
+          <%= diary.user.name %>
         </td>
 
         <td
           class="text-center"
         >
-          <%= Diary.admitted_icon_for_day(date) %>
+          <%= diary.admit_status_icon %>
         </td>
       </tr>
     <% end %>

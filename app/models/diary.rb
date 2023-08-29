@@ -15,4 +15,23 @@ class Diary < ApplicationRecord
   def admit_status_icon
     self.admitted ? '✅' : '❌'
   end
+
+  def self.count_day_diaries(date)
+    Diary.where(date: date).count
+  end
+
+  def self.day_list
+    Diary.order(date: :desc).pluck(:date).uniq
+  end
+
+  def self.admitted_icon_for_day(date)
+    diaries = Diary.where(date: date)
+    admitted = true
+    diaries.each do |diary|
+      unless diary.admitted
+        return '❌'
+      end
+    end
+    '✅'
+  end
 end

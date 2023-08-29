@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class DiariesTableComponent < ViewComponent::Base
-  def initialize(diaries:)
-    @diaries = diaries
+  def initialize(dates:)
+    @dates = dates
   end
 
 end

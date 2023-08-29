@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       patch 'event/update/:diary_id/:id', to: 'event#update'
       get 'diary/new'
       get 'diary/new/:date', to: 'diary#new'
+      get 'diary/day/:date', to: 'diary#day'
       get 'diary/edit/:id', to: 'diary#edit'
       post 'diary/update3/:id', to: 'diary#update3'
       post 'diary/create3'

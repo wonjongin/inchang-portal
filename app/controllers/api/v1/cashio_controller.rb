@@ -25,6 +25,8 @@ class Api::V1::CashioController < ApplicationController
       t.date = params[:date]
       t.price = params[:price]
       t.io = 'input'
+      t.desc = '초기이월잔액'
+      t.account = '본사'
       t.is_base_balance = true
       t.user = author
       t.admitted = false

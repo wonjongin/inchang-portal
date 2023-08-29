@@ -172,6 +172,11 @@ class Api::V1::DiaryController < ApplicationController
     @diary = Diary.find_by(id: params[:id])
   end
 
+  def day
+    @date = params[:date]
+    @diaries = Diary.where(date: @date)
+  end
+
   def back_up
     unless @current_user.is_admin?
       redirect_to '/api/v1/diary/list' and return

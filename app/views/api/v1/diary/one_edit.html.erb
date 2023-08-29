@@ -1,11 +1,11 @@
 <h1 class="tw-text-2xl">업무일지 수정</h1>
 <br>
 <%= form_with url: '/api/v1/diary/update', method: :post, class: "w-full", id: "newDiaryForm" do |form| %>
-  <div class="row g-2 mb-3 w-full">
+  <div class="row g-2 mb-3 sm:tw-max-w-xs">
     <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
     <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @diary.date %>
   </div>
-  <div class="row g-2 mb-3">
+  <div class="row g-2 mb-3 sm:tw-max-w-xs">
     <%= form.label "작성자: ", class: "col-sm-2 form-label" %>
     <%= form.text_field :author, class: "col form-control form-control-sm", value: @diary.user.name %>
   </div>
