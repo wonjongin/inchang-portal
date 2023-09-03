@@ -64,22 +64,22 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def list
-    @now_page = params[:page] if params[:page]
-    @now_page = 1 unless params[:page]
     @title = '업무일지 목록' unless params[:type]
     @title = '나의 업무일지' if params[:type] == 'my'
     @title = '승인되지 않은 업무일지' if params[:type] == 'unadmitted'
-    @diaries = Diary.all.order(date: :desc).page(@now_page).per(50) unless params[:type]
-    @diaries = Diary.all
-                    .where(user: @current_user)
-                    .order(date: :desc)
-                    .page(@now_page)
-                    .per(50) if params[:type] == 'my'
-    @diaries = Diary.all
-                    .where(admitted: false)
-                    .order(date: :desc)
-                    .page(@now_page)
-                    .per(50) if params[:type] == 'unadmitted'
+    if params[:year] == nil || params[:month] == nil
+      today = Date.today
+      @year = today.year
+      @month = today.month
+    else
+      @year = params[:year].to_i
+      @month = params[:month].to_i
+    end
+    @next = next_or_priv(true, @year, @month)
+    @priv = next_or_priv(false, @year, @month)
+    @day_list = Diary.order(date: :desc).where(date: Date.civil(@year, @month, 1)..Date.civil(@year, @month, -1))
+                     .pluck(:date).uniq!
+    @day_list = [] if @day_list == nil
   end
 
   def calendar
@@ -194,6 +194,22 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   private
+
+  def next_or_priv(is_next, year, month)
+    if is_next
+      if month == 12
+        [year + 1, 1].join('/')
+      else
+        [year, month + 1].join('/')
+      end
+    else
+      if month == 1
+        [year - 1, 12].join('/')
+      else
+        [year, month - 1].join('/')
+      end
+    end
+  end
 
   def add_events(data, d)
     rows = data

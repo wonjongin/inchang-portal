@@ -19,9 +19,11 @@
       <th class="text-center">
         작성자
       </th>
-
       <th class="text-center">
-        승인여부
+        승인 여부
+      </th>
+      <th class="text-center">
+        피드백
       </th>
     </tr>
     </thead>
@@ -41,10 +43,13 @@
           <%= diary.user.name %>
         </td>
 
-        <td
-          class="text-center"
-        >
+        <td class="text-center">
           <%= diary.admit_status_icon %>
+        </td>
+        <td class="text-center">
+          <span class="badge text-bg-<%= diary.feedbacks.count == 0 ? 'secondary' : 'danger' %>">
+            <%= diary.feedbacks.count %>
+          </span>
         </td>
       </tr>
     <% end %>

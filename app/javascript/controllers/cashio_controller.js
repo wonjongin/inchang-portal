@@ -165,6 +165,9 @@ export default class extends Controller {
   priceString(event) {
     let display = document.querySelector("#priceDisplay");
     let price = event.target.value;
+    if (+price > 1e20) {
+      return;
+    }
     let digit = price.length;
     let result = "";
 
@@ -179,7 +182,7 @@ export default class extends Controller {
       if (digit - i < 4) break;
       slicedPrice.unshift(price.slice(digit - 4 - i, digit - i));
     }
-    if(digit % 4 !== 0) slicedPrice.unshift(price.slice(0, digit % 4));
+    if (digit % 4 !== 0) slicedPrice.unshift(price.slice(0, digit % 4));
 
     console.log(slicedPrice)
 

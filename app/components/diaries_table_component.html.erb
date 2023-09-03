@@ -13,29 +13,43 @@
       <th class="text-center">
         승인여부
       </th>
+      <th class="text-center">
+        피드백
+      </th>
     </tr>
     </thead>
     <tbody class="">
-    <% @dates.each do |date| %>
+    <% if @dates.count == 0 %>
       <tr>
-        <td class="text-center">
-          <%= link_to(
-              "#{date} (#{%w[일 월 화 수 목 금 토][date.to_date.wday]})",
-              "/api/v1/diary/day/#{date}",
-              class: "link-opacity-50-hover")
-          %>
-          <!--          <%#= diary.date %> (<%#= diary.wday_name %>)-->
-        </td>
-        <td class="text-center">
-          <%= Diary.count_day_diaries(date) %>
-        </td>
-
-        <td
-          class="text-center"
-        >
-          <%= Diary.admitted_icon_for_day(date) %>
+        <td class="text-center" colspan="4">
+          해당월에 업무일지가 없습니다.
         </td>
       </tr>
+    <% else %>
+      <% @dates.each do |date| %>
+        <tr>
+          <td class="text-center">
+            <%= link_to(
+                  "#{date} (#{%w[일 월 화 수 목 금 토][date.to_date.wday]})",
+                  "/api/v1/diary/day/#{date}",
+                  class: "link-opacity-50-hover")
+            %>
+            <!--          <%#= diary.date %> (<%#= diary.wday_name %>)-->
+          </td>
+          <td class="text-center">
+            <%= Diary.count_day_diaries(date) %>
+          </td>
+
+          <td class="text-center">
+            <%= Diary.admitted_icon_for_day(date) %>
+          </td>
+          <td class="text-center">
+          <span class="badge text-bg-<%= Diary.feedbacks_count_day(date) == 0 ? 'secondary' : 'danger' %>">
+            <%= Diary.feedbacks_count_day(date) %>
+          </span>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
     </tbody>
   </table>

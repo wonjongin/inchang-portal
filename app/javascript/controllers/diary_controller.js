@@ -94,4 +94,12 @@ export default class extends Controller {
       return;
     }
   }
+
+  goto(event) {
+    const year = document.querySelector("#year").value;
+    const month = document.querySelector("#month").value;
+
+    let url = '/api/v1/diary/list/' + year + '/' + month;
+    window.location.replace(url);
+  }
 }

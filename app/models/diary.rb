@@ -34,4 +34,12 @@ class Diary < ApplicationRecord
     end
     '✅'
   end
+
+  def self.feedbacks_count_day(date)
+    count = 0
+    Diary.where(date: date).each do |diary|
+      count += diary.feedbacks.count
+    end
+    count
+  end
 end

@@ -1,5 +1,17 @@
 <h1 class="tw-text-2xl"><%= @title %></h1>
 <br>
+<div class="input-group input-group-sm mb-3 tw-max-w-xs">
+  <%= link_to "<", "/api/v1/diary/list/#{@priv}", class: "btn btn-outline-primary" %>
+  <input type="text" class="form-control" placeholder="2023" aria-label="year" id="year" value="<%= @year %>">
+  <span class="input-group-text">년</span>
+  <input type="text" class="form-control" placeholder="8" aria-label="month" id="month" value="<%= @month %>">
+  <span class="input-group-text">월</span>
+  <button class="btn btn-outline-primary"
+          data-controller="diary"
+          data-action="click->diary#goto">이동</button>
+  <%= link_to ">", "/api/v1/diary/list/#{@next}", class: "btn btn-outline-primary" %>
+</div>
+
 <%= form_with url: '/api/v1/diary/search', local: true, method: :get, data: { turbo: false } do |form| %>
   <div class="input-group input-group-sm">
     <%= form.text_field :q, value: @query, class: "form-control" %>
@@ -8,7 +20,7 @@
     </div>
   </div>
 <% end %>
-<%= render DiariesTableComponent.new(dates: Diary.day_list) %>
+<%= render DiariesTableComponent.new(dates: @day_list) %>
 <br>
 <br>
 <br>
