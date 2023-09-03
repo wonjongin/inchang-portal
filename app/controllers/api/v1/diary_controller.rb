@@ -94,9 +94,11 @@ class Api::V1::DiaryController < ApplicationController
     redirect_to "/api/v1/diary/detail/#{params[:id]}"
   end
 
-  # def search_page
-  #   render 'api/v1/diary/search'
-  # end
+  def de_admit
+    d = Diary.find_by(id: params[:id])
+    d.update(admitted: false) if @current_user.is_admin?
+    redirect_to "/api/v1/diary/detail/#{params[:id]}"
+  end
 
   def search
     if params[:q].blank?

@@ -11,14 +11,16 @@
   <div class="tw-text-red-500">
     <%= @holidays[date.year.to_s][date.to_s] %>
   </div>
-  <div>
+  <% unless cashios.blank? %>
+    <div>
     <span class="tw-text-blue-700">
-      + <%= number_with_delimiter(Cashio.total_day_input(date), delimiter: ',')  %>
+      + <%= number_with_delimiter(Cashio.total_day_input(date), delimiter: ',') %>
     </span><br>
-    <span class="tw-text-red-500">
+      <span class="tw-text-red-500">
       - <%= number_with_delimiter(Cashio.total_day_output(date).abs, delimiter: ',') %>
     </span><br>
-    = <%= number_with_delimiter(Cashio.total_day(date), delimiter: ',') %><br>
-    % <%= number_with_delimiter(Cashio.balance_by(date), delimiter: ',') %>
-  </div>
+      = <%= number_with_delimiter(Cashio.total_day(date), delimiter: ',') %><br>
+      % <%= number_with_delimiter(Cashio.balance_by(date), delimiter: ',') %>
+    </div>
+  <% end %>
 <% end %>

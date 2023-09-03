@@ -4,17 +4,14 @@
 <div data-controller="diary">
   <%= form_with url: '/api/v1/diary/create3', method: :post, class: "w-full", id: "newDiaryForm" do |form| %>
     <div class="row g-2 mb-3 sm:tw-max-w-xs">
-      <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @preset_date %>
+      <%#= form.label "날 짜:", class: "col-sm-3 form-label tw-text-justify after:tw-content-[''] after:tw-inline-block after:tw-w-full before:tw-content-[''] before:tw-inline-block before:tw-w-full tw-leading-[0]" %>
+      <%= form.label "날 짜:", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>
+      <%= form.date_field :date, class: "col form-control form-control-sm tw-text-left", id: "datePicker", value: @preset_date %>
     </div>
     <div class="row g-2 mb-3 sm:tw-max-w-xs">
-      <%= form.label "작성자: ", class: "col-sm-2 form-label" %>
+      <%= form.label "작 성 자:", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>
       <%= form.text_field :author, class: "col form-control form-control-sm", value: @current_user.name %>
     </div>
-    <!--  <div class="row g-2 mb-3">-->
-    <%#= form.label "업무내용: ", class: "col-sm-2 form-label" %>
-    <%#= form.text_area :desc, class: "col form-control h-50", placeholder: "08:00 업무내용\n09:00 업무내용\n10:00 업무내용\n\n위 형식으로 적어주세요!", id: "descInput", rows: "10", style: "line-height: 4ch; background-image: linear-gradient(transparent, transparent calc(4ch - 2px), #E7EFF8 0px);background-size: 100% 4ch;" %>
-    <!--  </div>-->
     <table class="tw-w-full mb-3" id="desc-table">
       <thead>
       <tr>

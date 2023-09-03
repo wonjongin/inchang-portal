@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       # get 'diary/pdf_template/:id', to: 'diary#pdf_template'
       get 'diary/detail/:id', to: 'diary#detail'
       post 'diary/admit/:id', to: 'diary#admit'
+      post 'diary/de_admit/:id', to: 'diary#de_admit'
       get 'login/', to: 'login#sign_in'
       get 'login/sing_in/:user_name', to: 'login#sign_in'
       post 'login/login', to: 'login#login'
