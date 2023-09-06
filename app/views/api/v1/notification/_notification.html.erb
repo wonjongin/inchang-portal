@@ -1,0 +1,33 @@
+<div class="tw-w-96 mx-auto d-flex flex-column flex-md-row p-0 gap-4 py-md-0 align-items-center justify-content-center">
+  <div class="list-group w-100">
+    <% Notification.where(user: @current_user).order(created_at: :desc).limit(@limit).each do |notification| %>
+      <a href="/api/v1/notification/open/<%= notification.id %>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+        <!--        <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">-->
+        <i class="bi <%= notification.about_icon %>"></i>
+        <div class="d-flex gap-2 w-100 justify-content-between">
+          <div>
+            <h6 class="mb-0"><%= notification.title %>
+              <% unless notification.read %>
+              <span class="badge bg-danger">
+                New
+              </span>
+              <% end %>
+            </h6>
+            <p class="mb-0 opacity-75"><%= notification.desc %></p>
+          </div>
+          <small class="opacity-50 text-nowrap"><%= time_ago_in_words(notification.created_at.to_datetime) %></small>
+        </div>
+      </a>
+    <% end %>
+    <a href="/api/v1/notification/list" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+      <i class="bi bi-plus-circle"></i>
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          <h6 class="mb-0">더보기</h6>
+          <p class="mb-0 opacity-75">알림을 더 보려면 누르세요</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+<%#= link_to '더보기', '/api/v1/notification/list' %>

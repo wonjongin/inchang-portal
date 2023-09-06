@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'notification/list'
+      get 'notification/open/:id', to: 'notification#open'
       get 'cashio/new'
       get 'cashio/new/:date', to: 'cashio#new'
       get 'cashio/new_base_balance'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_20_105036) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_03_112802) do
   create_table "cashios", force: :cascade do |t|
     t.date "date", null: false
     t.integer "io"
@@ -53,6 +53,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_20_105036) do
     t.datetime "updated_at", null: false
     t.index ["diary_id"], name: "index_feedbacks_on_diary_id"
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "title"
+    t.text "desc"
+    t.string "icon"
+    t.boolean "read"
+    t.integer "about"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

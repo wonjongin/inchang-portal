@@ -34,5 +34,11 @@ module.exports = {
     {
       pattern: /tw-text-(red|green|blue)-700/,
     },
+    {
+      pattern: /tw-border-violet-600/,
+    },
+    {
+      pattern: /tw-border-2/,
+    },
   ],
 }

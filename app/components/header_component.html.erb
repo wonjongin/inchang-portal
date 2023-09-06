@@ -48,9 +48,9 @@
               <li>
                 <%= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
               </li>
-<!--              <li>-->
-                <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
-<!--              </li>-->
+              <!--              <li>-->
+              <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
+              <!--              </li>-->
             <% end %>
             <li>
               <hr class="dropdown-divider">
@@ -89,7 +89,7 @@
         <!--          <a class="nav-link disabled" aria-disabled="true">Disabled</a>-->
         <!--        </li>-->
       </ul>
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+      <ul class="navbar-nav mb-2 mb-md-0">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             계정
@@ -108,6 +108,31 @@
           </ul>
         </li>
       </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            알림
+            <% unless @unread_noti_count == 0 %>
+              <span class="badge bg-danger">
+                <%= @unread_noti_count %>
+              </span>
+            <% end %>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <%= render '/api/v1/notification/notification' %>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- >
+      <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <i class="bi bi-bell position-relative">
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+           <%#= Notification.where(read: false, user: @current_user).count %>
+        </span>
+        </i>
+      </button>
+      -->
       <%= form_with(
             url: '/api/v1/diary/search',
             local: true,
