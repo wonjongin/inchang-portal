@@ -1,10 +1,5 @@
 <h1 class="tw-text-2xl">현금출납부</h1>
 <h2 class="tw-text-xl">잔액: <%= number_with_delimiter(Cashio.total, :delimiter => ',') %> 원</h2>
-<% flash.each do |type, msg| %>
-  <div class="alert alert-warning mt-3" role="alert">
-    <%= msg %>
-  </div>
-<% end %>
 <table class="table table-bordered table-hover mt-3">
   <thead class="">
   <tr>

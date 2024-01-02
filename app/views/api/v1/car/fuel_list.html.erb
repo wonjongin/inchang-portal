@@ -1,4 +1,4 @@
-<h1 class="tw-text-2xl"><%= @car.number %> 주유내역</h1>
+<h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 주유내역</h1>
 <h2 class="tw-text-xl">전체금액: <%= number_with_delimiter(@sum_of_price, delimiter: ',') %> 원</h2>
 <div class="tw-flex tw-justify-end">
   <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm tw-mr-2") %>
@@ -11,7 +11,7 @@
   >
     <thead class="">
     <tr>
-      <% %w[주유일 주행거리 주유소 금액 비고 수정 승인].each do |x| %>
+      <% %w[주유일 주행거리 주유소 금액 비고 수정 삭제 승인].each do |x| %>
         <th class="text-center">
           <%= x %>
         </th>
@@ -22,7 +22,7 @@
     <tbody class="">
     <% if @fuels.count == 0 %>
       <tr>
-        <td class="text-center" colspan="7">
+        <td class="text-center" colspan="8">
           주유내역이 없습니다.
         </td>
       </tr>
@@ -48,6 +48,9 @@
             <%= link_to "✏️",
                         "/api/v1/car/edit_fuel/#{fuel.id}",
                         class: "btn btn-sm btn-outline-primary #{(fuel.admitted && !@current_user.is_admin?) ? 'disabled' : ''}" %>
+          </td>
+          <td class="text-center">
+            <%= button_to("🗑️", "/api/v1/car/delete_fuel/#{fuel.id}", method: :delete, class: "btn btn-sm btn-outline-danger #{(fuel.admitted && !@current_user.is_admin?) ? 'disabled' : ''}", form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
           </td>
           <td class="text-center">
             <div class="form-check">

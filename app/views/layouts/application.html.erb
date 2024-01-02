@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>인창피엠티 업무포털</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%#= javascript_importmap_tags %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-    <%= favicon_link_tag asset_path('logos/favicon.ico') %>
-    <%#= javascript_include_tag "application" %>
-<!--    <script src="https://unpkg.com/imask"></script>-->
-  </head>
-  <body>
-    <% unless request.path.start_with?('/api/v1/login') %>
-      <%= render HeaderComponent.new(current_user: @current_user) %>
-    <% end %>
-    <main class="tw-container tw-mx-auto tw-mt-4 tw-px-5 tw-text-sm" >
-      <!--      class="tw-container tw-mx-auto tw-mt-28 tw-px-5 p-5"-->
-      
-      <%= yield %>
-      <br>
-      <br>
-    </main>
-  </body>
+<head>
+  <title>인창피엠티 업무포털</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%#= javascript_importmap_tags %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  <%= favicon_link_tag asset_path('logos/favicon.ico') %>
+  <%#= javascript_include_tag "application" %>
+  <!--    <script src="https://unpkg.com/imask"></script>-->
+</head>
+<body>
+<% unless request.path.start_with?('/api/v1/login') %>
+  <% flash.each do |type, msg| %>
+    <div class="alert alert-warning alert-dismissible fade show my-0 mx-0" role="alert">
+      <%= msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+  <%= render HeaderComponent.new(current_user: @current_user) %>
+<% end %>
+<main class="tw-container tw-mx-auto tw-mt-4 tw-px-5 tw-text-sm">
+  <!--      class="tw-container tw-mx-auto tw-mt-28 tw-px-5 p-5"-->
+
+  <%= yield %>
+  <br>
+  <br>
+</main>
+</body>
 </html>

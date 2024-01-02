@@ -4,6 +4,7 @@ import {Controller} from "@hotwired/stimulus";
 export default class extends Controller {
   connect() {
     this.enterToTab();
+    this.autoComma();
     console.log("connected");
   }
 
@@ -28,6 +29,21 @@ export default class extends Controller {
         form.elements[index + 1].focus();
       }
     });
+  }
+
+  autoComma() {
+    const inputs = document.getElementsByClassName('number-auto-comma');
+    Array.from(inputs).forEach((input) => {
+      input.addEventListener('keyup', function (e) {
+        let value = e.target.value;
+        value = +value.replaceAll(',', '');
+        if (isNaN(value)) {
+          input.value = 0;
+        } else {
+          input.value = value.toLocaleString('ko-KR');
+        }
+      })
+    })
   }
 
   async saveCar(event) {
@@ -112,10 +128,10 @@ export default class extends Controller {
       },
       body: JSON.stringify({
         repaired_at: form.elements["repaired_at"].value,
-        odo: form.elements["odo"].value,
+        odo: +form.elements["odo"].value.replaceAll(',', ''),
         center: form.elements["center"].value,
         desc: form.elements["desc"].value,
-        price: form.elements["price"].value,
+        price: +form.elements["price"].value.replaceAll(',', ''),
         footnote: form.elements["footnote"].value,
       }),
     });
@@ -161,9 +177,9 @@ export default class extends Controller {
       },
       body: JSON.stringify({
         refueled_at: form.elements["refueled_at"].value,
-        odo: form.elements["odo"].value,
+        odo: +form.elements["odo"].value.replaceAll(',', ''),
         station: form.elements["station"].value,
-        price: form.elements["price"].value,
+        price: +form.elements["price"].value.replaceAll(',', ''),
         footnote: form.elements["footnote"].value,
       }),
     });

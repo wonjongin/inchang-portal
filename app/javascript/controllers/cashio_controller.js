@@ -4,6 +4,7 @@ import {Controller} from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     this.enterToTab();
+    this.autoComma();
     console.log("connected");
   }
 
@@ -12,6 +13,21 @@ export default class extends Controller {
     const token = meta && meta.getAttribute('content');
 
     return token ?? false;
+  }
+
+  autoComma() {
+    const inputs = document.getElementsByClassName('number-auto-comma');
+    Array.from(inputs).forEach((input) => {
+      input.addEventListener('keyup', function (e) {
+        let value = e.target.value;
+        value = Number(value.replaceAll(',', ''));
+        if (isNaN(value)) {
+          input.value = 0;
+        } else {
+          input.value = value.toLocaleString('ko-KR');
+        }
+      })
+    })
   }
 
   enterToTab() {
@@ -53,7 +69,7 @@ export default class extends Controller {
       return;
     }
 
-    if (!priceValidation.test(form.elements["price"].value)) {
+    if (!priceValidation.test(form.elements["price"].value.replaceAll(',', ''))) {
       alert("금액이 숫자형식이 아닙니다.");
       return;
     }
@@ -76,7 +92,7 @@ export default class extends Controller {
         account: form.elements["account"].value,
         desc: form.elements["desc"].value,
         note: form.elements["note"].value,
-        price: form.elements["price"].value,
+        price: +form.elements["price"].value.replaceAll(',', ''),
         io: form.elements["io"].value,
       })
     });
@@ -164,7 +180,7 @@ export default class extends Controller {
 
   priceString(event) {
     let display = document.querySelector("#priceDisplay");
-    let price = event.target.value;
+    let price = event.target.value.replaceAll(',', '');
     if (+price > 1e20) {
       return;
     }

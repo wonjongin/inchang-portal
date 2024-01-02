@@ -12,7 +12,7 @@
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "주행거리: ", class: "col-sm-2 form-label" %>
-      <%= form.number_field :odo, class: "col form-control form-control-sm" %>
+      <%= form.text_field :odo, class: "col form-control form-control-sm number-auto-comma" %>
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "정비소: ", class: "col-sm-2 form-label" %>
@@ -24,7 +24,7 @@
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "정비금액: ", class: "col-sm-2 form-label" %>
-      <%= form.number_field :price, class: "col form-control form-control-sm" %>
+      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma" %>
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "비고: ", class: "col-sm-2 form-label" %>

@@ -1,9 +1,4 @@
 <h1 class="tw-text-2xl"><%= @date %> (<%= %w[일 월 화 수 목 금 토][@date.to_date.wday] %>)</h1>
-<% flash.each do |type, msg| %>
-  <div class="alert alert-warning mt-3" role="alert">
-    <%= msg %>
-  </div>
-<% end %>
 <div class="tw-flex tw-justify-end">
   <%= link_to("+", "/api/v1/cashio/new/#{@date}", class: "btn btn-outline-primary btn-sm") %>
 </div>

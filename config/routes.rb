@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       post 'car/create_fuel/:car_id', to: 'car#create_fuel'
       post 'car/update_fuel/:fuel_id', to: 'car#update_fuel'
       post 'car/admit/:what/:id', to: 'car#admit'
+      delete 'car/delete_repair/:repair_id', to: 'car#delete_repair'
+      delete 'car/delete_fuel/:fuel_id', to: 'car#delete_fuel'
       get 'notification/list'
       get 'notification/open/:id', to: 'notification#open'
       get 'cashio/new'

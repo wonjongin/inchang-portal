@@ -172,4 +172,30 @@ class Api::V1::CarController < ApplicationController
       code: :success,
     }
   end
+
+  def delete_repair
+    cr = CarRepair.find_by(id: params[:repair_id])
+    car_id = cr.car.id
+    if @current_user.is_admin? || cr.admitted == false
+      cr.destroy!
+      flash.alert = "정비내역 1건이 삭제되었습니다."
+    else
+      flash.alert = "권한이 없어요"
+    end
+    redirect_to "/api/v1/car/repair_list/#{car_id}"
+  end
+
+  def delete_fuel
+    cf = CarFuel.find_by(id: params[:fuel_id])
+    car_id = cf.car.id
+    if @current_user.is_admin? || cr.admitted == false
+      cf.destroy!
+      flash.alert = "주유내역 1건이 삭제되었습니다."
+    else
+      flash.alert = "권한이 없어요"
+    end
+    redirect_to "/api/v1/car/fuel_list/#{car_id}"
+  end
+
+
 end
