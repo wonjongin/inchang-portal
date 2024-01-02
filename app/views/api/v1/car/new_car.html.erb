@@ -1,0 +1,33 @@
+<h1 class="tw-text-2xl">차량 추가</h1>
+<br>
+<div data-controller="car">
+  <%= form_with url: '/api/v1/car/create_car', method: :post, class: "w-full", id: "newCarForm" do |form| %>
+    <div class="row g-2 mb-3 w-full">
+      <%= form.label "등록일: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :date, class: "col form-control form-control-sm" %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "번호: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :number, class: "col form-control form-control-sm", placeholder: "띄어쓰기 없이 작성"%>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "모델: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :model, class: "col form-control form-control-sm" %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "제조사: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :manufacturer, class: "col form-control form-control-sm" %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="car"
+            data-action="click->car#saveCar"
+            data-car-type-param="create"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/car/car_list/") %>
+  </div>
+</div>

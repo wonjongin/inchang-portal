@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: MyString
+  model: MyString
+  manufacturer: MyString
+  registered_at: 2023-10-06
+  nickname: MyString
+
+two:
+  number: MyString
+  model: MyString
+  manufacturer: MyString
+  registered_at: 2023-10-06
+  nickname: MyString

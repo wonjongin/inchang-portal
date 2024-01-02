@@ -96,4 +96,15 @@ class Cashio < ApplicationRecord
   def start_time
     self.date
   end
+
+  def self.admitted_icon_for_day(date)
+    diaries = Cashio.where(date: date)
+    admitted = true
+    diaries.each do |cashio|
+      unless cashio.admitted
+        return '❌'
+      end
+    end
+    '✅'
+  end
 end

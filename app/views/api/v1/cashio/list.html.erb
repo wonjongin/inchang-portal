@@ -27,6 +27,9 @@
     <th class="text-center">
       잔액
     </th>
+    <th class="text-center">
+      승인
+    </th>
   </tr>
   </thead>
   <tbody class="">
@@ -72,6 +75,9 @@
       </td>
       <td class="text-center">
         <%= number_with_delimiter(cashio[:balance], :delimiter => ',') %>
+      </td>
+      <td class="text-center">
+        <%= Cashio.admitted_icon_for_day(cashio[:date]) %>
       </td>
     </tr>
 

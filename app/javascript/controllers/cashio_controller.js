@@ -48,7 +48,7 @@ export default class extends Controller {
     if (
       form.elements["price"].value === ""
     ) {
-      alert("금액을 형식에 맞게 입력해주세요.");
+      alert("금액을 형식에 맞게 입력해주십시오.");
       console.log(1);
       return;
     }

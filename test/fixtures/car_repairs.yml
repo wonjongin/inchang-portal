@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  repaired_at: 2023-10-06
+  odo: 1
+  center: MyString
+  desc: MyText
+  price: 1
+  footnote: MyText
+
+two:
+  repaired_at: 2023-10-06
+  odo: 1
+  center: MyString
+  desc: MyText
+  price: 1
+  footnote: MyText

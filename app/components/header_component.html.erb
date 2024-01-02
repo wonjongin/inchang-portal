@@ -85,6 +85,31 @@
             </li>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            차계부
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to "차량 목록", "/api/v1/car/car_list", class: "dropdown-item tw-text-sm" %>
+            </li>
+            <li>
+              <%= link_to "차량 추가", "/api/v1/car/new_car", class: "dropdown-item tw-text-sm" %>
+            </li>
+
+            <%# if @current_user.is_admin? %>
+            <!--              <li>-->
+            <%#= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
+            <!--              </li>-->
+            <!--              <li>-->
+            <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
+            <!--              </li>-->
+            <%# end %>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          </ul>
+        </li>
         <!--        <li class="nav-item">-->
         <!--          <a class="nav-link disabled" aria-disabled="true">Disabled</a>-->
         <!--        </li>-->

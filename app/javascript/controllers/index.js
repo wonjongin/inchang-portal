@@ -12,3 +12,6 @@ application.register("cashio", CashioController)
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import CarController from "./car_controller"
+application.register("car", CarController)

@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_03_112802) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_031058) do
+  create_table "car_repairs", force: :cascade do |t|
+    t.date "repaired_at"
+    t.integer "odo"
+    t.string "center"
+    t.text "desc"
+    t.integer "price"
+    t.text "footnote"
+    t.integer "car_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_car_repairs_on_car_id"
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.string "number"
+    t.string "model"
+    t.string "manufacturer"
+    t.date "registered_at"
+    t.string "nickname"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "cashios", force: :cascade do |t|
     t.date "date", null: false
     t.integer "io"

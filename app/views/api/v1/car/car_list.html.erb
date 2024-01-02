@@ -1,0 +1,71 @@
+<h1 class="tw-text-2xl">차량 목록</h1>
+<br>
+
+<div class="overflow-x-auto">
+  <table
+    class="table table-bordered table-hover mt-3"
+  >
+    <thead class="">
+    <tr>
+      <% %w[번호 모델 제조사 등록일 정비 주유 수정].each do |x| %>
+        <th class="text-center">
+          <%= x %>
+        </th>
+      <% end %>
+
+    </tr>
+    </thead>
+    <tbody class="">
+    <% if @cars.count == 0 %>
+      <tr>
+        <td class="text-center" colspan="7">
+          차량이 없습니다.
+        </td>
+      </tr>
+    <% else %>
+      <% @cars.each do |car| %>
+        <tr>
+          <td class="text-center">
+            <%= link_to(
+                  "#{car.number}",
+                  "/api/v1/car/detail/#{car.id}",
+                  class: "link-opacity-50-hover")
+            %>
+          </td>
+          <td class="text-center">
+            <%= car.model %>
+          </td>
+          <td class="text-center">
+            <%= car.manufacturer %>
+          </td>
+          <td class="text-center">
+            <%= car.registered_at %>
+          </td>
+          <td class="text-center">
+            <%= link_to(
+                  "정비",
+                  "/api/v1/car/repair_list/#{car.id}",
+                  class: "link-opacity-50-hover")
+            %>
+          </td>
+          <td class="text-center">
+            <%#= link_to(
+                  "주유",
+                  "/api/v1/car/gas_list/#{car.id}",
+                  class: "link-opacity-50-hover")
+            %>
+            준비중
+          </td>
+          <td class="text-center">
+            <%= link_to(
+                  "수정",
+                  "/api/v1/car/edit_car/#{car.id}",
+                  class: "link-opacity-50-hover")
+            %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

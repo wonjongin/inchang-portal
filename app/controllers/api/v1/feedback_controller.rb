@@ -31,4 +31,23 @@ class Api::V1::FeedbackController < ApplicationController
     )
     redirect_to "/api/v1/detail/#{params[:diary_id]}"
   end
+
+  def delete
+    d = Feedback.find_by(id: params[:id])
+    unless d.user == @current_user
+      render json: {
+        status: :fail,
+        code: :not_an_author,
+        message: "You are not an author of the feedback",
+      } and return
+    end
+    diary_id = d.diary.id
+    d.destroy!
+    render json: {
+      status: :ok,
+      code: :success,
+      message: "Success!",
+      diary_id: diary_id,
+    }
+  end
 end

@@ -8,6 +8,17 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'car/car_list'
+      get 'car/repair_list/:number', to: 'car#repair_list'
+      get 'car/new_car'
+      post 'car/create_car'
+      get 'car/new_repair/:car_id', to: 'car#new_repair'
+      post 'car/create_repair/:car_id', to: 'car#create_repair'
+      get 'car/edit_car/:car_id', to: 'car#edit_car'
+      post 'car/update_car/:car_id', to: 'car#update_car'
+      post 'car/update_repair/:repair_id', to: 'car#update_repair'
+      get 'car/edit_repair/:repair_id', to: 'car#edit_repair'
+      get 'car/sell_car'
       get 'notification/list'
       get 'notification/open/:id', to: 'notification#open'
       get 'cashio/new'
@@ -25,6 +36,7 @@ Rails.application.routes.draw do
       get 'cashio/calendar'
       get 'feedback/new'
       post 'feedback/create'
+      post 'feedback/delete'
       patch 'feedback/update/:id', to: 'feedback#update'
       get 'event/new/:diary_id', to: 'event#new'
       post 'event/create'
