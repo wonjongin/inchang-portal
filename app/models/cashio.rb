@@ -8,7 +8,7 @@ class Cashio < ApplicationRecord
   end
 
   def wday_name
-    ['일', '월', '화', '수', '목', '금', '토'][self.date.wday]
+    %w[일 월 화 수 목 금 토][self.date.wday]
   end
 
   def balance

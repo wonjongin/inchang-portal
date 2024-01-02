@@ -1,0 +1,48 @@
+<h1 class="tw-text-2xl">차량 주유내역 추가</h1>
+<br>
+<div data-controller="car">
+  <%= form_with url: '/api/v1/car/create_repair', method: :post, class: "w-full", id: "newCarFuelForm" do |form| %>
+    <div class="row g-2 mb-3 w-full">
+      <%= form.label "차번호: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :number, class: "col form-control form-control-sm", value: @car.number %>
+    </div>
+    <div class="row g-2 mb-3 w-full">
+      <%= form.label "주유일: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :refueled_at, class: "col form-control form-control-sm", value: @cf.refueled_at%>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "주행거리: ", class: "col-sm-2 form-label" %>
+      <%= form.number_field :odo, class: "col form-control form-control-sm", value: @cf.odo %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "주유소: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :station, class: "col form-control form-control-sm", value: @cf.station %>
+    </div>
+    <!--    <div class="row g-2 mb-3">-->
+    <%#= form.label "정비내용: ", class: "col-sm-2 form-label" %>
+    <%#= form.text_field :desc, class: "col form-control form-control-sm" %>
+    <!--    </div>-->
+    <div class="row g-2 mb-3">
+      <%= form.label "주유금액: ", class: "col-sm-2 form-label" %>
+      <%= form.number_field :price, class: "col form-control form-control-sm", value: @cf.price %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "비고: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :footnote, class: "col form-control form-control-sm", value: @cf.footnote%>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="car"
+            data-action="click->car#saveCarFuel"
+            data-car-type-param="update"
+            data-car-car-id-param="<%= @car.id %>"
+            data-car-fuel-id-param="<%= @cf.id %>"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new(
+      "btn btn-outline-primary", title: "목록", path: "/api/v1/car/fuel_list/#{@car.id}") %>
+  </div>
+</div>

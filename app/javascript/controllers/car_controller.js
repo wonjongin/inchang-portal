@@ -130,4 +130,75 @@ export default class extends Controller {
       return;
     }
   }
+
+  async saveCarFuel(event) {
+    console.log(event);
+    const form = document.getElementById("newCarFuelForm");
+    console.log(form.elements);
+    if (
+      form.elements["refueled_at"].value === "" ||
+      form.elements["odo"].value === "" ||
+      form.elements["station"].value === "" ||
+      form.elements["price"].value === ""
+    ) {
+      alert("빈 값이 있습니다.");
+      console.log(1);
+      return;
+    }
+
+    let url = "";
+    if (event.params.type === "create") {
+      url = "/api/v1/car/create_fuel/" + event.params.carId.toString();
+    } else if (event.params.type === "update") {
+      url = "/api/v1/car/update_fuel/" + event.params.fuelId.toString();
+    }
+
+    let response = await fetch(url, {
+      method: "post",
+      headers: {
+        "X-CSRF-Token": this.csrfToken(),
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        refueled_at: form.elements["refueled_at"].value,
+        odo: form.elements["odo"].value,
+        station: form.elements["station"].value,
+        price: form.elements["price"].value,
+        footnote: form.elements["footnote"].value,
+      }),
+    });
+
+    if (response.status >= 200 && response.status < 300) {
+      alert("저장되었습니다.");
+      let url = "/api/v1/car/fuel_list/" + event.params.carId.toString();
+      window.location.replace(url);
+      return;
+    } else if (response.status == 500) {
+      alert("서버에 문제가 발생했습니다.");
+      return;
+    }
+  }
+
+  async admit(event) {
+    console.log(event.target.checked);
+
+    let response = await fetch(
+      '/api/v1/car/admit/' + event.params.whatToAdmit.toString() + "/" + event.params.id.toString(), {
+        method: 'post',
+        headers: {
+          'X-CSRF-Token': this.csrfToken(),
+          'Content-type': "application/json"
+        },
+        body: JSON.stringify({
+          is_admitted: event.target.checked,
+        })
+      });
+
+    if (response.status >= 200 && response.status < 300) {
+      return;
+    } else if (response.status == 500) {
+      alert('서버에 문제가 발생했습니다.');
+      return;
+    }
+  }
 }

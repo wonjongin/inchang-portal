@@ -1,8 +1,8 @@
-<h1 class="tw-text-2xl"><%= @car.number %> 정비 목록</h1>
-<h2 class="tw-text-xl">전체금액: <%= number_with_delimiter(@sum_of_price, :delimiter => ',') %> 원</h2>
+<h1 class="tw-text-2xl"><%= @car.number %> 주유내역</h1>
+<h2 class="tw-text-xl">전체금액: <%= number_with_delimiter(@sum_of_price, delimiter: ',') %> 원</h2>
 <div class="tw-flex tw-justify-end">
   <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm tw-mr-2") %>
-  <%= link_to("정비내역 추가", "/api/v1/car/new_repair/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
+  <%= link_to("주유내역 추가", "/api/v1/car/new_fuel/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
 </div>
 <br>
 <div class="overflow-x-auto">
@@ -11,7 +11,7 @@
   >
     <thead class="">
     <tr>
-      <% %w[정비일 주행거리 수리점 정비내용 금액 비고 수정 승인].each do |x| %>
+      <% %w[주유일 주행거리 주유소 금액 비고 수정 승인].each do |x| %>
         <th class="text-center">
           <%= x %>
         </th>
@@ -20,37 +20,34 @@
     </tr>
     </thead>
     <tbody class="">
-    <% if @repairs.count == 0 %>
+    <% if @fuels.count == 0 %>
       <tr>
-        <td class="text-center" colspan="8">
-          정비내역이 없습니다.
+        <td class="text-center" colspan="7">
+          주유내역이 없습니다.
         </td>
       </tr>
     <% else %>
-      <% @repairs.each do |repair| %>
+      <% @fuels.each do |fuel| %>
         <tr>
           <td class="text-center">
-            <%= repair.repaired_at %> (<%= repair.wday_name %>)
+            <%= fuel.refueled_at %> (<%= fuel.wday_name %>)
           </td>
           <td class="text-center">
-            <%= number_with_delimiter(repair.odo, delimiter: ',') %>
+            <%= number_with_delimiter(fuel.odo, delimiter: ',') %>
           </td>
           <td class="text-center">
-            <%= repair.center %>
+            <%= fuel.station %>
           </td>
           <td class="text-center">
-            <%= repair.desc %>
+            <%= number_with_delimiter(fuel.price, delimiter: ',') %>
           </td>
           <td class="text-center">
-            <%= number_with_delimiter(repair.price, delimiter: ',') %>
-          </td>
-          <td class="text-center">
-            <%= repair.footnote %>
+            <%= fuel.footnote %>
           </td>
           <td class="text-center">
             <%= link_to "✏️",
-                        "/api/v1/car/edit_repair/#{repair.id}",
-                        class: "btn btn-sm btn-outline-primary #{(repair.admitted && !@current_user.is_admin?) ? 'disabled' : ''}" %>
+                        "/api/v1/car/edit_fuel/#{fuel.id}",
+                        class: "btn btn-sm btn-outline-primary #{(fuel.admitted && !@current_user.is_admin?) ? 'disabled' : ''}" %>
           </td>
           <td class="text-center">
             <div class="form-check">
@@ -60,9 +57,9 @@
                 id="flexCheckDefault"
                 data-controller="car"
                 data-action="change->car#admit"
-                data-car-what-to-admit-param="repair"
-                data-car-id-param="<%= repair.id %>"
-                <%= repair.admitted ? 'checked' : '' %>
+                data-car-what-to-admit-param="fuel"
+                data-car-id-param="<%= fuel.id %>"
+                <%= fuel.admitted ? 'checked' : '' %>
                 <%= @current_user.is_admin? ? '' : 'disabled' %>
               >
             </div>

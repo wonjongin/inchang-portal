@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_06_031058) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_02_052529) do
+  create_table "car_fuels", force: :cascade do |t|
+    t.date "refueled_at"
+    t.integer "odo"
+    t.string "station"
+    t.integer "price"
+    t.text "footnote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "car_id", null: false
+    t.integer "user_id", null: false
+    t.boolean "admitted"
+    t.index ["car_id"], name: "index_car_fuels_on_car_id"
+    t.index ["user_id"], name: "index_car_fuels_on_user_id"
+  end
+
   create_table "car_repairs", force: :cascade do |t|
     t.date "repaired_at"
     t.integer "odo"
@@ -21,7 +36,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_031058) do
     t.integer "car_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.boolean "admitted"
     t.index ["car_id"], name: "index_car_repairs_on_car_id"
+    t.index ["user_id"], name: "index_car_repairs_on_user_id"
   end
 
   create_table "cars", force: :cascade do |t|

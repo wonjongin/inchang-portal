@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  refueled_at: 2024-01-02
+  odo: 1
+  station: MyString
+  desc: MyText
+  price: 1
+  footnote: MyText
+
+two:
+  refueled_at: 2024-01-02
+  odo: 1
+  station: MyString
+  desc: MyText
+  price: 1
+  footnote: MyText

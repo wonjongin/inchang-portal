@@ -26,11 +26,12 @@
       <% @cars.each do |car| %>
         <tr>
           <td class="text-center">
-            <%= link_to(
+            <%#= link_to(
                   "#{car.number}",
                   "/api/v1/car/detail/#{car.id}",
                   class: "link-opacity-50-hover")
             %>
+            <%= car.number %>
           </td>
           <td class="text-center">
             <%= car.model %>
@@ -42,26 +43,20 @@
             <%= car.registered_at %>
           </td>
           <td class="text-center">
-            <%= link_to(
-                  "정비",
-                  "/api/v1/car/repair_list/#{car.id}",
-                  class: "link-opacity-50-hover")
-            %>
+            <%= link_to "🛠️",
+                        "/api/v1/car/repair_list/#{car.id}",
+                        class: "btn btn-sm btn-outline-primary" %>
+
           </td>
           <td class="text-center">
-            <%#= link_to(
-                  "주유",
-                  "/api/v1/car/gas_list/#{car.id}",
-                  class: "link-opacity-50-hover")
-            %>
-            준비중
+            <%= link_to "⛽️",
+                        "/api/v1/car/fuel_list/#{car.id}",
+                        class: "btn btn-sm btn-outline-primary" %>
           </td>
           <td class="text-center">
-            <%= link_to(
-                  "수정",
-                  "/api/v1/car/edit_car/#{car.id}",
-                  class: "link-opacity-50-hover")
-            %>
+            <%= link_to "✏️",
+                        "/api/v1/car/edit_car/#{car.id}",
+                        class: "btn btn-sm btn-outline-primary" %>
           </td>
         </tr>
       <% end %>
