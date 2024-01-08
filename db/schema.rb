@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_02_052529) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_08_005806) do
   create_table "car_fuels", force: :cascade do |t|
     t.date "refueled_at"
     t.integer "odo"
@@ -50,6 +50,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_02_052529) do
     t.string "nickname"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "insurance_start"
+    t.date "insurance_end"
+    t.integer "status"
+    t.date "disposed_at"
+    t.string "insurance_company"
+    t.text "insurance_desc"
   end
 
   create_table "cashios", force: :cascade do |t|

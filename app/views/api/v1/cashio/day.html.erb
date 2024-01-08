@@ -1,6 +1,7 @@
 <h1 class="tw-text-2xl"><%= @date %> (<%= %w[일 월 화 수 목 금 토][@date.to_date.wday] %>)</h1>
 <div class="tw-flex tw-justify-end">
-  <%= link_to("+", "/api/v1/cashio/new/#{@date}", class: "btn btn-outline-primary btn-sm") %>
+  <%= link_to("목록", "/api/v1/cashio/list", class: "btn btn-outline-primary btn-sm tw-mr-2") %>
+  <%= link_to("내역 추가", "/api/v1/cashio/new/#{@date}", class: "btn btn-outline-primary btn-sm") %>
 </div>
 <table class="table table-bordered table-hover mt-3">
   <thead class="">
@@ -72,10 +73,15 @@
         <%= cashio.note %>
       </td>
       <td class="text-center">
-        <%= link_to "✏️", "/api/v1/cashio/edit/#{cashio.id}", class: "btn btn-sm btn-outline-primary #{(cashio.admitted && !@current_user.is_admin?) ? 'disabled' : ''}" %>
+        <%= link_to "✏️", "/api/v1/cashio/edit/#{cashio.id}",
+                    class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(cashio.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}" %>
       </td>
       <td class="text-center">
-        <%= button_to("🗑️", "/api/v1/cashio/delete/#{cashio.id}", method: :delete, class: "btn btn-sm btn-outline-danger #{(cashio.admitted && !@current_user.is_admin?) ? 'disabled' : ''}", form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) unless cashio.is_base_balance %>
+        <%= button_to("🗑️",
+                      "/api/v1/cashio/delete/#{cashio.id}",
+                      method: :delete,
+                      class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(cashio.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}",
+                      form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) unless cashio.is_base_balance %>
       </td>
       <td class="text-center">
         <div class="form-check">

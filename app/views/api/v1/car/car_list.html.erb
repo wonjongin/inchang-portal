@@ -1,13 +1,23 @@
 <h1 class="tw-text-2xl">차량 목록</h1>
 <br>
-
+<div class="tw-flex tw-justify-end">
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+    <%= link_to("사용중", "?filter=use", class: "btn btn-outline-primary #{@filter == 'use' ? 'active' : ''}") %>
+    <%= link_to("매각", "?filter=disposal", class: "btn btn-outline-primary #{@filter == 'disposal' ? 'active' : ''}") %>
+    <%= link_to("전체", "?filter=all", class: "btn btn-outline-primary #{@filter == 'all' ? 'active' : ''}") %>
+  </div>
+</div>
 <div class="overflow-x-auto">
   <table
     class="table table-bordered table-hover mt-3"
   >
     <thead class="">
     <tr>
-      <% %w[번호 모델 제조사 등록일 정비 주유 수정].each do |x| %>
+      <% cols = %w[No 번호 모델 등록일 보험사 보험기간 보험내용 매각일 정비 주유 수정 매각 상태]
+         cols.delete('매각일') if @filter == 'use'
+         cols.delete('상태') if @filter == 'use'
+         cols.delete('상태') if @filter == 'disposal'
+         cols.each do |x| %>
         <th class="text-center">
           <%= x %>
         </th>
@@ -18,13 +28,17 @@
     <tbody class="">
     <% if @cars.count == 0 %>
       <tr>
-        <td class="text-center" colspan="7">
+        <td class="text-center" colspan="<%= cols.count %>>">
           차량이 없습니다.
         </td>
       </tr>
     <% else %>
       <% @cars.each do |car| %>
         <tr>
+          <td class="text-center">
+            <%= @index %>
+            <% @index += 1 %>
+          </td>
           <td class="text-center">
             <%#= link_to(
                   "#{car.number}",
@@ -37,27 +51,54 @@
             <%= car.model %>
           </td>
           <td class="text-center">
-            <%= car.manufacturer %>
-          </td>
-          <td class="text-center">
             <%= car.registered_at %>
           </td>
           <td class="text-center">
+            <%= car.insurance_company %>
+          </td>
+          <td class="text-center">
+            <%= car.insurance_start %> ~ <%= car.insurance_end %>
+          </td>
+          <td class="text-center">
+            <%= car.insurance_desc %>
+          </td>
+          <% unless @filter == 'use' %>
+            <td class="text-center">
+              <%= car.disposed_at %>
+            </td>
+          <% end %>
+          <td class="text-center">
             <%= link_to "🛠️",
                         "/api/v1/car/repair_list/#{car.id}",
-                        class: "btn btn-sm btn-outline-primary" %>
-
+                        class: "link-opacity-50-hover link-underline link-underline-opacity-0" %>
           </td>
           <td class="text-center">
             <%= link_to "⛽️",
                         "/api/v1/car/fuel_list/#{car.id}",
-                        class: "btn btn-sm btn-outline-primary" %>
+                        class: "link-opacity-50-hover link-underline link-underline-opacity-0" %>
           </td>
           <td class="text-center">
-            <%= link_to "✏️",
+            <%= link_to "📝",
                         "/api/v1/car/edit_car/#{car.id}",
-                        class: "btn btn-sm btn-outline-primary" %>
+                        class: "link-opacity-50-hover link-underline link-underline-opacity-0" %>
           </td>
+          <td class="text-center">
+            <%= link_to("🧹",
+                        "/api/v1/car/sell_car/#{car.id}",
+                        class: "link-opacity-50-hover link-underline link-underline-opacity-0"
+                ) if car.status == 'use' %>
+            <%= button_to("🧹",
+                          "/api/v1/car/cancel_dispose/#{car.id}",
+                          method: :post,
+                          class: "link-opacity-50-hover link-underline link-underline-opacity-0",
+                          form: { data: { turbo_confirm: '매각을 취소하시겠어요?' } }
+                ) if car.status == 'disposal' %>
+          </td>
+          <% if @filter == 'all' %>
+            <td class="text-center">
+              <%= car.status_icon %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     <% end %>

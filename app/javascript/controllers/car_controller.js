@@ -55,7 +55,10 @@ export default class extends Controller {
       form.elements["date"].value === "" ||
       form.elements["number"].value === "" ||
       form.elements["manufacturer"].value === "" ||
-      form.elements["model"].value === ""
+      form.elements["model"].value === "" ||
+      form.elements["insurance_company"].value === "" ||
+      form.elements["insurance_start"].value === "" ||
+      form.elements["insurance_end"].value === ""
     ) {
       alert("빈 값이 있습니다.");
       console.log(1);
@@ -83,6 +86,10 @@ export default class extends Controller {
         number: form.elements["number"].value,
         manufacturer: form.elements["manufacturer"].value,
         model: form.elements["model"].value,
+        insurance_company: form.elements["insurance_company"].value,
+        insurance_start: form.elements["insurance_start"].value,
+        insurance_end: form.elements["insurance_end"].value,
+        insurance_desc: form.elements["insurance_desc"].value,
       }),
     });
 
@@ -93,7 +100,46 @@ export default class extends Controller {
 
     } else if (response.status == 500) {
       alert("서버에 문제가 발생했습니다.");
+    }
+  }
 
+  async sellCar(event) {
+    console.log(event);
+    const numberValidation = /^\d{2,3}[가나다라마거너더러머버서어저고노도로모보소오조구누두루무부수우주바사아자하허호배]\d{4}$/;
+    const form = document.getElementById("newCarForm");
+    console.log(form.elements);
+    if (
+      form.elements["date"].value === ""
+    ) {
+      alert("빈 값이 있습니다.");
+      console.log(1);
+      return;
+    }
+    if (!numberValidation.test(form.elements["number"].value)) {
+      alert("자동차번호를 형식에 맞게 입력해주십시오. (띄어쓰기 없이 작성)");
+    }
+
+    let url = "";
+    url = "/api/v1/car/dispose_car/" + event.params.carId.toString();
+
+    let response = await fetch(url, {
+      method: "post",
+      headers: {
+        "X-CSRF-Token": this.csrfToken(),
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        disposed_at: form.elements["date"].value,
+      }),
+    });
+
+    if (response.status >= 200 && response.status < 300) {
+      alert("저장되었습니다.");
+      let url = "/api/v1/car/car_list";
+      window.location.replace(url);
+
+    } else if (response.status == 500) {
+      alert("서버에 문제가 발생했습니다.");
     }
   }
 

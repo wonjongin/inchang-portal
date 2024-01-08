@@ -1,4 +1,49 @@
-<div>
-  <h1 class="font-bold text-4xl">Api::V1::Car#sell_car</h1>
-  <p>Find me in app/views/api/v1/car/sell_car.html.erb</p>
+<h1 class="tw-text-2xl">차량 매각</h1>
+<br>
+<div data-controller="car">
+  <%= form_with url: '/api/v1/car/create_car', method: :post, class: "w-full", id: "newCarForm" do |form| %>
+    <div class="row g-2 mb-3 w-full">
+      <%= form.label "매각일: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :date, class: "col form-control form-control-sm", value: @car.disposed_at %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "번호: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :number, class: "col form-control form-control-sm", value: @car.number, disabled: true %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "모델: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :model, class: "col form-control form-control-sm", value: @car.model, disabled: true %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "제조사: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :manufacturer, class: "col form-control form-control-sm", value: @car.manufacturer, disabled: true %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "보험사: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :insurance_company, class: "col form-control form-control-sm", value: @car.insurance_company, disabled: true %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "보험시작일: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :insurance_start, class: "col form-control form-control-sm", value: @car.insurance_start, disabled: true %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "보험종료일: ", class: "col-sm-2 form-label" %>
+      <%= form.date_field :insurance_end, class: "col form-control form-control-sm", value: @car.insurance_end, disabled: true %>
+    </div>
+    <div class="row g-2 mb-3">
+      <%= form.label "보험 내용: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :insurance_desc, class: "col form-control form-control-sm", value: @car.insurance_desc, disabled: true %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="car"
+            data-action="click->car#sellCar"
+            data-car-car-id-param="<%= @car.id %>"
+    >매각 저장
+    </button>
+    <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/car/car_list/") %>
+  </div>
 </div>

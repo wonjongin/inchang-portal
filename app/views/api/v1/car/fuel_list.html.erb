@@ -47,10 +47,14 @@
           <td class="text-center">
             <%= link_to "✏️",
                         "/api/v1/car/edit_fuel/#{fuel.id}",
-                        class: "btn btn-sm btn-outline-primary #{(fuel.admitted && !@current_user.is_admin?) ? 'disabled' : ''}" %>
+                        class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}" %>
           </td>
           <td class="text-center">
-            <%= button_to("🗑️", "/api/v1/car/delete_fuel/#{fuel.id}", method: :delete, class: "btn btn-sm btn-outline-danger #{(fuel.admitted && !@current_user.is_admin?) ? 'disabled' : ''}", form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
+            <%= button_to("🗑️",
+                          "/api/v1/car/delete_fuel/#{fuel.id}",
+                          method: :delete,
+                          class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}",
+                          form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
           </td>
           <td class="text-center">
             <div class="form-check">

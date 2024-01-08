@@ -3,7 +3,11 @@ class Api::V1::CarController < ApplicationController
   before_action :current_user
 
   def car_list
-    @cars = Car.all
+    @filter = params[:filter] || 'use'
+    @cars = Car.all if @filter == 'all'
+    @cars = Car.where(status: 'use') if @filter == 'use'
+    @cars = Car.where(status: 'disposal') if @filter == 'disposal'
+    @index = 1
   end
 
   def detail
@@ -24,7 +28,12 @@ class Api::V1::CarController < ApplicationController
       registered_at: params[:date],
       number: params[:number],
       manufacturer: params[:manufacturer],
-      model: params[:model]
+      model: params[:model],
+      insurance_company: params[:insurance_company],
+      insurance_start: params[:insurance_start],
+      insurance_end: params[:insurance_end],
+      insurance_desc: params[:insurance_desc],
+      status: 'use'
     )
     render json: {
       status: :ok,
@@ -70,6 +79,10 @@ class Api::V1::CarController < ApplicationController
       number: params[:number],
       manufacturer: params[:manufacturer],
       model: params[:model],
+      insurance_company: params[:insurance_company],
+      insurance_start: params[:insurance_start],
+      insurance_end: params[:insurance_end],
+      insurance_desc: params[:insurance_desc],
     )
   end
 
@@ -97,6 +110,30 @@ class Api::V1::CarController < ApplicationController
   end
 
   def sell_car
+    @car = Car.find_by(id: params[:car_id])
+  end
+
+  def dispose_car
+    car = Car.find_by(id: params[:car_id])
+    car.update(
+      disposed_at: params[:disposed_at],
+      status: 'disposal'
+    )
+    render json: {
+      status: :ok,
+      message: "Success!",
+      code: :success,
+      car_id: car.id,
+    }
+  end
+
+  def cancel_dispose
+    car = Car.find_by(id: params[:car_id])
+    car.update(
+      disposed_at: nil,
+      status: 'use'
+    )
+    redirect_to "/api/v1/car/car_list"
   end
 
   def fuel_list
