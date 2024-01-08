@@ -3,7 +3,9 @@
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm") %>
-    <%= link_to("엑셀", "/api/v1/car/xlsx_repair_list/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
+    <%= link_to("/api/v1/car/xlsx_repair_list/#{@car.id}", class: "btn btn-outline-primary btn-sm") do %>
+      <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀
+    <% end %>
     <%= link_to("정비내역 추가", "/api/v1/car/new_repair/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
   </div>
 </div>

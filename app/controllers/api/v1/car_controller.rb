@@ -255,4 +255,14 @@ class Api::V1::CarController < ApplicationController
     @index = 1
     render xlsx: 'xlsx_fuel_list', filename: "주유내역 (#{@car.number} #{@car.model}).xlsx", formats: :xlsx
   end
+
+  def xlsx_repair_list_all
+    @cars = Car.all
+    render xlsx: 'xlsx_repair_list_all', filename: "정비내역 전체.xlsx", formats: :xlsx
+  end
+
+  def xlsx_fuel_list_all
+    @cars = Car.all
+    render xlsx: 'xlsx_fuel_list_all', filename: "주유내역 전체.xlsx", formats: :xlsx
+  end
 end

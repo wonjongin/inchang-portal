@@ -8,7 +8,7 @@
     </div>
     <div class="row g-2 mb-3 w-full">
       <%= form.label "주유일: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :refueled_at, class: "col form-control form-control-sm", value: @cf.refueled_at%>
+      <%= form.date_field :refueled_at, class: "col form-control form-control-sm", value: @cf.refueled_at %>
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "주행거리: ", class: "col-sm-2 form-label" %>
@@ -28,7 +28,7 @@
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "비고: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :footnote, class: "col form-control form-control-sm", value: @cf.footnote%>
+      <%= form.text_field :footnote, class: "col form-control form-control-sm", value: @cf.footnote %>
     </div>
   <% end %>
   <br>

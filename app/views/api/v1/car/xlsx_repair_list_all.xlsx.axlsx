@@ -1,0 +1,18 @@
+wb = xlsx_package.workbook
+@cars.each do |car|
+  wb.add_worksheet(name: car.number) do |sheet|
+    index = 1
+    sheet.add_row ["정비내역", car.number, car.model]
+    sheet.add_row ['순번', '정비일', '주행거리', '정비소', '정비내용', '금액', '비고']
+    if car.car_repairs.count == 0
+      sheet.add_row ['정비내역이 없습니다.']
+      sheet.merge_cells('A3:G3')
+    else
+      car.car_repairs.each do |cr|
+        sheet.add_row [index, cr.repaired_at, cr.odo, cr.center, cr.desc, cr.price, cr.footnote]
+        index += 1
+      end
+    end
+  end
+end
+

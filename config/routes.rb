@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       get 'car/xlsx_car_list'
       get 'car/xlsx_fuel_list/:car_id', to: 'car#xlsx_fuel_list'
       get 'car/xlsx_repair_list/:car_id', to: 'car#xlsx_repair_list'
+      get 'car/xlsx_fuel_list_all'
+      get 'car/xlsx_repair_list_all'
       get 'car/new_repair/:car_id', to: 'car#new_repair'
       post 'car/create_repair/:car_id', to: 'car#create_repair'
       get 'car/edit_car/:car_id', to: 'car#edit_car'

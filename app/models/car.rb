@@ -4,6 +4,7 @@ class Car < ApplicationRecord
   has_many :car_fuels
 
   acts_as_xlsx
+
   def status_icon
     return '🟢' if self.status == 'use'
     '🔴' if self.status == 'disposal'
@@ -12,6 +13,12 @@ class Car < ApplicationRecord
   def status_ko_kr
     return '사용중' if self.status == 'use'
     '매각' if self.status == 'disposal'
+  end
+
+  def odo
+    fo = self.car_fuels.order(odo: :desc).first.odo
+    ro = self.car_repairs.order(odo: :desc).first.odo
+    [fo, ro].max
   end
 
   def car_type

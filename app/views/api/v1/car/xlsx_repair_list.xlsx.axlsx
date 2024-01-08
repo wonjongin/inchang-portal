@@ -1,9 +1,9 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: '정비내역') do |sheet|
-    sheet.add_row ["정비내역", @car.number, @car.model]
-    sheet.add_row ['순번', '정비일', '주행거리', '정비소', '정비내용', '금액', '비고']
-    @crs.each do |cr|
-        sheet.add_row [@index, cr.repaired_at, cr.odo, cr.center, cr.desc, cr.price, cr.footnote]
-        @index += 1
-    end
+  sheet.add_row ["정비내역", @car.number, @car.model]
+  sheet.add_row ['순번', '정비일', '주행거리', '정비소', '정비내용', '금액', '비고']
+  @crs.each do |cr|
+    sheet.add_row [@index, cr.repaired_at, cr.odo, cr.center, cr.desc, cr.price, cr.footnote]
+    @index += 1
+  end
 end

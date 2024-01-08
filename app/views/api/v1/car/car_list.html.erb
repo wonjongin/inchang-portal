@@ -3,7 +3,29 @@
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm tw-mr-4" role="group" aria-label="Basic outlined example">
     <%= link_to("차량 추가", "/api/v1/car/new_car", class: "btn btn-outline-primary") %>
-    <%= link_to("엑셀", "/api/v1/car/xlsx_car_list", class: "btn btn-outline-primary") %>
+    <div class="btn-group btn-group-sm" role="group">
+      <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to("/api/v1/car/xlsx_car_list", class: "dropdown-item") do %>
+            <i class="bi bi-filetype-xls"></i> 차량 목록
+          <% end %>
+        </li>
+
+        <li>
+            <%= link_to("/api/v1/car/xlsx_repair_list_all", class: "dropdown-item") do %>
+              <i class="bi bi-filetype-xls"></i> 전체 정비내역
+            <% end %>
+        </li>
+        <li>
+          <%= link_to("/api/v1/car/xlsx_fuel_list_all", class: "dropdown-item") do %>
+            <i class="bi bi-filetype-xls"></i> 전체 주유내역
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("사용중", "?filter=use", class: "btn btn-outline-primary #{@filter == 'use' ? 'active' : ''}") %>
