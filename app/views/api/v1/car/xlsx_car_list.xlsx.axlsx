@@ -1,0 +1,8 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: '차량목록') do |sheet|
+    sheet.add_row ['순번', '상태', '차량번호', '모델', '등록일', '보험사', '보험기간', '보험내용', '매각일']
+    @cars.each do |car|
+        sheet.add_row [@index, car.status_ko_kr, car.number, car.model, car.registered_at, car.insurance_company, "#{car.insurance_start} ~ #{car.insurance_end}", car.insurance_desc, car.disposed_at]
+        @index += 1
+    end
+end

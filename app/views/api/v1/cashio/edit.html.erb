@@ -20,7 +20,7 @@
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "금액: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma", value: @cashio.price.abs, data: { action: 'keyup->cashio#priceString' } %>
+      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cashio.price.abs, delimiter: ',') , data: { action: 'keyup->cashio#priceString' } %>
     </div>
     <div id="priceDisplay" class="tw-text-center"></div>
     <div>

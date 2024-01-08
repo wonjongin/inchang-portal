@@ -3,9 +3,15 @@ class Car < ApplicationRecord
   has_many :car_repairs
   has_many :car_fuels
 
+  acts_as_xlsx
   def status_icon
     return '🟢' if self.status == 'use'
     '🔴' if self.status == 'disposal'
+  end
+
+  def status_ko_kr
+    return '사용중' if self.status == 'use'
+    '매각' if self.status == 'disposal'
   end
 
   def car_type

@@ -3,31 +3,27 @@
 <div data-controller="car">
   <%= form_with url: '/api/v1/car/create_repair', method: :post, class: "w-full", id: "newCarFuelForm" do |form| %>
     <div class="row g-2 mb-3 w-full">
-      <%= form.label "차번호: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '차번호') %>
       <%= form.text_field :number, class: "col form-control form-control-sm", value: @car.number %>
     </div>
     <div class="row g-2 mb-3 w-full">
-      <%= form.label "주유일: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '주유일') %>
       <%= form.date_field :refueled_at, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "주행거리: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '주행거리') %>
       <%= form.text_field :odo, class: "col form-control form-control-sm number-auto-comma" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "주유소: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '주유소') %>
       <%= form.text_field :station, class: "col form-control form-control-sm" %>
     </div>
-<!--    <div class="row g-2 mb-3">-->
-      <%#= form.label "정비내용: ", class: "col-sm-2 form-label" %>
-      <%#= form.text_field :desc, class: "col form-control form-control-sm" %>
-<!--    </div>-->
     <div class="row g-2 mb-3">
-      <%= form.label "주유금액: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '주유금액') %>
       <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "비고: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '비고') %>
       <%= form.text_field :footnote, class: "col form-control form-control-sm" %>
     </div>
   <% end %>

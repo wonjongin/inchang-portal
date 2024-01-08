@@ -1,0 +1,9 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: '주유내역') do |sheet|
+  sheet.add_row ["주유내역", @car.number, @car.model]
+  sheet.add_row ['순번', '주유일', '주행거리', '주유소', '금액', '비고']
+  @cfs.each do |cf|
+    sheet.add_row [@index, cf.refueled_at, cf.odo, cf.station, cf.price, cf.footnote]
+    @index += 1
+  end
+end

@@ -1,6 +1,10 @@
 <h1 class="tw-text-2xl">차량 목록</h1>
 <br>
 <div class="tw-flex tw-justify-end">
+  <div class="btn-group btn-group-sm tw-mr-4" role="group" aria-label="Basic outlined example">
+    <%= link_to("차량 추가", "/api/v1/car/new_car", class: "btn btn-outline-primary") %>
+    <%= link_to("엑셀", "/api/v1/car/xlsx_car_list", class: "btn btn-outline-primary") %>
+  </div>
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("사용중", "?filter=use", class: "btn btn-outline-primary #{@filter == 'use' ? 'active' : ''}") %>
     <%= link_to("매각", "?filter=disposal", class: "btn btn-outline-primary #{@filter == 'disposal' ? 'active' : ''}") %>
@@ -13,7 +17,7 @@
   >
     <thead class="">
     <tr>
-      <% cols = %w[No 번호 모델 등록일 보험사 보험기간 보험내용 매각일 정비 주유 수정 매각 상태]
+      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 정비 주유 수정 매각 상태]
          cols.delete('매각일') if @filter == 'use'
          cols.delete('상태') if @filter == 'use'
          cols.delete('상태') if @filter == 'disposal'
@@ -87,7 +91,7 @@
                         "/api/v1/car/sell_car/#{car.id}",
                         class: "link-opacity-50-hover link-underline link-underline-opacity-0"
                 ) if car.status == 'use' %>
-            <%= button_to("🧹",
+            <%= button_to("🔙",
                           "/api/v1/car/cancel_dispose/#{car.id}",
                           method: :post,
                           class: "link-opacity-50-hover link-underline link-underline-opacity-0",

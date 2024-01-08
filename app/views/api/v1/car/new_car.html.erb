@@ -3,37 +3,37 @@
 <div data-controller="car">
   <%= form_with url: '/api/v1/car/create_car', method: :post, class: "w-full", id: "newCarForm" do |form| %>
     <div class="row g-2 mb-3 w-full">
-      <%#= label_in_form(form, '등록일') %>
-      <%= form.label "등록일: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '등록일') %>
+      <%#= form.label "등록일: ", class: "col-sm-2 form-label" %>
       <%= form.date_field :date, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%#= label_in_form(form, '번호') %>
-      <%= form.label "번호: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '번호') %>
+      <%#= form.label "번호: ", class: "col-sm-2 form-label" %>
       <%= form.text_field :number, class: "col form-control form-control-sm", placeholder: "띄어쓰기 없이 작성"%>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "모델: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '모델') %>
       <%= form.text_field :model, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "제조사: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '제조사') %>
       <%= form.text_field :manufacturer, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "보험사: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '보험사') %>
       <%= form.text_field :insurance_company, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "보험 시작일: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '보험시작일') %>
       <%= form.date_field :insurance_start, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "보험 종료일: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '보험종료일') %>
       <%= form.date_field :insurance_end, class: "col form-control form-control-sm" %>
     </div>
     <div class="row g-2 mb-3">
-      <%= form.label "보험 내용: ", class: "col-sm-2 form-label" %>
+      <%= label_in_form(form, '보험내용') %>
       <%= form.text_field :insurance_desc, class: "col form-control form-control-sm" %>
     </div>
   <% end %>

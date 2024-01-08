@@ -234,5 +234,25 @@ class Api::V1::CarController < ApplicationController
     redirect_to "/api/v1/car/fuel_list/#{car_id}"
   end
 
+  def xlsx_car_list
+    @cars = Car.all
+    @index = 1
+    render xlsx: 'xlsx_car_list', filename: '차량목록.xlsx', formats: :xlsx
+    # package = @cars.to_xlsx
+    # send_data package.to_stream.read, filename: '차량목록.xlsx', type: 'application/vnd.openxmlformates-officedocument.spreadsheetml.sheet'
+  end
 
+  def xlsx_repair_list
+    @car = Car.find_by(id: params[:car_id])
+    @crs = @car.car_repairs
+    @index = 1
+    render xlsx: 'xlsx_repair_list', filename: "정비내역 (#{@car.number} #{@car.model}).xlsx", formats: :xlsx
+  end
+
+  def xlsx_fuel_list
+    @car = Car.find_by(id: params[:car_id])
+    @cfs = @car.car_fuels
+    @index = 1
+    render xlsx: 'xlsx_fuel_list', filename: "주유내역 (#{@car.number} #{@car.model}).xlsx", formats: :xlsx
+  end
 end

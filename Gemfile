@@ -86,3 +86,6 @@ gem 'wkhtmltopdf-binary-edge'
 gem 'whenever'
 gem "simple_calendar", "~> 2.4"
 gem 'kaminari'
+gem 'caxlsx'
+gem 'caxlsx_rails'
+gem 'acts_as_caxlsx', git: 'https://github.com/caxlsx/acts_as_caxlsx.git'
