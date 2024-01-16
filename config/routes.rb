@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'meeting/list'
       get 'meeting/new'
+      get 'meeting/detail/:meeting_id', to: 'meeting#detail'
       post 'meeting/create'
       get 'meeting/edit/:meeting_id', to: 'meeting#edit'
       post 'meeting/update/:meeting_id', to: 'meeting#update'

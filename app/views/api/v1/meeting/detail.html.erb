@@ -1,0 +1,64 @@
+<h1 class="tw-text-2xl">회의록</h1>
+<br>
+<table class="table table-hover table-bordered">
+  <thead>
+  <tr>
+    <td class="text-center tw-font-bold" style="width: 25%">
+      일자
+    </td>
+    <td class="text-center">
+      <%= @meeting.at %> (<%= @meeting.wday_name %>)
+    </td>
+    <td class="text-center tw-font-bold">
+      참가자
+    </td>
+    <td class="text-center">
+      <%= @meeting.attendee %>
+    </td>
+    <td class="text-center tw-font-bold">
+      작성자
+    </td>
+    <td class="text-center">
+      <%= @meeting.user.name %>
+    </td>
+  </tr>
+  <tr>
+    <td class="text-center tw-font-bold">
+      제목
+    </td>
+    <td class="text-center" colspan="5">
+      <%= @meeting.title %>
+    </td>
+  </tr>
+  <tr class="text-center">
+    <th colspan="6">내용</th>
+  </tr>
+  </thead>
+  <tbody class="table-group-divider">
+  <tr>
+    <td colspan="6">
+      <%= @meeting.description %>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<div class="btn-toolbar">
+  <div class="btn-group btn-group-sm me-4" role="group" aria-label="Basic example">
+    <%= link_to("수정", "/api/v1/meeting/edit/#{@meeting.id}", class: "btn btn-outline-primary") %>
+    <%= link_to("목록", "/api/v1/meeting/list", class: "btn btn-outline-primary") %>
+
+    <% if @current_user.is_admin? %>
+      <div class="btn btn-outline-danger">
+        <%= button_to(
+              "🔐 삭제",
+              "/api/v1/diary/delete/#{@diary.id}",
+              method: :delete,
+              form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<br>
+<br>
+<br>

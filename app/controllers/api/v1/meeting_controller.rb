@@ -3,6 +3,17 @@ class Api::V1::MeetingController < ApplicationController
   before_action :current_user
 
   def list
+    @filter = params[:filter]
+    @filter = 'all' if @filter == nil
+    if @filter == 'all'
+      @meetings = Meeting.all
+    else
+      @meetings = Meeting.where(is_exterior: @filter)
+    end
+  end
+
+  def detail
+    @meeting = Meeting.find_by(id: params[:meeting_id])
   end
 
   def new

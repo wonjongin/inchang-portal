@@ -3,7 +3,7 @@
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm tw-mr-4" role="group" aria-label="Basic outlined example">
     <%= link_to("회의 추가", "/api/v1/meeting/new", class: "btn btn-outline-primary") %>
-    <div class="btn-group btn-group-sm" role="group">
+    <!-- <div class="btn-group btn-group-sm" role="group">
       <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀
       </button>
@@ -25,7 +25,7 @@
           <% end %>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("내부", "?filter=interior", class: "btn btn-outline-primary #{@filter == 'interior' ? 'active' : ''}") %>
@@ -34,5 +34,56 @@
   </div>
 </div>
 <div class="overflow-x-auto">
+  <table
+    class="table table-bordered table-hover mt-3"
+  >
+    <thead class="">
+    <tr>
+      <% cols = %w[No. 회의일 제목 참가자 작성자 종류]
+         cols.delete('종류') unless @filter == 'all'
+         cols.each do |x| %>
+        <th class="text-center">
+          <%= x %>
+        </th>
+      <% end %>
 
+    </tr>
+    </thead>
+    <tbody class="">
+    <% if @meetings.count == 0 %>
+      <tr>
+        <td class="text-center" colspan="<%= cols.count %>>">
+          회의가 없습니다.
+        </td>
+      </tr>
+    <% else %>
+      <% @meetings.each do |meeting| %>
+        <tr>
+          <td class="text-center">
+            <%= meeting.id %>
+          </td>
+          <td class="text-center">
+            <%= link_to "#{meeting.at} (#{meeting.wday_name})",
+                        "/api/v1/meeting/detail/#{meeting.id}",
+                        class: "link-opacity-50-hover" %>
+          </td>
+          <td class="text-center">
+            <%= meeting.title %>
+          </td>
+          <td class="text-center">
+            <%= meeting.attendee %>
+          </td>
+          <td class="text-center">
+            <%= meeting.user.name %>
+          </td>
+          <% if @filter == 'all' %>
+            <td class="text-center">
+              <%= meeting.type_ko_kr %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
 </div>
