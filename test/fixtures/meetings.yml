@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  at: 2024-01-16
+  description: MyText
+  author: one
+  title: MyString
+  footnote: MyText
+  is_exterior: MyString
+  attendee: MyString
+
+two:
+  at: 2024-01-16
+  description: MyText
+  author: two
+  title: MyString
+  footnote: MyText
+  is_exterior: MyString
+  attendee: MyString

@@ -8,6 +8,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'meeting/list'
+      get 'meeting/new'
+      post 'meeting/create'
+      get 'meeting/edit/:meeting_id', to: 'meeting#edit'
+      post 'meeting/update/:meeting_id', to: 'meeting#update'
+      delete 'meeting/delete/:meeting_id', to: 'meeting#delete'
       get 'car/car_list'
       get 'car/repair_list/:number', to: 'car#repair_list'
       get 'car/new_car'

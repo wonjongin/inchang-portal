@@ -1,7 +1,7 @@
 <h1 class="tw-text-2xl">입출금 추가</h1>
 <br>
-<div data-controller="cashio">
-  <%= form_with url: '/api/v1/cashio/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
+<div data-controller="meeting">
+  <%= form_with url: '/api/v1/meeting/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
     <div class="row g-2 mb-3 w-full">
       <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
       <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @preset_date %>

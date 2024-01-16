@@ -1,0 +1,30 @@
+<h1 class="tw-text-2xl">회의 추가</h1>
+<br>
+<div data-controller="meeting">
+  <%= form_with url: '/api/v1/meeting/create', method: :post, class: "w-full", id: "newMeetingForm" do |form| %>
+    <%= element_in_form(form, :at, '회의일') { |f, n, cl| f.date_field(n, class: cl, value: Date.today()) } %>
+    <%= element_in_form(form, :user, '작성자') { |f, n, cl| f.text_field(n, class: cl, value: @current_user.name) } %>
+    <div class="tw-my-4">
+      <%= form.radio_button :is_exterior, "exterior", class: "form-check-input" %>
+      <%= form.label :exterior, "외부", class: "form-check-label" %>
+      <%= form.radio_button :is_exterior, "interior", class: "form-check-input" %>
+      <%= form.label :interior, "내부", class: "form-check-label" %>
+    </div>
+    <%= element_in_form(form, :title, '회의제목') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :attendee, '참석자') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :description, '회의내용', 'mb-3 w-full') { |f, n, cl| f.text_area(n, class: cl, rows: 15) } %>
+    <%= element_in_form(form, :footnote, '비고', 'mb-3 w-full') { |f, n, cl| f.text_area(n, class: cl, rows: 5) } %>
+
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="meeting"
+            data-action="click->meeting#saveMeeting"
+            data-meeting-type-param="create"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new("btn btn-outline-primary", title: "목록", path: "/api/v1/meeting/list/") %>
+  </div>
+</div>
