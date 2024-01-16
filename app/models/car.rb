@@ -16,9 +16,10 @@ class Car < ApplicationRecord
   end
 
   def odo
-    fo = self.car_fuels.order(odo: :desc).first.odo
-    ro = self.car_repairs.order(odo: :desc).first.odo
-    [fo, ro].max
+    ca = [0]
+    ca.append self.car_fuels.order(odo: :desc).first.odo unless self.car_fuels.count == 0
+    ca.append self.car_repairs.order(odo: :desc).first.odo unless self.car_repairs.count == 0
+    ca.max
   end
 
   def car_type

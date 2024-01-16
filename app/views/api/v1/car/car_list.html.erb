@@ -39,7 +39,7 @@
   >
     <thead class="">
     <tr>
-      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 정비 주유 수정 매각 상태]
+      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 주행 정비 주유 수정 매각 상태]
          cols.delete('매각일') if @filter == 'use'
          cols.delete('상태') if @filter == 'use'
          cols.delete('상태') if @filter == 'disposal'
@@ -93,6 +93,9 @@
               <%= car.disposed_at %>
             </td>
           <% end %>
+          <td class="text-center">
+            <%= car.odo %>
+          </td>
           <td class="text-center">
             <%= link_to "🛠️",
                         "/api/v1/car/repair_list/#{car.id}",
