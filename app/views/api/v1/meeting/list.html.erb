@@ -39,7 +39,7 @@
   >
     <thead class="">
     <tr>
-      <% cols = %w[No. 회의일 제목 참가자 작성자 종류]
+      <% cols = %w[No. 회의일 제목 참가자 작성자 종류 승인]
          cols.delete('종류') unless @filter == 'all'
          cols.each do |x| %>
         <th class="text-center">
@@ -81,6 +81,9 @@
               <%= meeting.type_ko_kr %>
             </td>
           <% end %>
+          <td class="text-center">
+            <%= meeting.admit_status_icon %>
+          </td>
         </tr>
       <% end %>
     <% end %>

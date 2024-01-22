@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_16_004120) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_22_045752) do
   create_table "car_fuels", force: :cascade do |t|
     t.date "refueled_at"
     t.integer "odo"
@@ -112,6 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_16_004120) do
     t.string "attendee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "admitted"
     t.index ["user_id"], name: "index_meetings_on_user_id"
   end
 

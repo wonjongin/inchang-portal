@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       get 'meeting/new'
       get 'meeting/detail/:meeting_id', to: 'meeting#detail'
       post 'meeting/create'
+      post 'meeting/admit/:id', to: 'meeting#admit'
+      post 'meeting/de_admit/:id', to: 'meeting#de_admit'
       get 'meeting/edit/:meeting_id', to: 'meeting#edit'
       post 'meeting/update/:meeting_id', to: 'meeting#update'
       delete 'meeting/delete/:meeting_id', to: 'meeting#delete'

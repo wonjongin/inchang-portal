@@ -1,6 +1,6 @@
 <h1 class="tw-text-2xl">회의록</h1>
 <br>
-<table class="table table-hover table-bordered">
+<table class="table table-bordered">
   <thead>
   <tr>
     <td class="text-center tw-font-bold" style="width: 25%">
@@ -10,16 +10,16 @@
       <%= @meeting.at %> (<%= @meeting.wday_name %>)
     </td>
     <td class="text-center tw-font-bold">
-      참가자
-    </td>
-    <td class="text-center">
-      <%= @meeting.attendee %>
-    </td>
-    <td class="text-center tw-font-bold">
       작성자
     </td>
     <td class="text-center">
       <%= @meeting.user.name %>
+    </td>
+    <td class="text-center tw-font-bold">
+      승인
+    </td>
+    <td class="text-center">
+      <%= @meeting.admit_status_icon %>
     </td>
   </tr>
   <tr>
@@ -30,14 +30,22 @@
       <%= @meeting.title %>
     </td>
   </tr>
+  <tr>
+    <td class="text-center tw-font-bold">
+      참가자
+    </td>
+    <td class="text-center" colspan="5">
+      <%= @meeting.attendee %>
+    </td>
+  </tr>
   <tr class="text-center">
     <th colspan="6">내용</th>
   </tr>
   </thead>
   <tbody class="table-group-divider">
   <tr>
-    <td colspan="6">
-      <%= @meeting.description %>
+    <td colspan="6" class="">
+      <textarea class="form-control" style="background-color: white" disabled="disabled" rows="<%= @meeting.description.lines.count + 1 %>" ><%= @meeting.description %></textarea>
     </td>
   </tr>
   </tbody>
@@ -52,9 +60,22 @@
       <div class="btn btn-outline-danger">
         <%= button_to(
               "🔐 삭제",
-              "/api/v1/diary/delete/#{@diary.id}",
+              "/api/v1/meeting/delete/#{@meeting.id}",
               method: :delete,
               form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="btn-group btn-group-sm">
+    <% if @meeting.admitted == 'not' && @current_user.is_admin? %>
+      <div class="btn btn-outline-success">
+        <%= button_to("🔐 승인", "/api/v1/meeting/admit/#{@meeting.id}", method: :post) %>
+      </div>
+    <% end %>
+    <% if @meeting.admitted == 'admitted' && @current_user.is_admin? %>
+      <div class="btn btn-outline-danger">
+        <%= button_to("🔐 승인 취소", "/api/v1/meeting/de_admit/#{@meeting.id}", method: :post) %>
       </div>
     <% end %>
   </div>

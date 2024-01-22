@@ -1,4 +1,5 @@
 class Meeting < ApplicationRecord
+  enum admitted: { not: 0, admitted: 1 }
   belongs_to :user
 
   def wday_name
@@ -12,4 +13,14 @@ class Meeting < ApplicationRecord
       '외부'
     end
   end
+
+  def desc_html
+    self.description.gsub!(/\n/, '<br/>').html_safe
+  end
+
+  def admit_status_icon
+    self.admitted == 'admitted' ? '✅' : '❌'
+  end
+
 end
+

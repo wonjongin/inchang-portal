@@ -37,6 +37,7 @@ class Api::V1::MeetingController < ApplicationController
       attendee: params[:attendee],
       description: params[:description],
       footnote: params[:footnote],
+      admitted: 'admitted'
     )
     render json: {
       status: :ok,
@@ -51,10 +52,18 @@ class Api::V1::MeetingController < ApplicationController
   end
 
   def update
+    author = User.find_by(name: params[:user])
+    if author == nil
+      render json: {
+        status: :fail,
+        code: :not_found_user,
+        message: "There is no user of #{params[:author]}",
+      } and return
+    end
     m = Meeting.find_by(id: params[:meeting_id])
     m.update(
       at: params[:at],
-      user: params[:user],
+      user: author,
       title: params[:title],
       is_exterior: params[:is_exterior],
       attendee: params[:attendee],
@@ -78,5 +87,25 @@ class Api::V1::MeetingController < ApplicationController
       flash.alert = "권한이 없어요"
       redirect_to "/api/v1/meeting/list"
     end
+  end
+
+  def admit
+    m = Meeting.find_by(id: params[:id])
+    if @current_user.is_admin?
+      m.update(admitted: 'admitted')
+    else
+      flash.alert = "권한이 없어요"
+    end
+    redirect_to "/api/v1/meeting/detail/#{params[:id]}"
+  end
+
+  def de_admit
+    m = Meeting.find_by(id: params[:id])
+    if @current_user.is_admin?
+      m.update(admitted: 'not')
+    else
+      flash.alert = "권한이 없어요"
+    end
+    redirect_to "/api/v1/meeting/detail/#{params[:id]}"
   end
 end

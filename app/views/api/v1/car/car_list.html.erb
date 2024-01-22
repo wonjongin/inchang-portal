@@ -15,9 +15,9 @@
         </li>
 
         <li>
-            <%= link_to("/api/v1/car/xlsx_repair_list_all", class: "dropdown-item") do %>
-              <i class="bi bi-filetype-xls"></i> 전체 정비내역
-            <% end %>
+          <%= link_to("/api/v1/car/xlsx_repair_list_all", class: "dropdown-item") do %>
+            <i class="bi bi-filetype-xls"></i> 전체 정비내역
+          <% end %>
         </li>
         <li>
           <%= link_to("/api/v1/car/xlsx_fuel_list_all", class: "dropdown-item") do %>
@@ -94,7 +94,7 @@
             </td>
           <% end %>
           <td class="text-center">
-            <%= car.odo %>
+            <%= number_with_delimiter(car.odo, delimiter: ',') %>
           </td>
           <td class="text-center">
             <%= link_to "🛠️",
