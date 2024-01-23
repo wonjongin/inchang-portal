@@ -100,11 +100,21 @@
             <%= link_to "🛠️",
                         "/api/v1/car/repair_list/#{car.id}",
                         class: "link-opacity-50-hover link-underline link-underline-opacity-0" %>
+            <% unless car.car_repairs.where(admitted: false).count == 0 %>
+              <span class="badge text-bg-danger">
+                <%= car.car_repairs.where(admitted: false).count %>
+              </span>
+            <% end %>
           </td>
           <td class="text-center">
             <%= link_to "⛽️",
                         "/api/v1/car/fuel_list/#{car.id}",
                         class: "link-opacity-50-hover link-underline link-underline-opacity-0" %>
+            <% unless car.car_fuels.where(admitted: false).count == 0 %>
+              <span class="badge text-bg-danger">
+                <%= car.car_fuels.where(admitted: false).count %>
+              </span>
+            <% end %>
           </td>
           <td class="text-center">
             <%= link_to "📝",
