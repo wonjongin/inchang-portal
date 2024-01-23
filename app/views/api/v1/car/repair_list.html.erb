@@ -1,5 +1,4 @@
 <h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 정비내역</h1>
-<h2 class="tw-text-xl">전체금액: <%= number_with_delimiter(@sum_of_price, :delimiter => ',') %> 원</h2>
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm") %>
@@ -10,6 +9,7 @@
   </div>
 </div>
 <br>
+<h2 class="tw-text-xl text-end text-primary-emphasis">전체금액: <%= number_with_delimiter(@sum_of_price, :delimiter => ',') %> 원</h2>
 <div class="overflow-x-auto">
   <table
     class="table table-bordered table-hover mt-3"
@@ -37,19 +37,19 @@
           <td class="text-center">
             <%= repair.repaired_at %> (<%= repair.wday_name %>)
           </td>
-          <td class="text-center">
+          <td class="text-end">
             <%= number_with_delimiter(repair.odo, delimiter: ',') %>
           </td>
           <td class="text-center">
             <%= repair.center %>
           </td>
-          <td class="text-center">
+          <td class="text-start">
             <%= repair.desc %>
           </td>
-          <td class="text-center">
+          <td class="text-end">
             <%= number_with_delimiter(repair.price, delimiter: ',') %>
           </td>
-          <td class="text-center">
+          <td class="text-start">
             <%= repair.footnote %>
           </td>
           <td class="text-center">

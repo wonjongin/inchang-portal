@@ -73,19 +73,19 @@
             %>
             <%= car.number %>
           </td>
-          <td class="text-center">
+          <td class="text-start">
             <%= car.model %>
           </td>
           <td class="text-center">
             <%= car.registered_at %>
           </td>
-          <td class="text-center">
+          <td class="text-start">
             <%= car.insurance_company %>
           </td>
           <td class="text-center">
             <%= car.insurance_start %> ~ <%= car.insurance_end %>
           </td>
-          <td class="text-center">
+          <td class="text-start">
             <%= car.insurance_desc %>
           </td>
           <% unless @filter == 'use' %>
@@ -93,7 +93,7 @@
               <%= car.disposed_at %>
             </td>
           <% end %>
-          <td class="text-center">
+          <td class="text-end">
             <%= number_with_delimiter(car.odo, delimiter: ',') %>
           </td>
           <td class="text-center">

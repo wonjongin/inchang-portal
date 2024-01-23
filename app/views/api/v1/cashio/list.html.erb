@@ -53,22 +53,21 @@
 <!--          초기이월잔액-->
 <!--        </td>-->
       <%# end %>
-        <td class="text-center">
-          <%= cashio[:title] %> 외 <%= (cashio[:count] - 1) %>건
-        </td>
+      <td class="text-start">
+        <%= cashio[:title] %> 외 <%= (cashio[:count] - 1) %>건
+      </td>
 
-
-      <td class="text-center">
+      <td class="text-end">
         <%= number_with_delimiter(cashio[:total_input], :delimiter => ',') %>
       </td>
-      <td class="text-center">
-        <%= number_with_delimiter(cashio[:total_output], :delimiter => ',') %>
+      <td class="text-end">
+        <%= number_with_delimiter(-cashio[:total_output], :delimiter => ',') %>
       </td>
 
-      <td class="text-center" style="color: <%= cashio[:total_day] >= 0 ? 'blue' : 'red' %>;">
+      <td class="text-end" style="color: <%= cashio[:total_day] >= 0 ? 'blue' : 'red' %>;">
         <%= cashio[:total_day] >= 0 ? '+' : '' %><%= number_with_delimiter(cashio[:total_day], :delimiter => ',') %>
       </td>
-      <td class="text-center">
+      <td class="text-end">
         <%= number_with_delimiter(cashio[:balance], :delimiter => ',') %>
       </td>
       <td class="text-center">

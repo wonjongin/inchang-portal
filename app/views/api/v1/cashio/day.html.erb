@@ -56,20 +56,20 @@
         <td class="text-center">
           <%= cashio.account %>
         </td>
-        <td class="text-center">
+        <td class="text-start">
           <%= cashio.desc %>
         </td>
         <td class="text-center">
           <%= cashio.io_string %>
         </td>
       <% end %>
-      <td class="text-center" style="color: <%= cashio.io == 'input' ? 'blue' : 'red' %>;">
+      <td class="text-end" style="color: <%= cashio.io == 'input' ? 'blue' : 'red' %>;">
         <%= cashio.io == 'input' ? '+' : '' %><%= number_with_delimiter(cashio.price, :delimiter => ',') %>
       </td>
-      <td class="text-center">
+      <td class="text-end">
         <%= number_with_delimiter(cashio.balance, :delimiter => ',') %>
       </td>
-      <td class="text-center">
+      <td class="text-start">
         <%= cashio.note %>
       </td>
       <td class="text-center">
@@ -119,10 +119,10 @@
   </thead>
   <tbody>
   <tr>
-    <td class="text-center"><%= number_with_delimiter(@total_day_input, :delimiter => ',') %> 원</td>
-    <td class="text-center"><%= number_with_delimiter(@total_day_output, :delimiter => ',') %> 원</td>
-    <td class="text-center"><%= number_with_delimiter(@total_day, :delimiter => ',') %> 원</td>
-    <td class="text-center"><%= number_with_delimiter(@balance_by, :delimiter => ',') %> 원</td>
+    <td class="text-end"><%= number_with_delimiter(@total_day_input, :delimiter => ',') %> 원</td>
+    <td class="text-end"><%= number_with_delimiter(@total_day_output, :delimiter => ',') %> 원</td>
+    <td class="text-end"><%= number_with_delimiter(@total_day, :delimiter => ',') %> 원</td>
+    <td class="text-end"><%= number_with_delimiter(@balance_by, :delimiter => ',') %> 원</td>
   </tr>
   </tbody>
 </table>
