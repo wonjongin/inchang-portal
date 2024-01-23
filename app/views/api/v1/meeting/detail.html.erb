@@ -45,7 +45,30 @@
   <tbody class="table-group-divider">
   <tr>
     <td colspan="6" class="">
-      <textarea class="form-control" style="background-color: white" disabled="disabled" rows="<%= @meeting.description.lines.count + 1 %>" ><%= @meeting.description %></textarea>
+      <textarea class="form-control" style="background-color: white" disabled="disabled" rows="<%= @meeting.description.lines.count + 1 %>"><%= @meeting.description %></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6" class="">
+      <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-4">
+        <% @meeting.images.each do |src| %>
+          <%= link_to(url_for(src)) do %>
+            <div class="tw-relative">
+              <%= image_tag(src, class: "rounded") %>
+              <div class="tw-absolute tw-top-1 tw-right-1 tw-w-4 tw-h-4">
+                <%= button_to(
+                      "X",
+                      "/api/v1/meeting/delete_image/#{@meeting.id}/#{src.signed_id}",
+                      method: :delete,
+                      class: "btn btn-danger btn-sm",
+                      style: "--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .7rem;",
+                      form: { data: { turbo_confirm: '이 이미지를 정말 삭제하실건가요?' } }) %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
     </td>
   </tr>
   </tbody>

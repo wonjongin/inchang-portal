@@ -6,9 +6,9 @@ class Api::V1::MeetingController < ApplicationController
     @filter = params[:filter]
     @filter = 'all' if @filter == nil
     if @filter == 'all'
-      @meetings = Meeting.all
+      @meetings = Meeting.all.order(at: :desc)
     else
-      @meetings = Meeting.where(is_exterior: @filter)
+      @meetings = Meeting.where(is_exterior: @filter).order(at: :desc)
     end
   end
 
@@ -21,7 +21,6 @@ class Api::V1::MeetingController < ApplicationController
 
   def create
     author = User.find_by(name: params[:user])
-    puts("=====================#{params[:user]}, #{author}========")
     if author == nil
       render json: {
         status: :fail,
@@ -30,14 +29,11 @@ class Api::V1::MeetingController < ApplicationController
       } and return
     end
     m = Meeting.create(
-      at: params[:at],
       user: author,
-      title: params[:title],
-      is_exterior: params[:is_exterior],
-      attendee: params[:attendee],
-      description: params[:description],
-      footnote: params[:footnote],
-      admitted: 'admitted'
+      admitted: 'not',
+    )
+    m.update(
+      params.require(:meeting).permit(:at, :title, :is_exterior, :attendee, :description, :footnote, images: [])
     )
     render json: {
       status: :ok,
@@ -61,15 +57,11 @@ class Api::V1::MeetingController < ApplicationController
       } and return
     end
     m = Meeting.find_by(id: params[:meeting_id])
+    m.update(user: author)
     m.update(
-      at: params[:at],
-      user: author,
-      title: params[:title],
-      is_exterior: params[:is_exterior],
-      attendee: params[:attendee],
-      description: params[:description],
-      footnote: params[:footnote],
+      params.require(:meeting).permit(:at, :title, :is_exterior, :attendee, :description, :footnote)
     )
+    m.images.attach(params[:meeting][:images])
     render json: {
       status: :ok,
       message: "Success!",
@@ -107,5 +99,14 @@ class Api::V1::MeetingController < ApplicationController
       flash.alert = "권한이 없어요"
     end
     redirect_to "/api/v1/meeting/detail/#{params[:id]}"
+  end
+
+  def delete_image
+    m = Meeting.find_by(id: params[:meeting_id])
+    img = m.images.each do |img|
+      img.purge if img.signed_id == params[:image_id]
+    end
+
+    redirect_to "/api/v1/meeting/detail/#{params[:meeting_id]}"
   end
 end

@@ -14,8 +14,15 @@
     <%= element_in_form(form, :attendee, '참석자') { |f, n, cl| f.text_field(n, class: cl, value: @meeting.attendee) } %>
     <%= element_in_form(form, :description, '회의내용', 'mb-3 w-full') { |f, n, cl| f.text_area(n, class: cl, rows: 15, value: @meeting.description) } %>
     <%= element_in_form(form, :footnote, '비고', 'mb-3 w-full') { |f, n, cl| f.text_area(n, class: cl, rows: 5, value: @meeting.footnote) } %>
-
+    <%= element_in_form(form, 'images', '이미지추가', 'mb-3 w-full') { |f, n, cl| f.file_field(n, class: cl, accept: 'image/png,image/jpeg,image/jpg', multiple: true) } %>
   <% end %>
+  <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-4">
+    <% @meeting.images.each do |src| %>
+      <%= link_to(url_for(src)) do %>
+        <%= image_tag(src, class: "rounded") %>
+      <% end %>
+    <% end %>
+  </div>
   <br>
   <br>
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get 'meeting/edit/:meeting_id', to: 'meeting#edit'
       post 'meeting/update/:meeting_id', to: 'meeting#update'
       delete 'meeting/delete/:meeting_id', to: 'meeting#delete'
+      delete 'meeting/delete_image/:meeting_id/:image_id', to: 'meeting#delete_image'
       get 'car/car_list'
       get 'car/repair_list/:number', to: 'car#repair_list'
       get 'car/new_car'

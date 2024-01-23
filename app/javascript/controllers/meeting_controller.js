@@ -54,21 +54,34 @@ export default class extends Controller {
       url = '/api/v1/meeting/update/' + event.params.meetingId.toString();
     }
 
+    let formData = new FormData();
+    const image_files_entries = form.elements['images'].files;
+    for (const image of image_files_entries) {
+      formData.append("meeting[images][]", image);
+    }
+
+    let fd = {
+      at: form.elements["at"].value,
+      // user: form.elements["user"].value,
+      title: form.elements["title"].value,
+      is_exterior: form.elements["is_exterior"].value,
+      attendee: form.elements["attendee"].value,
+      description: form.elements["description"].value,
+      footnote: form.elements["footnote"].value,
+    };
+    Object.keys(fd).forEach((key) => {
+      formData.append(`meeting[${key}]`, fd[key]);
+      // formData.append(key, fd[key]);
+    })
+    formData.append("user", form.elements["user"].value);
+
     let response = await fetch(url, {
       method: 'post',
       headers: {
         'X-CSRF-Token': this.csrfToken(),
-        'Content-type': "application/json"
+        // 'Content-type': "multipart/form-data"
       },
-      body: JSON.stringify({
-        at: form.elements["at"].value,
-        user: form.elements["user"].value,
-        title: form.elements["title"].value,
-        is_exterior: form.elements["is_exterior"].value,
-        attendee: form.elements["attendee"].value,
-        description: form.elements["description"].value,
-        footnote: form.elements["footnote"].value,
-      })
+      body: formData,
     });
     let data = await response.json();
     if (data.code === "not_found_user") {
@@ -78,7 +91,7 @@ export default class extends Controller {
 
     if (response.status >= 200 && response.status < 300) {
       alert('저장되었습니다.');
-      let url = '/api/v1/meeting/list';
+      let url = '/api/v1/meeting/detail/' + data.meeting_id;
       window.location.replace(url);
       return;
     } else if (response.status == 500) {

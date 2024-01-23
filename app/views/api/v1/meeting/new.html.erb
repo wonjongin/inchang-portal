@@ -14,7 +14,7 @@
     <%= element_in_form(form, :attendee, '참석자') { |f, n, cl| f.text_field(n, class: cl) } %>
     <%= element_in_form(form, :description, '회의내용', 'mb-3 w-full') { |f, n, cl| f.text_area(n, class: cl, rows: 15) } %>
     <%= element_in_form(form, :footnote, '비고', 'mb-3 w-full') { |f, n, cl| f.text_area(n, class: cl, rows: 5) } %>
-
+    <%= element_in_form(form, 'images', '이미지', 'mb-3 w-full') { |f, n, cl| f.file_field(n, class: cl, accept: 'image/png,image/jpeg,image/jpg', multiple: true) } %>
   <% end %>
   <br>
   <br>
