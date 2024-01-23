@@ -25,8 +25,14 @@ class Meeting < ApplicationRecord
   end
 
   private
+
   def images_size_validation
-    flash.alert = "10MB 이내만 업로드 가능합니다." if images.size > 10.megabytes
+    return unless images.attached?
+    images.each do |image|
+      if image.blob.byte_size > 5.megabytes
+        errors.add(:images, "이 사진은 5MB를 초과합니다. 5MB 이내만 업로드 가능합니다.")
+      end
+    end
   end
 end
 

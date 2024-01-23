@@ -57,6 +57,10 @@ export default class extends Controller {
     let formData = new FormData();
     const image_files_entries = form.elements['images'].files;
     for (const image of image_files_entries) {
+      if (image.size > 5 * 1024 * 1024) {
+        alert("사진이 5MB를 초과합니다. 5MB 이내로만 업로드 가능합니다.");
+        return;
+      }
       formData.append("meeting[images][]", image);
     }
 
