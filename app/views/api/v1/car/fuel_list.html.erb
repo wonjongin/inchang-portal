@@ -16,7 +16,7 @@
   >
     <thead class="">
     <tr>
-      <% %w[주유일 주행거리 주유소 금액 비고 수정 삭제 승인].each do |x| %>
+      <% %w[주유일 주행거리 주유소 유종 주유단가 주유량 금액 연비 비고 수정 삭제 승인].each do |x| %>
         <th class="text-center">
           <%= x %>
         </th>
@@ -27,7 +27,7 @@
     <tbody class="">
     <% if @fuels.count == 0 %>
       <tr>
-        <td class="text-center" colspan="8">
+        <td class="text-center" colspan="12">
           주유내역이 없습니다.
         </td>
       </tr>
@@ -43,8 +43,20 @@
           <td class="text-start">
             <%= fuel.station %>
           </td>
+          <td class="text-center">
+            <%= fuel.fuel_type_kr %>
+          </td>
+          <td class="text-end">
+            <%= number_with_delimiter(fuel.unit_price, delimiter: ',') %>
+          </td>
+          <td class="text-end">
+            <%= number_with_delimiter(fuel.amount, delimiter: ',') %>
+          </td>
           <td class="text-end">
             <%= number_with_delimiter(fuel.price, delimiter: ',') %>
+          </td>
+          <td class="text-end">
+            <%= number_with_delimiter(fuel.instant_mileage, delimiter: ',') %>
           </td>
           <td class="text-start">
             <%= fuel.footnote %>

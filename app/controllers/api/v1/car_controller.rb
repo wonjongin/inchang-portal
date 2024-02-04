@@ -160,6 +160,8 @@ class Api::V1::CarController < ApplicationController
       station: params[:station],
       price: params[:price],
       footnote: params[:footnote],
+      unit_price: params[:unit_price],
+      fuel_type: params[:fuel_type],
       admitted: false,
       car: @car,
     )
@@ -179,6 +181,8 @@ class Api::V1::CarController < ApplicationController
       station: params[:station],
       price: params[:price],
       footnote: params[:footnote],
+      unit_price: params[:unit_price],
+      fuel_type: params[:fuel_type],
     )
     render json: {
       status: :ok,

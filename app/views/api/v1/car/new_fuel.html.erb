@@ -23,9 +23,19 @@
       <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma" %>
     </div>
     <div class="row g-2 mb-3">
+      <%= label_in_form(form, '주유단가') %>
+      <%= form.text_field :unit_price, class: "col form-control form-control-sm number-auto-comma" %>
+    </div>
+    <div class="row g-2 mb-3">
       <%= label_in_form(form, '비고') %>
       <%= form.text_field :footnote, class: "col form-control form-control-sm" %>
     </div>
+    <div>
+    <%= form.radio_button :fuel_type, "gasoline", class: "form-check-input" %>
+    <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
+    <%= form.radio_button :fuel_type, "diesel", class: "form-check-input" %>
+    <%= form.label :diesel, "경유", class: "form-check-label"  %>
+  </div>
   <% end %>
   <br>
   <br>

@@ -201,7 +201,9 @@ export default class extends Controller {
       form.elements["refueled_at"].value === "" ||
       form.elements["odo"].value === "" ||
       form.elements["station"].value === "" ||
-      form.elements["price"].value === ""
+      form.elements["price"].value === "" ||
+      form.elements["unit_price"].value === "" ||
+      form.elements["fuel_type"].value === ""
     ) {
       alert("빈 값이 있습니다.");
       console.log(1);
@@ -227,6 +229,8 @@ export default class extends Controller {
         station: form.elements["station"].value,
         price: +form.elements["price"].value.replaceAll(',', ''),
         footnote: form.elements["footnote"].value,
+        unit_price: +form.elements["unit_price"].value.replaceAll(',', ''),
+        fuel_type: form.elements["fuel_type"].value,
       }),
     });
 

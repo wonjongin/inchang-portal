@@ -27,9 +27,17 @@
       <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cf.price, delimiter: ',') %>
     </div>
     <div class="row g-2 mb-3">
+      <%= form.label "주유단가: ", class: "col-sm-2 form-label" %>
+      <%= form.text_field :unit_price, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cf.unit_price, delimiter: ',') %>
+    </div>
+    <div class="row g-2 mb-3">
       <%= form.label "비고: ", class: "col-sm-2 form-label" %>
       <%= form.text_field :footnote, class: "col form-control form-control-sm", value: @cf.footnote %>
     </div>
+    <%= form.radio_button :fuel_type, "gasoline", class: "form-check-input", checked: @cf.fuel_type == 'gasoline' %>
+    <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
+    <%= form.radio_button :fuel_type, "diesel", class: "form-check-input", checked: @cf.fuel_type == 'diesel' %>
+    <%= form.label :diesel, "경유", class: "form-check-label" %>
   <% end %>
   <br>
   <br>
