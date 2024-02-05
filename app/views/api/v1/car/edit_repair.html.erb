@@ -8,7 +8,7 @@
     </div>
     <div class="row g-2 mb-3 w-full">
       <%= form.label "정비일: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :repaired_at, class: "col form-control form-control-sm", value: @cr.repaired_at %>
+      <%= form.date_field :repaired_at, class: "col form-control form-control-sm", max: "9999-12-31", value: @cr.repaired_at %>
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "주행거리: ", class: "col-sm-2 form-label" %>

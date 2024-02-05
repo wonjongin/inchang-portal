@@ -4,7 +4,7 @@
   <%= form_with url: '/api/v1/cashio/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
     <div class="row g-2 mb-3 w-full">
       <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @cashio.date %>
+      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", max: "9999-12-31", value: @cashio.date %>
     </div>
     <div class="row g-2 mb-3">
       <%= form.label "거래처: ", class: "col-sm-2 form-label" %>

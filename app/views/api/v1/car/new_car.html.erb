@@ -5,7 +5,7 @@
     <div class="row g-2 mb-3 w-full">
       <%= label_in_form(form, '등록일') %>
       <%#= form.label "등록일: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :date, class: "col form-control form-control-sm" %>
+      <%= form.date_field :date, class: "col form-control form-control-sm", max: "9999-12-31" %>
     </div>
     <div class="row g-2 mb-3">
       <%= label_in_form(form, '차량번호') %>
@@ -26,11 +26,11 @@
     </div>
     <div class="row g-2 mb-3">
       <%= label_in_form(form, '보험시작일') %>
-      <%= form.date_field :insurance_start, class: "col form-control form-control-sm" %>
+      <%= form.date_field :insurance_start, class: "col form-control form-control-sm", max: "9999-12-31" %>
     </div>
     <div class="row g-2 mb-3">
       <%= label_in_form(form, '보험종료일') %>
-      <%= form.date_field :insurance_end, class: "col form-control form-control-sm" %>
+      <%= form.date_field :insurance_end, class: "col form-control form-control-sm", max: "9999-12-31" %>
     </div>
     <div class="row g-2 mb-3">
       <%= label_in_form(form, '보험내용') %>

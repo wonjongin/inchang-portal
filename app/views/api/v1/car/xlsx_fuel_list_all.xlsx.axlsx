@@ -3,13 +3,13 @@ wb = xlsx_package.workbook
   wb.add_worksheet(name: car.number) do |sheet|
     index = 1
     sheet.add_row ["주유내역", car.number, car.model]
-    sheet.add_row ['순번', '주유일', '주행거리', '주유소', '금액', '비고']
+    sheet.add_row ['순번', '주유일', '주행거리', '주유소', '유종', '주유단가', '주유량', '금액', '연비', '비고']
     if car.car_repairs.count == 0
       sheet.add_row ['주유내역이 없습니다.']
       sheet.merge_cells('A3:F3')
     else
       car.car_fuels.each do |cf|
-        sheet.add_row [index, cf.refueled_at, cf.odo, cf.station, cf.price, cf.footnote]
+        sheet.add_row [index, cf.refueled_at, cf.odo, cf.station, cf.fuel_type, cf.unit_price, cf.amount, cf.price, cf.instant_mileage, cf.footnote]
         index += 1
       end
     end

@@ -2,13 +2,13 @@
 <br>
 <div data-controller="car">
   <%= form_with url: '/api/v1/car/create_car', method: :post, class: "w-full", id: "newCarForm" do |form| %>
-    <%= element_in_form(form, :date, '등록일') { |f, n, cl| f.date_field(n, class: cl, value: @car.registered_at) } %>
+    <%= element_in_form(form, :date, '등록일') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31", value: @car.registered_at) } %>
     <%= element_in_form(form, :number, '차량번호') { |f, n, cl| f.text_field(n, class: cl, value: @car.number) } %>
     <%= element_in_form(form, :model, '모델') { |f, n, cl| f.text_field(n, class: cl, value: @car.model) } %>
     <%= element_in_form(form, :manufacturer, '제조사') { |f, n, cl| f.text_field(n, class: cl, value: @car.manufacturer) } %>
     <%= element_in_form(form, :insurance_company, '보험사') { |f, n, cl| f.text_field(n, class: cl, value: @car.insurance_company) } %>
-    <%= element_in_form(form, :insurance_start, '보험시작일') { |f, n, cl| f.date_field(n, class: cl, value: @car.insurance_start) } %>
-    <%= element_in_form(form, :insurance_end, '보험종료일') { |f, n, cl| f.date_field(n, class: cl, value: @car.insurance_end) } %>
+    <%= element_in_form(form, :insurance_start, '보험시작일') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31", value: @car.insurance_start) } %>
+    <%= element_in_form(form, :insurance_end, '보험종료일') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31", value: @car.insurance_end) } %>
     <%= element_in_form(form, :insurance_desc, '보험내용') { |f, n, cl| f.text_field(n, class: cl, value: @car.insurance_desc) } %>
   <% end %>
   <br>

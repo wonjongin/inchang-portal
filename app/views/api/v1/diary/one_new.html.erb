@@ -6,7 +6,7 @@
     <div class="row g-2 mb-3 sm:tw-max-w-xs">
       <%#= form.label "날 짜:", class: "col-sm-3 form-label tw-text-justify after:tw-content-[''] after:tw-inline-block after:tw-w-full before:tw-content-[''] before:tw-inline-block before:tw-w-full tw-leading-[0]" %>
       <%= form.label "날 짜:", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>
-      <%= form.date_field :date, class: "col form-control form-control-sm tw-text-left", id: "datePicker", value: @preset_date %>
+      <%= form.date_field :date, class: "col form-control form-control-sm tw-text-left", id: "datePicker", max: "9999-12-31", value: @preset_date %>
     </div>
     <div class="row g-2 mb-3 sm:tw-max-w-xs">
       <%= form.label "작 성 자:", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>

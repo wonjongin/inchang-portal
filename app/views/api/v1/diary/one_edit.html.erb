@@ -3,7 +3,7 @@
 <%= form_with url: '/api/v1/diary/update', method: :post, class: "w-full", id: "newDiaryForm" do |form| %>
   <div class="row g-2 mb-3 sm:tw-max-w-xs">
     <%= form.label "날 짜: ", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>
-    <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", value: @diary.date %>
+    <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", max: "9999-12-31", value: @diary.date %>
   </div>
   <div class="row g-2 mb-3 sm:tw-max-w-xs">
     <%= form.label "작 성 자: ", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>
