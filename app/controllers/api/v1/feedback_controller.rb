@@ -29,25 +29,29 @@ class Api::V1::FeedbackController < ApplicationController
     f.update(
       desc: params[:desc],
     )
-    redirect_to "/api/v1/detail/#{params[:diary_id]}"
+    redirect_to "/api/v1/diary/detail/#{params[:diary_id]}"
   end
 
   def delete
-    d = Feedback.find_by(id: params[:id])
-    unless d.user == @current_user
-      render json: {
-        status: :fail,
-        code: :not_an_author,
-        message: "You are not an author of the feedback",
-      } and return
+    f = Feedback.find_by(id: params[:id])
+    unless f.user == @current_user
+      flash.alert = "본인의 피드백만 삭제할 수 있습니다."
+      redirect_to "/api/v1/diary/detail/#{f.diary.id}" and return
+      # render json: {
+      #   status: :fail,
+      #   code: :not_an_author,
+      #   message: "You are not an author of the feedback",
+      # } and return
     end
-    diary_id = d.diary.id
-    d.destroy!
-    render json: {
-      status: :ok,
-      code: :success,
-      message: "Success!",
-      diary_id: diary_id,
-    }
+
+    f.destroy!
+    flash.alert = "피드백이 삭제되었습니다."
+    redirect_to "/api/v1/diary/detail/#{f.diary.id}"
+    # render json: {
+    #   status: :ok,
+    #   code: :success,
+    #   message: "Success!",
+    #   diary_id: diary_id,
+    # }
   end
 end

@@ -61,7 +61,7 @@ Rails.application.routes.draw do
       get 'cashio/calendar'
       get 'feedback/new'
       post 'feedback/create'
-      post 'feedback/delete'
+      delete 'feedback/delete/:id', to: 'feedback#delete'
       patch 'feedback/update/:id', to: 'feedback#update'
       get 'event/new/:diary_id', to: 'event#new'
       post 'event/create'

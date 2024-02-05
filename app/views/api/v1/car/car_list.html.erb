@@ -39,7 +39,7 @@
   >
     <thead class="">
     <tr>
-      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 주행 연비 정비 주유 수정 매각 상태]
+      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 주행 평균연비 정비 주유 수정 매각 상태]
          cols.delete('매각일') if @filter == 'use'
          cols.delete('상태') if @filter == 'use'
          cols.delete('상태') if @filter == 'disposal'

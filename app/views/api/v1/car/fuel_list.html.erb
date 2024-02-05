@@ -47,7 +47,7 @@
             <%= fuel.fuel_type_kr %>
           </td>
           <td class="text-end">
-            <%= number_with_delimiter(fuel.unit_price, delimiter: ',') %>
+            <%= number_with_delimiter(fuel.unit_price.floor, delimiter: ',') %>
           </td>
           <td class="text-end">
             <%= number_with_delimiter(fuel.amount, delimiter: ',') %>

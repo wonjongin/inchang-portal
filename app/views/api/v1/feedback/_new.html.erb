@@ -18,6 +18,11 @@
 
     <li class="list-group-item"><%= feedback.user.name %></li>
     <li class="list-group-item flex-fill"><%= feedback.desc %></li>
+    <li class="list-group-item"><%= button_to("🗑️",
+                                              "/api/v1/feedback/delete/#{feedback.id}",
+                                              method: :delete,
+                                              class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(@current_user != feedback.user) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}",
+                                              form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %></li>
   </ul>
 <% end %>
 <br>

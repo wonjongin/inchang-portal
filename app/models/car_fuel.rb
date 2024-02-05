@@ -53,7 +53,9 @@ class CarFuel < ApplicationRecord
     first = car.car_fuels.order(odo: :asc).first
   
     total_fuel_amount = CarFuel.total_fuel_amount(car)
-
+    if total_fuel_amount == 0
+      return 0
+    end
     ((recent.odo - first.odo) / total_fuel_amount).floor(2)
   end
 end
