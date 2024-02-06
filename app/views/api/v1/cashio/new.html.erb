@@ -1,27 +1,12 @@
 <h1 class="tw-text-2xl">입출금 추가</h1>
 <br>
-<div data-controller="meeting">
-  <%= form_with url: '/api/v1/meeting/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
-    <div class="row g-2 mb-3 w-full">
-      <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", max: "9999-12-31", value: @preset_date %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "거래처: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :account, class: "col form-control form-control-sm" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "거래내용: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :desc, class: "col form-control form-control-sm" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "비고: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :note, class: "col form-control form-control-sm" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "금액: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma", data: { action: 'keyup->cashio#priceString' } %>
-    </div>
+<div data-controller="cashio">
+  <%= form_with url: '/api/v1/cashio/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
+    <%= element_in_form(form, :date, '날짜') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31", value: @preset_date) } %>
+    <%= element_in_form(form, :account, '거래처') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :desc, '거래내용') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :note, '비고') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :price, '금액') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma", data: { action: 'keyup->cashio#priceString' }) } %>
     <div id="priceDisplay" class="tw-text-center"></div>
     <div>
       <%= form.radio_button :io, "input", class: "form-check-input" %>

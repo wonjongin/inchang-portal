@@ -2,26 +2,12 @@
 <br>
 <div data-controller="cashio">
   <%= form_with url: '/api/v1/cashio/create', method: :post, class: "w-full", id: "newCashioForm" do |form| %>
-    <div class="row g-2 mb-3 w-full">
-      <%= form.label "날짜: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :date, class: "col form-control form-control-sm", id: "datePicker", max: "9999-12-31", value: @cashio.date %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "거래처: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :account, class: "col form-control form-control-sm", value: @cashio.account %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "거래내용: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :desc, class: "col form-control form-control-sm", value: @cashio.desc %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "비고: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :note, class: "col form-control form-control-sm", value: @cashio.note %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "금액: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cashio.price.abs, delimiter: ',') , data: { action: 'keyup->cashio#priceString' } %>
-    </div>
+
+    <%= element_in_form(form, :date, '날짜') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31", value: @cashio.date) } %>
+    <%= element_in_form(form, :account, '거래처') { |f, n, cl| f.text_field(n, class: cl, value: @cashio.account) } %>
+    <%= element_in_form(form, :desc, '거래내용') { |f, n, cl| f.text_field(n, class: cl, value: @cashio.desc) } %>
+    <%= element_in_form(form, :note, '비고') { |f, n, cl| f.text_field(n, class: cl, value: @cashio.note) } %>
+    <%= element_in_form(form, :price, '금액') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma", value: number_with_delimiter(@cashio.price.abs, delimiter: ','), data: { action: 'keyup->cashio#priceString' }) } %>
     <div id="priceDisplay" class="tw-text-center"></div>
     <div>
       <%= form.radio_button :io, "input", checked: @cashio.io == 'input', class: "form-check-input" %>

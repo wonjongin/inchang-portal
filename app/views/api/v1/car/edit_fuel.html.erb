@@ -2,42 +2,21 @@
 <br>
 <div data-controller="car">
   <%= form_with url: '/api/v1/car/create_repair', method: :post, class: "w-full", id: "newCarFuelForm" do |form| %>
-    <div class="row g-2 mb-3 w-full">
-      <%= form.label "차번호: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :number, class: "col form-control form-control-sm", value: @car.number %>
+
+    <%= element_in_form(form, :number, '차량번호') { |f, n, cl| f.text_field(n, class: cl, value: @car.number) } %>
+    <%= element_in_form(form, :refueled_at, '주유일') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31", value: @cf.refueled_at) } %>
+    <%= element_in_form(form, :odo, '주행거리') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma", value: number_with_delimiter(@cf.odo, delimiter: ',')) } %>
+    <%= element_in_form(form, :station, '주유소') { |f, n, cl| f.text_field(n, class: cl, value: @cf.station) } %>
+    <%= element_in_form(form, :price, '주유금액') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma", value: number_with_delimiter(@cf.price, delimiter: ',')) } %>
+    <%= element_in_form(form, :unit_price, '주유단가') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma", value: number_with_delimiter(@cf.unit_price, delimiter: ',')) } %>
+    <%= element_in_form(form, :footnote, '비고') { |f, n, cl| f.text_field(n, class: cl, value: @cf.footnote) } %>
+
+    <div>
+      <%= form.radio_button :fuel_type, "gasoline", class: "form-check-input", checked: @cf.fuel_type == 'gasoline' %>
+      <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
+      <%= form.radio_button :fuel_type, "diesel", class: "form-check-input", checked: @cf.fuel_type == 'diesel' %>
+      <%= form.label :diesel, "경유", class: "form-check-label" %>
     </div>
-    <div class="row g-2 mb-3 w-full">
-      <%= form.label "주유일: ", class: "col-sm-2 form-label" %>
-      <%= form.date_field :refueled_at, class: "col form-control form-control-sm", max: "9999-12-31", value: @cf.refueled_at %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "주행거리: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :odo, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cf.odo, delimiter: ',') %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "주유소: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :station, class: "col form-control form-control-sm", value: @cf.station %>
-    </div>
-    <!--    <div class="row g-2 mb-3">-->
-    <%#= form.label "정비내용: ", class: "col-sm-2 form-label" %>
-    <%#= form.text_field :desc, class: "col form-control form-control-sm" %>
-    <!--    </div>-->
-    <div class="row g-2 mb-3">
-      <%= form.label "주유금액: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cf.price, delimiter: ',') %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "주유단가: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :unit_price, class: "col form-control form-control-sm number-auto-comma", value: number_with_delimiter(@cf.unit_price, delimiter: ',') %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= form.label "비고: ", class: "col-sm-2 form-label" %>
-      <%= form.text_field :footnote, class: "col form-control form-control-sm", value: @cf.footnote %>
-    </div>
-    <%= form.radio_button :fuel_type, "gasoline", class: "form-check-input", checked: @cf.fuel_type == 'gasoline' %>
-    <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
-    <%= form.radio_button :fuel_type, "diesel", class: "form-check-input", checked: @cf.fuel_type == 'diesel' %>
-    <%= form.label :diesel, "경유", class: "form-check-label" %>
   <% end %>
   <br>
   <br>
