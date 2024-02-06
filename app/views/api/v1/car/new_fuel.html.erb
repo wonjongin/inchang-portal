@@ -2,40 +2,20 @@
 <br>
 <div data-controller="car">
   <%= form_with url: '/api/v1/car/create_repair', method: :post, class: "w-full", id: "newCarFuelForm" do |form| %>
-    <div class="row g-2 mb-3 w-full">
-      <%= label_in_form(form, '차번호') %>
-      <%= form.text_field :number, class: "col form-control form-control-sm", value: @car.number %>
-    </div>
-    <div class="row g-2 mb-3 w-full">
-      <%= label_in_form(form, '주유일') %>
-      <%= form.date_field :refueled_at, class: "col form-control form-control-sm", max: "9999-12-31" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '주행거리') %>
-      <%= form.text_field :odo, class: "col form-control form-control-sm number-auto-comma" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '주유소') %>
-      <%= form.text_field :station, class: "col form-control form-control-sm" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '주유금액') %>
-      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '주유단가') %>
-      <%= form.text_field :unit_price, class: "col form-control form-control-sm number-auto-comma" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '비고') %>
-      <%= form.text_field :footnote, class: "col form-control form-control-sm" %>
-    </div>
+    <%= element_in_form(form, :number, '차번호') { |f, n, cl| f.text_field(n, class: cl, value: @car.number) } %>
+    <%= element_in_form(form, :refueled_at, '주유일') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31") } %>
+    <%= element_in_form(form, :odo, '주행거리') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma") } %>
+    <%= element_in_form(form, :station, '주유소') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :price, '주유금액') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma") } %>
+    <%= element_in_form(form, :unit_price, '주유단가') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma") } %>
+    <%= element_in_form(form, :footnote, '비고') { |f, n, cl| f.text_field(n, class: cl) } %>
+
     <div>
-    <%= form.radio_button :fuel_type, "gasoline", class: "form-check-input" %>
-    <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
-    <%= form.radio_button :fuel_type, "diesel", class: "form-check-input" %>
-    <%= form.label :diesel, "경유", class: "form-check-label"  %>
-  </div>
+      <%= form.radio_button :fuel_type, "gasoline", class: "form-check-input" %>
+      <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
+      <%= form.radio_button :fuel_type, "diesel", class: "form-check-input" %>
+      <%= form.label :diesel, "경유", class: "form-check-label" %>
+    </div>
   <% end %>
   <br>
   <br>

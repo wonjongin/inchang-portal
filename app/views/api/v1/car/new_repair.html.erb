@@ -2,34 +2,13 @@
 <br>
 <div data-controller="car">
   <%= form_with url: '/api/v1/car/create_repair', method: :post, class: "w-full", id: "newCarRepairForm" do |form| %>
-    <div class="row g-2 mb-3 w-full">
-      <%= label_in_form(form, '차번호') %>
-      <%= form.text_field :number, class: "col form-control form-control-sm", value: @car.number %>
-    </div>
-    <div class="row g-2 mb-3 w-full">
-      <%= label_in_form(form, '정비일') %>
-      <%= form.date_field :repaired_at, class: "col form-control form-control-sm", max: "9999-12-31" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '주행거리') %>
-      <%= form.text_field :odo, class: "col form-control form-control-sm number-auto-comma" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '정비소') %>
-      <%= form.text_field :center, class: "col form-control form-control-sm" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '정비내용') %>
-      <%= form.text_field :desc, class: "col form-control form-control-sm" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '정비금액') %>
-      <%= form.text_field :price, class: "col form-control form-control-sm number-auto-comma" %>
-    </div>
-    <div class="row g-2 mb-3">
-      <%= label_in_form(form, '비고') %>
-      <%= form.text_field :footnote, class: "col form-control form-control-sm" %>
-    </div>
+    <%= element_in_form(form, :number, '차번호') { |f, n, cl| f.text_field(n, class: cl, value: @car.number) } %>
+    <%= element_in_form(form, :repaired_at, '정비일') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31") } %>
+    <%= element_in_form(form, :odo, '주행거리') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma") } %>
+    <%= element_in_form(form, :center, '정비소') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :desc, '정비내용') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :price, '정비금액') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma") } %>
+    <%= element_in_form(form, :footnote, '비고') { |f, n, cl| f.text_field(n, class: cl) } %>
   <% end %>
   <br>
   <br>
