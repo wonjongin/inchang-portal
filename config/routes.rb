@@ -8,6 +8,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'car_log/list/:car_id', to: 'car_log#list'
+      get 'car_log/new/:car_id', to: 'car_log#new'
+      post 'car_log/create/:car_id', to: 'car_log#create'
+      get 'car_log/edit/:carlog_id', to: 'car_log#edit'
+      get 'car_log/xlsx_log/:car_id', to: 'car_log#xlsx_log'
+      post 'car_log/update/:carlog_id', to: 'car_log#update'
+      delete 'car_log/delete/:carlog_id', to: 'car_log#delete'
       get 'meeting/list'
       get 'meeting/new'
       get 'meeting/detail/:meeting_id', to: 'meeting#detail'

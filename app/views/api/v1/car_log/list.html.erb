@@ -1,0 +1,98 @@
+<h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 주유내역</h1>
+<div class="tw-flex tw-justify-end">
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+    <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm") %>
+    <%= link_to("/api/v1/car_log/xlsx_log/#{@car.id}", class: "btn btn-outline-primary btn-sm") do %>
+      <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀
+    <% end %>
+    <%= link_to("운행기록 추가", "/api/v1/car_log/new/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
+  </div>
+</div>
+<br>
+<div class="overflow-x-auto">
+  <table
+    class="table table-bordered table-hover mt-3"
+  >
+    <thead class="">
+    <tr>
+      <% %w[사용일자 차량코드 사용자 사용목적 출발지 도착지 주행거리 도착누적거리 수정 삭제].each do |x| %>
+        <th class="text-center">
+          <%= x %>
+        </th>
+      <% end %>
+
+    </tr>
+    </thead>
+    <tbody class="">
+    <% if @carlogs.count == 0 %>
+      <tr>
+        <td class="text-center" colspan="12">
+          운행기록이 없습니다.
+        </td>
+      </tr>
+    <% else %>
+      <% @carlogs.each do |carlog| %>
+        <tr>
+          <td class="text-center">
+            <%= carlog.at %> (요일)
+          </td>
+          <td class="text-start">
+            <%= carlog.car.number %>
+          </td>
+          <td class="text-start">
+            <%= carlog.user.name %>
+          </td>
+          <td class="text-start">
+            <%= carlog.purpose %>
+          </td>
+          <td class="text-start">
+            <%= carlog.depart %>
+          </td>
+          <td class="text-start">
+            <%= carlog.arrive %>
+          </td>
+          <td class="text-end">
+            <%= number_with_delimiter(carlog.sub_odo, delimiter: ',') %>
+          </td>
+          <td class="text-end">
+              <%= number_with_delimiter(carlog.odo, delimiter: ',') %>
+          </td>
+
+
+          <!-- <td class="text-start">
+            <%#= fuel.footnote %>
+          </td> -->
+          <td class="text-center">
+            <%= link_to("✏️",
+                        "/api/v1/car_log/edit/#{carlog.id}",
+                        # class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}"
+                        ) %>
+          </td>
+          <td class="text-center">
+            <%= button_to("🗑️",
+                          "/api/v1/car_log/delete/#{carlog.id}",
+                          method: :delete,
+                          #class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}",
+                          form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
+          </td>
+          <td class="text-center">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexCheckDefault"
+                data-controller="car"
+                data-action="change->car#admit"
+                data-car-what-to-admit-param="fuel"
+                data-car-id-param="<%= carlog.id %>"
+                <%#= carlog.admitted ? 'checked' : '' %>
+                <%= @current_user.is_admin? ? '' : 'disabled' %>
+              >
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

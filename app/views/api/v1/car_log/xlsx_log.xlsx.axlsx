@@ -1,0 +1,43 @@
+wb = xlsx_package.workbook
+
+wb.styles do |s|
+    red_text = s.add_style :fg_color=> "FF0000",
+                            :b => true,
+                            :sz => 14,
+                            :alignment => { :horizontal => :center,
+                                            :vertical => :center ,
+                                            :wrap_text => true}
+    th_text = s.add_style :fg_color=> "000000",
+                            :b => false,
+                            :bg_color => "F6D6B8",
+                            :sz => 10,
+                            :border => { :style => :thin, :color => "000000" },
+                            :alignment => { :horizontal => :center,
+                                            :vertical => :center ,
+                                            :wrap_text => true}
+    td_text = s.add_style :fg_color=> "000000",
+                            :b => false,
+                            :sz => 10,
+                            :border => { :style => :thin, :color => "000000" }
+    wb.add_worksheet(name: '@car.number') do |sheet|
+        sheet.add_row ["", "", "업무용승용차운행기록부"], :style => red_text
+        sheet.merge_cells "C1:H1"
+
+        4.times do
+            sheet.add_row []
+        end
+
+        sheet.add_row ['사용일자', '차량코드', '사용자', '', '', '사용목적', '운행내역', '', '', ''], style: th_text
+        sheet.add_row ['사용일자', '차량코드', '부서', '직책', '성명', '사용목적', '출발지', '도착지', '주행거리', '도착누적거리'], style: th_text
+        sheet.merge_cells "A6:A7"
+        sheet.merge_cells "B6:B7"
+        sheet.merge_cells "F6:F7"
+        sheet.merge_cells "C6:E6"
+        sheet.merge_cells "G6:J6"
+        @cls.each do |cl|
+            sheet.add_row ["#{cl.at.strftime("%Y%m%d")}", cl.car.number, '', '', cl.user.name, cl.purpose, cl.depart, cl.arrive, cl.sub_odo, cl.odo], style: td_text
+            @index += 1
+        end
+        sheet.column_widths 11, 10, 11, 11, 11, 9, 9, 40, 11, 12
+    end
+end

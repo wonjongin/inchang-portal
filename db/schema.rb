@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_31_121621) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_18_170333) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -54,6 +54,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_31_121621) do
     t.integer "fuel_type"
     t.index ["car_id"], name: "index_car_fuels_on_car_id"
     t.index ["user_id"], name: "index_car_fuels_on_user_id"
+  end
+
+  create_table "car_logs", force: :cascade do |t|
+    t.date "at"
+    t.integer "user_id", null: false
+    t.integer "car_id", null: false
+    t.integer "purpose"
+    t.string "depart"
+    t.string "arrive"
+    t.integer "odo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_car_logs_on_car_id"
+    t.index ["user_id"], name: "index_car_logs_on_user_id"
   end
 
   create_table "car_repairs", force: :cascade do |t|
@@ -169,4 +183,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_31_121621) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "car_logs", "cars"
+  add_foreign_key "car_logs", "users"
 end

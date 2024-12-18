@@ -1,0 +1,43 @@
+<h1 class="tw-text-2xl">차량 운행기록 추가</h1>
+<br>
+<div data-controller="car">
+  <%= form_with url: '/api/v1/car/create_carlog', method: :post, class: "w-full", id: "newCarLogForm" do |form| %>
+    <%= element_in_form(form, :number, '차량번호') { |f, n, cl| f.text_field(n, class: cl, value: @car.number) } %>
+    <%= element_in_form(form, :at, '사용일자') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31") } %>
+    <%= element_in_form(form, :user, '사용자') { |f, n, cl| f.text_field(n, class: cl, value: @current_user.name) } %>
+    <%= element_in_form(form, :depart, '출발지') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :arrive, '도착지') { |f, n, cl| f.text_field(n, class: cl) } %>
+    <%= element_in_form(form, :odo, '주행거리') { |f, n, cl| f.text_field(n, class: "#{cl} number-auto-comma", placeholder: "누적주행거리") } %>
+    <%= element_in_form(form, :footnote, '비고') { |f, n, cl| f.text_field(n, class: cl) } %>
+
+    <div>
+      <%= form.radio_button :purpose, 1, class: "form-check-input" %>
+      <%= form.label :one, "1. 사업장", class: "form-check-label" %>
+      <%= form.radio_button :purpose, 2, class: "form-check-input" %>
+      <%= form.label :two, "2. 거래처", class: "form-check-label" %>
+      <%= form.radio_button :purpose, 3, class: "form-check-input" %>
+      <%= form.label :three, "3. 회의", class: "form-check-label" %>
+      <%= form.radio_button :purpose, 4, class: "form-check-input" %>
+      <%= form.label :four, "4. 판촉", class: "form-check-label" %>
+      <%= form.radio_button :purpose, 5, class: "form-check-input" %>
+      <%= form.label :five, "5. 출퇴근", class: "form-check-label" %>
+      <%= form.radio_button :purpose, 6, class: "form-check-input" %>
+      <%= form.label :six, "6. 기타", class: "form-check-label" %>
+      <%= form.radio_button :purpose, 7, class: "form-check-input" %>
+      <%= form.label :seven, "7. 비업무용", class: "form-check-label" %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="car"
+            data-action="click->car#saveCarLog"
+            data-car-type-param="create"
+            data-car-car-id-param="<%= @car.id %>"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new(
+      "btn btn-outline-primary", title: "목록", path: "/api/v1/car_log/list/#{@car.id}") %>
+  </div>
+</div>

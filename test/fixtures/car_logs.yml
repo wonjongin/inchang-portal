@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  at: 2024-12-19
+  driver: one
+  car: one
+  purpose: 1
+  depart: MyString
+  arrive: MyString
+  odo: 1
+
+two:
+  at: 2024-12-19
+  driver: two
+  car: two
+  purpose: 1
+  depart: MyString
+  arrive: MyString
+  odo: 1

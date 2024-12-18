@@ -2,6 +2,7 @@ class Car < ApplicationRecord
   enum status: { use: 0, disposal: 1 }
   has_many :car_repairs
   has_many :car_fuels
+  has_many :car_logs
 
   acts_as_xlsx
 
