@@ -42,10 +42,19 @@ class Api::V1::CarLogController < ApplicationController
   def delete
   end
 
-  def xlsx_log
+  def xlsx_form
     @car = Car.find_by(id: params[:car_id])
-    @cls = @car.car_logs.order(at: :asc, odo: :asc)
+  end
+
+  def xlsx_log
+    start_date = params[:start]
+    end_date = params[:end]
+
+    ss = Date.parse(start_date).strftime('%y%m%d')
+    es = Date.parse(end_date).strftime('%y%m%d')
+    @car = Car.find_by(id: params[:car_id])
+    @cls = @car.car_logs.where(at: start_date..end_date).order(at: :asc, odo: :asc)
     @index = 1
-    render xlsx: 'xlsx_log', filename: "업무차운행기록 #{@car.number}.xlsx", formats: :xlsx
+    render xlsx: 'xlsx_log', filename: "업무차운행기록-#{@car.number}-#{ss}-#{es}.xlsx", formats: :xlsx
   end
 end

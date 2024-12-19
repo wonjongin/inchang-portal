@@ -296,6 +296,22 @@ export default class extends Controller {
     }
   }
 
+  async getXlsxLog(event) {
+    console.log(event);
+    const form = document.getElementById("getXlsxLogForm");
+    console.log(form.elements);
+    let start = form.elements["start"].value;
+    let end = form.elements["end"].value;
+    if (start === "" || end === "") {
+      alert("빈 값이 있습니다.");
+      console.log(1);
+      return;
+    }
+
+    let url = `/api/v1/car_log/xlsx_log/${event.params.carId.toString()}/${start}/${end}`;
+    window.location.replace(url);
+  }
+
   async admit(event) {
     console.log(event.target.checked);
 

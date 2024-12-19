@@ -39,7 +39,7 @@
   >
     <thead class="">
     <tr>
-      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 주행 평균연비 정비 주유 수정 매각 상태]
+      <% cols = %w[No. 번호 모델 등록일 보험사 보험기간 보험내용 매각일 주행 평균연비 운행 정비 주유 수정 매각 상태]
          cols.delete('매각일') if @filter == 'use'
          cols.delete('상태') if @filter == 'use'
          cols.delete('상태') if @filter == 'disposal'
@@ -98,6 +98,11 @@
           </td>
           <td class="text-end">
             <%= number_with_delimiter(CarFuel.average_mileage(car), delimiter: ',') %>
+          </td>
+          <td class="text-center">
+            <%= link_to "📅",
+                        "/api/v1/car_log/list/#{car.id}",
+                        class: "link-opacity-50-hover link-underline link-underline-opacity-0" %>
           </td>
           <td class="text-center">
             <%= link_to "🛠️",

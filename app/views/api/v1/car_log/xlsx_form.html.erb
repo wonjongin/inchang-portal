@@ -1,0 +1,21 @@
+<h1 class="tw-text-2xl">차량 운행기록파일 다운로드</h1>
+<br>
+<div data-controller="car">
+  <%= form_with url: '/api/v1/car_log/xlsx_log', method: :post, class: "w-full", id: "getXlsxLogForm" do |form| %>
+    <%= element_in_form(form, :number, '차량번호') { |f, n, cl| f.text_field(n, class: cl, value: @car.number, disabled: true) } %>
+    <%= element_in_form(form, :start, '시작일자') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31") } %>
+    <%= element_in_form(form, :end, '종료일자') { |f, n, cl| f.date_field(n, class: cl, max: "9999-12-31") } %>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button class="btn btn-outline-primary" value="저장" id="saveBtn"
+            data-controller="car"
+            data-action="click->car#getXlsxLog"
+            data-car-car-id-param="<%= @car.id %>"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new(
+      "btn btn-outline-primary", title: "목록", path: "/api/v1/car_log/list/#{@car.id}") %>
+  </div>
+</div>

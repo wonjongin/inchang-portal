@@ -1,8 +1,8 @@
-<h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 주유내역</h1>
+<h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 운행기록</h1>
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm") %>
-    <%= link_to("/api/v1/car_log/xlsx_log/#{@car.id}", class: "btn btn-outline-primary btn-sm") do %>
+    <%= link_to("/api/v1/car_log/xlsx_form/#{@car.id}", class: "btn btn-outline-primary btn-sm") do %>
       <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀
     <% end %>
     <%= link_to("운행기록 추가", "/api/v1/car_log/new/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
