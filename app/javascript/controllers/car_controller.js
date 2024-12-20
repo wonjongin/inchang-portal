@@ -265,7 +265,7 @@ export default class extends Controller {
     if (event.params.type === "create") {
       url = "/api/v1/car_log/create/" + event.params.carId.toString();
     } else if (event.params.type === "update") {
-      url = "/api/v1/car_log/update/" + event.params.fuelId.toString();
+      url = "/api/v1/car_log/update/" + event.params.carLogId.toString();
     }
 
     let response = await fetch(url, {

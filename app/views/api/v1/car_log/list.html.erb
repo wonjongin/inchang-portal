@@ -1,4 +1,15 @@
 <h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 운행기록</h1>
+
+<div class="tw-flex tw-justify-end">
+  <div class="tw-w-36">
+    <div class="input-group input-group-sm mb-3">
+      <%= link_to "<", "/api/v1/car_log/list/#{@car.id}/#{@year - 1}", class: "btn btn-outline-primary" %>
+      <input type="text" class="form-control tw-text-end" aria-label="year" id="year" value="<%= @year %>">
+      <span class="input-group-text">년</span>
+      <%= link_to ">", "/api/v1/car_log/list/#{@car.id}/#{@year + 1}", class: "btn btn-outline-primary" %>
+    </div>
+  </div>
+</div>
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
     <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm") %>
@@ -15,7 +26,7 @@
   >
     <thead class="">
     <tr>
-      <% %w[사용일자 차량코드 사용자 사용목적 출발지 도착지 주행거리 도착누적거리 수정 삭제].each do |x| %>
+      <% %w[사용일자 차량코드 사용자 목적 출발지 도착지 주행거리 도착누적거리 수정 삭제].each do |x| %>
         <th class="text-center">
           <%= x %>
         </th>
@@ -26,7 +37,7 @@
     <tbody class="">
     <% if @carlogs.count == 0 %>
       <tr>
-        <td class="text-center" colspan="12">
+        <td class="text-center" colspan="10">
           운행기록이 없습니다.
         </td>
       </tr>
@@ -36,13 +47,13 @@
           <td class="text-center">
             <%= carlog.at %> (요일)
           </td>
-          <td class="text-start">
+          <td class="text-center">
             <%= carlog.car.number %>
           </td>
-          <td class="text-start">
+          <td class="text-center">
             <%= carlog.user.name %>
           </td>
-          <td class="text-start">
+          <td class="text-center">
             <%= carlog.purpose %>
           </td>
           <td class="text-start">
@@ -75,7 +86,7 @@
                           #class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}",
                           form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
           </td>
-          <td class="text-center">
+          <!-- <td class="text-center">
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -84,12 +95,12 @@
                 data-controller="car"
                 data-action="change->car#admit"
                 data-car-what-to-admit-param="fuel"
-                data-car-id-param="<%= carlog.id %>"
+                data-car-id-param="<%#= carlog.id %>"
                 <%#= carlog.admitted ? 'checked' : '' %>
-                <%= @current_user.is_admin? ? '' : 'disabled' %>
+                <%#= @current_user.is_admin? ? '' : 'disabled' %>
               >
             </div>
-          </td>
+          </td> -->
         </tr>
       <% end %>
     <% end %>

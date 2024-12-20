@@ -229,7 +229,7 @@ class Api::V1::CarController < ApplicationController
   def delete_fuel
     cf = CarFuel.find_by(id: params[:fuel_id])
     car_id = cf.car.id
-    if @current_user.is_admin? || cr.admitted == false
+    if @current_user.is_admin? || cf.admitted == false
       cf.destroy!
       flash.alert = "주유내역 1건이 삭제되었습니다."
     else

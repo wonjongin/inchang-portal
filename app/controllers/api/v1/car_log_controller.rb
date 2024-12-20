@@ -4,7 +4,15 @@ class Api::V1::CarLogController < ApplicationController
 
   def list
     @car = Car.find_by(id: params[:car_id])
-    @carlogs = CarLog.where(car: @car).order(at: :desc, odo: :desc)
+
+    if params[:year] == nil
+      today = Date.today
+      @year = today.year
+    else
+      @year = params[:year].to_i
+    end
+    date = Date.new(@year, 1, 1)
+    @carlogs = CarLog.where(car: @car, at: date..date.end_of_year).order(at: :desc, odo: :desc)
   end
 
   def new
@@ -34,12 +42,38 @@ class Api::V1::CarLogController < ApplicationController
   end
 
   def edit
+    @cl = CarLog.find_by(id: params[:carlog_id])
+    @car = @cl.car
   end
 
   def update
+    cl = CarLog.find_by(id: params[:carlog_id])
+    cl.update(
+      at: params[:at],
+      user: User.find_by(name: params[:user]),
+      purpose: params[:purpose],
+      depart: params[:depart],
+      arrive: params[:arrive],
+      odo: params[:odo],
+    )
+    render json: {
+      status: :ok,
+      message: "Success!",
+      code: :success,
+      car_log_id: cl.id,
+    }
   end
 
   def delete
+    cl = CarLog.find_by(id: params[:carlog_id])
+    car_id = cl.car.id
+    if @current_user.is_admin?
+      cl.destroy!
+      flash.alert = "주유내역 1건이 삭제되었습니다."
+    else
+      flash.alert = "권한이 없어요"
+    end
+    redirect_to "/api/v1/car_log/list/#{car_id}"
   end
 
   def xlsx_form
