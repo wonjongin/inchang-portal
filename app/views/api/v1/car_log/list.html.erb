@@ -45,7 +45,7 @@
       <% @carlogs.each do |carlog| %>
         <tr>
           <td class="text-center">
-            <%= carlog.at %> (요일)
+            <%= carlog.at %> (<%= carlog.wday_name %>)
           </td>
           <td class="text-center">
             <%= carlog.car.number %>

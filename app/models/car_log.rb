@@ -11,4 +11,8 @@ class CarLog < ApplicationRecord
       self.odo - prev.odo
     end
   end
+
+  def wday_name
+    %w[일 월 화 수 목 금 토][self.at.wday]
+  end
 end
