@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'car_log/list/:car_id', to: 'car_log#list'
+      get 'car_log/list/:car_id/:year', to: 'car_log#list'
       get 'car_log/new/:car_id', to: 'car_log#new'
       post 'car_log/create/:car_id', to: 'car_log#create'
       get 'car_log/edit/:carlog_id', to: 'car_log#edit'
