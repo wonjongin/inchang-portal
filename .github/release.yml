@@ -1,0 +1,52 @@
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - octocat
+  categories:
+    - title: 🚀 New Features
+      labels:
+        - Semver-Major
+        - breaking-change
+
+    - title: 🐛 Bug Fixes
+      labels:
+        - Semver-Minor
+        - enhancement
+
+    - title: 🔧 Improvements
+      labels:
+        - improvement
+
+    - title: 💥 Breaking Changes
+      labels:
+        - breaking-change
+
+    - title: 📦 Dependencies
+      labels:
+        - dependencies
+
+    - title: 📝 Documentation
+      labels:
+        - documentation
+
+    - title: 🔍 Security
+      labels:
+        - security
+
+    - title: 🧪 Testing
+      labels:
+        - testing
+
+    - title: ⚡️ Performance
+      labels:
+        - performance
+
+    - title: 📋 Notes
+      labels:
+        - notes
+
+    - title: 🙏 Credits
+      labels:
+        - 더 많은 변경사항은 [CHANGELOG.md](링크) 참고해주세요.
