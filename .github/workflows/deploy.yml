@@ -25,6 +25,7 @@ jobs:
             pm2 stop inchang-portal
             git stash
             git pull
+            bin/bundle install
             bin/rails backup:db
             bin/rails db:migrate RAILS_ENV=production
             bin/rails assets:clobber
