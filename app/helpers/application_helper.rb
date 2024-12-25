@@ -18,6 +18,10 @@ module ApplicationHelper
     # end
   end
 
+  def app_version
+    MyApp::Version.to_s
+  end
+
 
   def table_from_hash
 

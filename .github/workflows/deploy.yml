@@ -1,0 +1,32 @@
+name: Deploy on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print release tag
+        run: echo "Release tag is ${{ github.event.release.tag_name }}"
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd inchang-portal
+            pm2 stop inchang-portal
+            git stash
+            git pull
+            bin/rails backup:db
+            bin/rails db:migrate RAILS_ENV=production
+            bin/rails assets:clobber
+            bin/rails assets:precompile RAILS_ENV=production
+            sed -i 's/APP_VERSION=.*/APP_VERSION=${{ github.event.release.tag_name }}/' .env
+            pm2 start inchang-portal
