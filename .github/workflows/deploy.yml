@@ -20,7 +20,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            source ~/.bashrc
+            export PATH="${{ secrets.RUBY_PATH }}:$PATH"
             cd inchang-portal
             pm2 stop inchang-portal
             git stash
