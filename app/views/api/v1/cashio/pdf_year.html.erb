@@ -1,0 +1,96 @@
+<h1 class="tw-text-center tw-text-3xl">업무일지</h1>
+<br>
+<br>
+<br>
+<!--<p class="tw-text-right"><%#= @diary.data %> (<%#= ['일', '월', '화', '수', '목', '금', '토'][@diary.date.wday] %>) <%#= @diary.user.name %></p>-->
+<!--<table class="tw-table">-->
+<!--  <thead>-->
+<!--  <tr>-->
+<!--    <td class="tw-text-center tw-font-bold">-->
+<!--      일자-->
+<!--    </td>-->
+<!--    <td class="tw-text-center tw-font-bold">-->
+<!--      작성자-->
+<!--    </td>-->
+<!--    <td class="tw-text-center tw-font-bold">-->
+<!--      승인-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td class="tw-text-center">-->
+<!--      <%#= @diary.date %> (<%#= ['일', '월', '화', '수', '목', '금', '토'][@diary.date.wday] %>)-->
+<!--    </td>-->
+<!--    <td class="tw-text-center">-->
+<%#= @diary.user.name %>
+<!--    </td>-->
+<!--    <td class="tw-text-center">-->
+<%#= @diary.admitted ? '✅' : '❌' %>
+<!--    </td>-->
+<!--  </tr>-->
+<!--  <tr class="tw-text-center">-->
+<!--    <th>시간</th>-->
+<!--    <th colspan="2">내용</th>-->
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tbody class="table-group-divider">-->
+<%# @diary.events.order(start_time: :asc).each do |event| %>
+<!--    <tr>-->
+<!--      <td class="tw-text-center">-->
+<!--        <%#= event.start_time.strftime("%H:%M") %> ~-->
+<%#= event.end_time.strftime("%H:%M") %>
+<!--      </td>-->
+<!--      <td colspan="2">-->
+<%#= event.desc %>
+<!--      </td>-->
+<!--    </tr>-->
+<%# end %>
+<!--  </tbody>-->
+<!--</table>-->
+<div class="tw-overflow-x-auto tw-rounded-lg tw-border tw-border-gray-200">
+  <table class="tw-table text-[18px] tw-w-full tw-divide-y-2 tw-divide-gray-200 tw-bg-white">
+    <thead class="ltr:tw-text-left rtl:tw-text-right">
+    <tr class="tw-border tw-border-gray-200" style="min-height: 50px">
+      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 15%">
+        일자
+      </td>
+      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 40%">
+        작성자
+      </td>
+      <td class="tw-text-center tw-font-bold tw-text-xs" style="width: 25%">
+        승인
+      </td>
+    </tr>
+    <tr class="tw-border tw-border-gray-200">
+      <td class="tw-text-center tw-text-xs">
+        <%= @diary.date %> (<%= ['일', '월', '화', '수', '목', '금', '토'][@diary.date.wday] %>)
+      </td>
+      <td class="tw-text-center tw-text-xs">
+        <%= @diary.user.name %>
+      </td>
+      <td class="tw-text-center tw-text-xs">
+        <%= @diary.admitted ? '승인됨' : '승인되지 않음' %>
+      </td>
+    </tr>
+    <tr class="tw-border tw-border-gray-200">
+      <th class="tw-whitespace-nowrap tw-px-4 tw-py-2 tw-font-bold tw-text-gray-900 tw-text-xs">
+        시간
+      </th>
+      <th colspan="2" class="tw-whitespace-nowrap tw-px-4 tw-py-2 tw-font-bold tw-text-gray-900 tw-text-xs">
+        내용
+      </th>
+    </tr>
+    </thead>
+    <tbody class="tw-divide-y tw-divide-gray-200">
+    <% @diary.events.order(start_time: :asc).each do |event| %>
+      <tr class="tw-border tw-border-gray-200">
+        <td class="tw-text-center tw-whitespace-nowrap tw-px-4 tw-py-2 tw-font-medium tw-text-gray-900 tw-text-xs">
+          <%= event.times_string %>
+        </td>
+        <td colspan="2" class="tw-whitespace-nowrap tw-px-4 tw-py-2 tw-text-gray-700 tw-text-xs">
+          <%= event.desc %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

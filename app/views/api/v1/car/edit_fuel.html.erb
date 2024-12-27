@@ -16,6 +16,8 @@
       <%= form.label :gasoline, "휘발유", class: "form-check-label" %>
       <%= form.radio_button :fuel_type, "diesel", class: "form-check-input", checked: @cf.fuel_type == 'diesel' %>
       <%= form.label :diesel, "경유", class: "form-check-label" %>
+      <%= form.radio_button :fuel_type, "lpg", class: "form-check-input", checked: @cf.fuel_type == 'lpg' %>
+      <%= form.label :lpg, "LPG", class: "form-check-label" %>
     </div>
   <% end %>
   <br>

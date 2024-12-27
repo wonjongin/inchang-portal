@@ -1,5 +1,5 @@
 class CarFuel < ApplicationRecord
-  enum fuel_type: { gasoline: 0, diesel: 1 }
+  enum fuel_type: { gasoline: 0, diesel: 1, lpg:2 }
   belongs_to :car
   belongs_to :user
 
@@ -11,6 +11,7 @@ class CarFuel < ApplicationRecord
     d = {
       gasoline: '휘발유',
       diesel: '경유',
+      lpg: 'LPG'
     }.stringify_keys!
     d[self.fuel_type]
   end
@@ -51,7 +52,7 @@ class CarFuel < ApplicationRecord
       return 0
     end
     first = car.car_fuels.order(odo: :asc).first
-  
+
     total_fuel_amount = CarFuel.total_fuel_amount(car)
     if total_fuel_amount == 0
       return 0
