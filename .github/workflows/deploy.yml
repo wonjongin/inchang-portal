@@ -28,7 +28,6 @@ jobs:
             bin/bundle install
             bin/rails backup:db
             bin/rails db:migrate RAILS_ENV=production
-            bin/rails assets:clobber
             bin/rails assets:precompile RAILS_ENV=production
             sed -i 's/APP_VERSION=.*/APP_VERSION=${{ github.event.release.tag_name }}/' .env
             pm2 start inchang-portal

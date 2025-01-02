@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'user/list'
+      get 'user/edit/:user_id', to: 'user#edit'
+      post 'user/update/:user_id', to: 'user#update'
       get 'car_log/list/:car_id', to: 'car_log#list'
       get 'car_log/list/:car_id/:year', to: 'car_log#list'
       get 'car_log/new/:car_id', to: 'car_log#new'

@@ -18,3 +18,6 @@ application.register("car", CarController)
 
 import MeetingController from "./meeting_controller"
 application.register("meeting", MeetingController)
+
+import UserController from "./user_controller"
+application.register("user", UserController)

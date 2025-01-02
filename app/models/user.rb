@@ -7,7 +7,19 @@ class User < ApplicationRecord
   has_many :car_fuels
   has_many :meetings
 
+  enum status: { employed: 1, resigned: 2 }
+
   def is_admin?
-    self.permission == 'admin'
+    permission == 'admin'
+  end
+
+  def status_kr
+    return '' if status.blank?
+
+    d = {
+      employed: '재직',
+      resigned: '퇴사'
+    }.stringify_keys!
+    d[status]
   end
 end
