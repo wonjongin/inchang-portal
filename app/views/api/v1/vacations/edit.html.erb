@@ -1,0 +1,50 @@
+<h1 class="tw-text-2xl">연차수정</h1>
+<br>
+<div data-controller="vacation">
+  <%= form_with url: '/api/v1/vacation/create', method: :post, class: "w-full", id: "newVacationForm" do |form| %>
+    <%= element_in_form(form, :name, "이름") do |f, n, cl|
+      f.text_field(n, class: cl, value: @current_user.name, disabled: true)
+    end %>
+    <%= element_in_form(form, :start_date, "연차시작일") do |f, n, cl|
+      f.date_field(n, class: cl, max: "9999-12-31", value: @vacation.start_date)
+    end %>
+    <%= element_in_form(form, :end_date, "연차종료일") do |f, n, cl|
+      f.date_field(n, class: cl, max: "9999-12-31", value: @vacation.end_date)
+    end %>
+    <%= element_in_form(form, :reason, "연차사유") do |f, n, cl|
+      f.text_field(n, class: cl, value: @vacation.reason)
+    end %>
+
+    <div>
+      <%= form.radio_button :vacation_type,
+                        "annual",
+                        class: "form-check-input",
+                        checked: @vacation.vacation_type == "annual" %>
+      <%= form.label :one, "연차", class: "form-check-label" %>
+      <%= form.radio_button :vacation_type,
+                        "half_day",
+                        class: "form-check-input",
+                        checked: @vacation.vacation_type == "half_day" %>
+      <%= form.label :two, "반차", class: "form-check-label" %>
+    </div>
+  <% end %>
+  <br>
+  <br>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+    <button
+      class="btn btn-outline-primary"
+      value="저장"
+      id="saveBtn"
+      data-controller="vacation"
+      data-action="click->vacation#saveVacation"
+      data-vacation-type-param="update"
+      data-vacation-vacation-id-param="<%= @vacation.id %>"
+    >저장
+    </button>
+    <%= render BasicButtonComponent.new(
+      "btn btn-outline-primary",
+      title: "목록",
+      path: "/api/v1/vacations/",
+    ) %>
+  </div>
+</div>

@@ -41,7 +41,7 @@ module ApplicationHelper
         tbody = tag.tbody do
           if data.nil? || data.empty?
             tag.tr do
-              tag.td('내용이 없습니다.', colspan: hashs.length)
+              tag.td('내용이 없습니다.', colspan: hashs.length, class: 'text-center')
             end
           else
             capture do

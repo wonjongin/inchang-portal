@@ -8,6 +8,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      get 'vacations', to: 'vacations#index'
+      get 'vacations/list'
+      get 'vacations/detail'
+      get 'vacations/new'
+      post 'vacations/create'
+      get 'vacations/edit/:vacation_id', to: 'vacations#edit'
+      post 'vacations/update/:vacation_id', to: 'vacations#update'
+      delete 'vacations/delete'
       get 'user/list'
       get 'user/edit/:user_id', to: 'user#edit'
       post 'user/update/:user_id', to: 'user#update'

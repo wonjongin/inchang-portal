@@ -21,3 +21,6 @@ application.register("meeting", MeetingController)
 
 import UserController from "./user_controller"
 application.register("user", UserController)
+
+import VacationController from "./vacation_controller"
+application.register("vacation", VacationController)

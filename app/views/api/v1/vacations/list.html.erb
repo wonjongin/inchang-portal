@@ -1,0 +1,17 @@
+<h1 class="tw-text-2xl">휴가목록</h1>
+<br>
+<div class="tw-flex tw-justify-end">
+  <div
+    class="btn-group btn-group-sm"
+    role="group"
+    aria-label="Basic outlined example"
+  >
+    <%= link_to(
+      "연차 추가",
+      "/api/v1/vacations/new",
+      class: "btn btn-outline-primary btn-sm",
+    ) %>
+  </div>
+</div>
+
+<%= table_from_hash(@hashs, @vacation_histories) %>

@@ -45,4 +45,25 @@ class User < ApplicationRecord
   def total_vacations_in_this_year
     total_vacations_in(Date.today.year)
   end
+
+  def used_vacations_in(year)
+    va = vacation_histories_array_in(year)
+    va.select { |v| v[:type] == '연차' }.count + va.select { |v| v[:type] == '반차' }.count * 0.5
+  end
+
+  def remaining_vacations_in(year)
+    total_vacations_in(year) - used_vacations_in(year)
+  end
+
+  def vacation_histories_in(year)
+    vacation_histories.where('start_date >= ? AND end_date <= ?', "#{year}-01-01", "#{year}-12-31")
+  end
+
+  def vacation_histories_array_in(year)
+    res = []
+    vacation_histories_in(year).each do |vacation|
+      res.push(*vacation.date_range)
+    end
+    res
+  end
 end
