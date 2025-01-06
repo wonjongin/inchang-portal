@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :car_logs
   has_many :car_fuels
   has_many :meetings
+  has_many :vacation_histories
 
   enum status: { employed: 1, resigned: 2 }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_06_022747) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_06_023850) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -185,8 +185,21 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_06_022747) do
     t.string "eid"
   end
 
+  create_table "vacation_histories", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.text "reason"
+    t.boolean "is_approved"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "vacation_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_vacation_histories_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "car_logs", "cars"
   add_foreign_key "car_logs", "users"
+  add_foreign_key "vacation_histories", "users"
 end
