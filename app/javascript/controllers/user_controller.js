@@ -22,7 +22,8 @@ export default class extends Controller {
       form.elements["name"].value === "" ||
       form.elements["hire_date"].value === "" ||
       form.elements["position"].value === "" ||
-      form.elements["status"].value === ""
+      form.elements["status"].value === "" ||
+      form.elements["eid"].value === ""
     ) {
       alert("빈 값이 있습니다.");
       console.log(1);
@@ -45,6 +46,7 @@ export default class extends Controller {
         hire_date: form.elements["hire_date"].value,
         position: form.elements["position"].value,
         status: form.elements["status"].value,
+        eid: form.elements["eid"].value,
       }),
     });
 

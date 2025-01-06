@@ -9,7 +9,7 @@
       f.date_field(n, class: cl, max: "9999-12-31", value: @user.hire_date)
     end %>
     <%= element_in_form(form, :eid, "사번") do |f, n, cl|
-      f.text_field(n, class: cl, value: @user.id, disabled: true)
+      f.text_field(n, class: cl, value: @user.eid)
     end %>
     <%= element_in_form(form, :position, "직급") do |f, n, cl|
       f.text_field(n, class: cl, value: @user.position)
