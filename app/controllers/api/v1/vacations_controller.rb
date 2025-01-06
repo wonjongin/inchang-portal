@@ -127,5 +127,9 @@ class Api::V1::VacationsController < ApplicationController
   end
 
   def delete
+    v = VacationHistory.find(params[:vacation_id])
+    v.destroy
+
+    redirect_to '/api/v1/vacations'
   end
 end

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       post 'vacations/create'
       get 'vacations/edit/:vacation_id', to: 'vacations#edit'
       post 'vacations/update/:vacation_id', to: 'vacations#update'
-      delete 'vacations/delete'
+      delete 'vacations/delete/:vacation_id', to: 'vacations#delete'
       post 'vacations/approve/:vacation_id', to: 'vacations#approve'
       post 'vacations/disapprove/:vacation_id', to: 'vacations#disapprove'
       get 'user/list'

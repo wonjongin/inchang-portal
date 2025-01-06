@@ -74,6 +74,21 @@
     <% end %>
 
     <%= link_to("목록", "/api/v1/vacations", class: "btn btn-outline-primary") %>
+
+    <% if @current_user.is_admin? %>
+      <div class="btn btn-outline-danger">
+        <%= button_to(
+          "🔐 삭제",
+          "/api/v1/vacations/delete/#{@vacation.id}",
+          method: :delete,
+          form: {
+            data: {
+              turbo_confirm: "정말 삭제하실건가요?",
+            },
+          },
+        ) %>
+      </div>
+    <% end %>
   </div>
 
   <div class="btn-group btn-group-sm">
