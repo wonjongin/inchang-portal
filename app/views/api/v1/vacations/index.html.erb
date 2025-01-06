@@ -2,6 +2,27 @@
 <br>
 
 <div class="tw-flex tw-justify-end">
+  <div class="tw-w-36">
+    <div class="input-group input-group-sm mb-3">
+      <%= link_to "<",
+      "/api/v1/vacations/?year=#{@year - 1}",
+      class: "btn btn-outline-primary" %>
+      <input
+        type="text"
+        class="form-control tw-text-end"
+        aria-label="year"
+        id="year"
+        value="<%= @year %>"
+      >
+      <span class="input-group-text">년</span>
+      <%= link_to ">",
+      "/api/v1/vacations/?year=#{@year + 1}",
+      class: "btn btn-outline-primary" %>
+    </div>
+  </div>
+</div>
+
+<div class="tw-flex tw-justify-end">
   <div
     class="btn-group btn-group-sm"
     role="group"

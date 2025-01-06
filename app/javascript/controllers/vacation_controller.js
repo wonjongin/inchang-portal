@@ -26,6 +26,11 @@ export default class extends Controller {
       return;
     }
 
+    if (form.elements["start_date"].value > form.elements["end_date"].value) {
+      alert("종료일이 시작일보다 빠를 수 없습니다.");
+      return;
+    }
+
     let url = "";
     if (event.params.type === "update") {
       url = "/api/v1/vacations/update/" + event.params.vacationId.toString();

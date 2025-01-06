@@ -10,7 +10,7 @@ class Api::V1::DiaryController < ApplicationController
 
   def edit
     @diary = Diary.find_by(id: params[:id])
-    @desc = ""
+    @desc = ''
     @diary.events.order(start_time: :asc).each do |event|
       @desc << "#{event.start_time.strftime('%H:%M')} #{event.desc}\n"
     end
@@ -19,13 +19,14 @@ class Api::V1::DiaryController < ApplicationController
 
   def create3
     author = User.find_by(name: params[:author])
-    if author == nil
+    if author.nil?
       render json: {
         status: :fail,
         code: :not_found_user,
-        message: "There is no user of #{params[:author]}",
+        message: "There is no user of #{params[:author]}"
       } and return
     end
+
     d = Diary.create do |t|
       t.date = params[:date]
       t.user = author
@@ -35,31 +36,32 @@ class Api::V1::DiaryController < ApplicationController
     fill_end_times d.id
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      diary_id: d.id,
+      diary_id: d.id
     }
   end
 
   def update3
     d = Diary.find_by(id: params[:id])
     author = User.find_by(name: params[:author])
-    if author == nil
+    if author.nil?
       render json: {
         status: :fail,
         code: :not_found_user,
-        message: "There is no user of #{params[:author]}",
+        message: "There is no user of #{params[:author]}"
       } and return
     end
+
     d.update(date: params[:date], user: author)
     Event.where(diary: d).destroy_all
     add_events params[:desc], d
     fill_end_times d.id
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      diary_id: d.id,
+      diary_id: d.id
     }
   end
 
@@ -67,7 +69,7 @@ class Api::V1::DiaryController < ApplicationController
     @title = '업무일지 목록' unless params[:type]
     @title = '나의 업무일지' if params[:type] == 'my'
     @title = '승인되지 않은 업무일지' if params[:type] == 'unadmitted'
-    if params[:year] == nil || params[:month] == nil
+    if params[:year].nil? || params[:month].nil?
       today = Date.today
       @year = today.year
       @month = today.month
@@ -79,7 +81,7 @@ class Api::V1::DiaryController < ApplicationController
     @priv = next_or_priv(false, @year, @month)
     @day_list = Diary.order(date: :desc).where(date: Date.civil(@year, @month, 1)..Date.civil(@year, @month, -1))
                      .pluck(:date).uniq!
-    @day_list = [] if @day_list == nil
+    @day_list = [] if @day_list.nil?
   end
 
   def calendar
@@ -101,23 +103,21 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def search
-    if params[:q].blank?
-      return
-    else
-      @query = params[:q]
-      @sd = Diary.order(date: :desc).joins(:events).where("desc LIKE ?", "%" + @query + "%").uniq
+    return if params[:q].blank?
 
-      render '/api/v1/diary/search'
-    end
+    @query = params[:q]
+    @sd = Diary.order(date: :desc).joins(:events).where('desc LIKE ?', '%' + @query + '%').uniq
+
+    render '/api/v1/diary/search'
   end
 
   def delete
     if @current_user.is_admin?
       @d = Diary.find_by(id: params[:id])
       @d.destroy!
-      redirect_to "/api/v1/diary/list"
+      redirect_to '/api/v1/diary/list'
     else
-      flash.alert = "권한이 없어요"
+      flash.alert = '권한이 없어요'
       redirect_to "/api/v1/diary/detail/#{params[:id]}"
     end
   end
@@ -147,9 +147,9 @@ class Api::V1::DiaryController < ApplicationController
       template: 'api/v1/diary/make_pdf',
       formats: [:html],
       layout: 'pdf',
-      orientation: "Landscape",
+      orientation: 'Landscape',
       page_size: 'A4',
-      encoding: "UTF-8"
+      encoding: 'UTF-8'
     )
     @pdf = WickedPdf.new.pdf_from_string(@html)
     send_data @pdf, file_name: "업무일지 #{@diary.user.name} #{@diary.date}.pdf", disposition: 'inline'
@@ -180,17 +180,20 @@ class Api::V1::DiaryController < ApplicationController
   end
 
   def back_up
-    unless @current_user.is_admin?
-      redirect_to '/api/v1/diary/list' and return
+    redirect_to '/api/v1/diary/list' and return unless @current_user.is_admin?
+
+    date = Date.today.strftime('%Y%m%d')
+    db_path = "#{Rails.root}/db/production.sqlite3"
+
+    if File.exist?(db_path)
+      send_file(db_path, filename: "backup_#{date}.sqlite3",
+                         type: 'application/x-sqlite3', disposition: 'attachment',
+                         status: 200)
+
+    else
+      flash.alert = '백업 파일이 없습니다.'
+      redirect_to '/api/v1/diary/list'
     end
-    data = {
-      diaries: Diary.all,
-      events: Event.all,
-      feedbacks: Feedback.all,
-      users: User.all,
-      cashio: Cashio.all,
-    }
-    send_data data.to_json, type: 'application/json; header=present', disposition: "attachment; filename=#{Date.today.to_s}.json"
   end
 
   private
@@ -202,12 +205,10 @@ class Api::V1::DiaryController < ApplicationController
       else
         [year, month + 1].join('/')
       end
+    elsif month == 1
+      [year - 1, 12].join('/')
     else
-      if month == 1
-        [year - 1, 12].join('/')
-      else
-        [year, month - 1].join('/')
-      end
+      [year, month - 1].join('/')
     end
   end
 
@@ -218,17 +219,19 @@ class Api::V1::DiaryController < ApplicationController
         d.date.year,
         d.date.month,
         d.date.day,
-        row[:start_time].gsub(" ", "").split(':')[0].to_i,
-        row[:start_time].gsub(" ", "").split(':')[1].to_i, 0
+        row[:start_time].gsub(' ', '').split(':')[0].to_i,
+        row[:start_time].gsub(' ', '').split(':')[1].to_i, 0
       ).strftime('%F %T')
       end_time = nil
-      end_time = DateTime.new(
-        d.date.year,
-        d.date.month,
-        d.date.day,
-        row[:end_time].gsub(" ", "").split(':')[0].to_i,
-        row[:end_time].gsub(" ", "").split(':')[1].to_i, 0
-      ).strftime('%F %T') if row[:end_time] != ""
+      if row[:end_time] != ''
+        end_time = DateTime.new(
+          d.date.year,
+          d.date.month,
+          d.date.day,
+          row[:end_time].gsub(' ', '').split(':')[0].to_i,
+          row[:end_time].gsub(' ', '').split(':')[1].to_i, 0
+        ).strftime('%F %T')
+      end
       e = Event.create do |t|
         t.start_time = start_time
         t.end_time = end_time

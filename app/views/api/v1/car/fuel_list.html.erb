@@ -1,99 +1,140 @@
-<h1 class="tw-text-2xl"><%= @car.number %> <%= @car.model %> 주유내역</h1>
+<h1 class="tw-text-2xl"><%= @car.number %>
+  <%= @car.model %>
+  주유내역</h1>
+
 <div class="tw-flex tw-justify-end">
-  <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+  <div
+    class="btn-group btn-group-sm"
+    role="group"
+    aria-label="Basic outlined example"
+  >
     <%= link_to("차량목록", "/api/v1/car/car_list", class: "btn btn-outline-primary btn-sm") %>
     <%= link_to("/api/v1/car/xlsx_fuel_list/#{@car.id}", class: "btn btn-outline-primary btn-sm") do %>
-      <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀
+      <i class="bi bi-file-earmark-spreadsheet"></i>
+      엑셀
     <% end %>
-    <%= link_to("주유내역 추가", "/api/v1/car/new_fuel/#{@car.id}", class: "btn btn-outline-primary btn-sm") %>
+    <%= link_to(
+      "주유내역 추가",
+      "/api/v1/car/new_fuel/#{@car.id}",
+      class: "btn btn-outline-primary btn-sm",
+    ) %>
+  </div>
+</div><br>
+<div class="tw-flex tw-justify-end">
+  <div class="tw-w-36">
+    <div class="input-group input-group-sm mb-3">
+      <%= link_to "<",
+      "/api/v1/car/fuel_list/#{@car.id}?year=#{@year - 1}",
+      class: "btn btn-outline-primary" %>
+      <input
+        type="text"
+        class="form-control tw-text-end"
+        aria-label="year"
+        id="year"
+        value="<%= @year %>"
+      >
+      <span class="input-group-text">년</span>
+      <%= link_to ">",
+      "/api/v1/car/fuel_list/#{@car.id}?year=#{@year + 1}",
+      class: "btn btn-outline-primary" %>
+    </div>
   </div>
 </div>
-<br>
-<h2 class="tw-text-xl text-end text-primary-emphasis">전체금액: <%= number_with_delimiter(@sum_of_price, :delimiter => ',') %> 원</h2>
-<div class="overflow-x-auto">
-  <table
-    class="table table-bordered table-hover mt-3"
-  >
-    <thead class="">
-    <tr>
-      <% %w[주유일 누적주행 주행거리 주유소 유종 주유단가 주유량 금액 연비 비고 수정 삭제 승인].each do |x| %>
-        <th class="text-center">
-          <%= x %>
-        </th>
-      <% end %>
 
-    </tr>
+<h2 class="tw-text-xl text-end text-primary-emphasis">전체금액:
+  <%= number_with_delimiter(@sum_of_price, delimiter: ",") %>
+  원</h2>
+<div class="overflow-x-auto">
+  <table class="table table-bordered table-hover mt-3">
+    <thead class="">
+      <tr>
+        <% %w[주유일 누적주행 주행거리 주유소 유종 주유단가 주유량 금액 연비 비고 수정 삭제 승인].each do |x| %>
+          <th class="text-center">
+            <%= x %>
+          </th>
+        <% end %>
+
+      </tr>
     </thead>
     <tbody class="">
-    <% if @fuels.count == 0 %>
-      <tr>
-        <td class="text-center" colspan="12">
-          주유내역이 없습니다.
-        </td>
-      </tr>
-    <% else %>
-      <% @fuels.each do |fuel| %>
+      <% if @fuels.count == 0 %>
         <tr>
-          <td class="text-center">
-            <%= fuel.refueled_at %> (<%= fuel.wday_name %>)
-          </td>
-          <td class="text-end">
-            <%= number_with_delimiter(fuel.odo, delimiter: ',') %>
-          </td>
-          <td class="text-end">
-            <%= number_with_delimiter(fuel.sub_odo, delimiter: ',') %>
-          </td>
-          <td class="text-start">
-            <%= fuel.station %>
-          </td>
-          <td class="text-center">
-            <%= fuel.fuel_type_kr %>
-          </td>
-          <td class="text-end">
-            <%= number_with_delimiter(fuel.unit_price.floor, delimiter: ',') %>
-          </td>
-          <td class="text-end">
-            <%= number_with_delimiter(fuel.amount, delimiter: ',') %>
-          </td>
-          <td class="text-end">
-            <%= number_with_delimiter(fuel.price, delimiter: ',') %>
-          </td>
-          <td class="text-end">
-            <%= number_with_delimiter(fuel.instant_mileage, delimiter: ',') %>
-          </td>
-          <td class="text-start">
-            <%= fuel.footnote %>
-          </td>
-          <td class="text-center">
-            <%= link_to "✏️",
-                        "/api/v1/car/edit_fuel/#{fuel.id}",
-                        class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}" %>
-          </td>
-          <td class="text-center">
-            <%= button_to("🗑️",
-                          "/api/v1/car/delete_fuel/#{fuel.id}",
-                          method: :delete,
-                          class: "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? 'tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25' : ''}",
-                          form: { data: { turbo_confirm: '정말 삭제하실건가요?' } }) %>
-          </td>
-          <td class="text-center">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="flexCheckDefault"
-                data-controller="car"
-                data-action="change->car#admit"
-                data-car-what-to-admit-param="fuel"
-                data-car-id-param="<%= fuel.id %>"
-                <%= fuel.admitted ? 'checked' : '' %>
-                <%= @current_user.is_admin? ? '' : 'disabled' %>
-              >
-            </div>
+          <td class="text-center" colspan="13">
+            주유내역이 없습니다.
           </td>
         </tr>
+      <% else %>
+        <% @fuels.each do |fuel| %>
+          <tr>
+            <td class="text-center">
+              <%= fuel.refueled_at %>
+              (<%= fuel.wday_name %>)
+            </td>
+            <td class="text-end">
+              <%= number_with_delimiter(fuel.odo, delimiter: ",") %>
+            </td>
+            <td class="text-end">
+              <%= number_with_delimiter(fuel.sub_odo, delimiter: ",") %>
+            </td>
+            <td class="text-start">
+              <%= fuel.station %>
+            </td>
+            <td class="text-center">
+              <%= fuel.fuel_type_kr %>
+            </td>
+            <td class="text-end">
+              <%= number_with_delimiter(fuel.unit_price.floor, delimiter: ",") %>
+            </td>
+            <td class="text-end">
+              <%= number_with_delimiter(fuel.amount, delimiter: ",") %>
+            </td>
+            <td class="text-end">
+              <%= number_with_delimiter(fuel.price, delimiter: ",") %>
+            </td>
+            <td class="text-end">
+              <%= number_with_delimiter(fuel.instant_mileage, delimiter: ",") %>
+            </td>
+            <td class="text-start">
+              <%= fuel.footnote %>
+            </td>
+            <td class="text-center">
+              <%= link_to "✏️",
+              "/api/v1/car/edit_fuel/#{fuel.id}",
+              class:
+                "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? "tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25" : ""}" %>
+            </td>
+            <td class="text-center">
+              <%= button_to(
+                "🗑️",
+                "/api/v1/car/delete_fuel/#{fuel.id}",
+                method: :delete,
+                class:
+                  "hover:tw-opacity-50 link-underline link-underline-opacity-0 #{(fuel.admitted && !@current_user.is_admin?) ? "tw-cursor-not-allowed tw-pointer-events-none tw-opacity-25" : ""}",
+                form: {
+                  data: {
+                    turbo_confirm: "정말 삭제하실건가요?",
+                  },
+                },
+              ) %>
+            </td>
+            <td class="text-center">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  data-controller="car"
+                  data-action="change->car#admit"
+                  data-car-what-to-admit-param="fuel"
+                  data-car-id-param="<%= fuel.id %>"
+                  <%= fuel.admitted ? 'checked' : '' %>
+                  <%= @current_user.is_admin? ? '' : 'disabled' %>
+                >
+              </div>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
     </tbody>
   </table>
 </div>

@@ -1,4 +1,95 @@
-<div>
-  <h1 class="font-bold text-4xl">Api::V1::Vacations#detail</h1>
-  <p>Find me in app/views/api/v1/vacations/detail.html.erb</p>
+<h1 class="tw-text-2xl">연차신청서</h1>
+<br>
+
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th class="text-center font-bold">
+        성명
+      </th>
+      <td class="text-center">
+        <%= @vacation.user.name %>
+      </td>
+      <th class="text-center font-bold">
+        승인여부
+      </th>
+      <td class="text-center">
+        <%= @vacation.approve_icon %>
+      </td>
+    </tr>
+    <tr>
+      <th class="text-center">
+        구분
+      </th>
+      <td class="text-center" colspan="3">
+        <%= @vacation.vacation_type_kr %>
+      </td>
+    </tr>
+    <tr>
+      <th class="text-center">
+        일시
+      </th>
+      <td class="text-center" colspan="3">
+        <%= @vacation.start_date.strftime("%Y년 %m월 %d일") %>
+        ~
+        <%= @vacation.end_date.strftime("%Y년 %m월 %d일") %>
+        (<%= @vacation.total_days %>일간)
+      </td>
+    </tr>
+    <tr class="text-center">
+      <th>연차사유</th>
+      <td colspan="3">
+        <%= @vacation.reason %>
+      </td>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    <tr>
+      <td colspan="4" class="text-center">
+        위와 같은 사유로 인하여 휴가를 신청하오니 허가하여 주시기 바랍니다.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" class="text-center">
+        <%= @vacation.created_at.strftime("%Y년 %m월 %d일") %>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+<br>
+<div class="btn-toolbar">
+  <div
+    class="btn-group btn-group-sm me-4"
+    role="group"
+    aria-label="Basic example"
+  >
+    <% if (@current_user.is_admin? && @vacation.is_approved == true) ||
+        (@vacation.is_approved == false) %>
+      <%= link_to(
+        "수정",
+        "/api/v1/vacations/edit/#{@vacation.id}",
+        class: "btn btn-outline-primary",
+      ) %>
+    <% end %>
+
+    <%= link_to("목록", "/api/v1/vacations", class: "btn btn-outline-primary") %>
+  </div>
+
+  <div class="btn-group btn-group-sm">
+    <% if @vacation.is_approved == false && @current_user.is_admin? %>
+      <div class="btn btn-outline-success">
+        <%= button_to("🔐 승인", "/api/v1/vacations/approve/#{@vacation.id}", method: :post) %>
+      </div>
+    <% end %>
+    <% if @vacation.is_approved == true && @current_user.is_admin? %>
+      <div class="btn btn-outline-danger">
+        <%= button_to(
+          "🔐 승인 취소",
+          "/api/v1/vacations/disapprove/#{@vacation.id}",
+          method: :post,
+        ) %>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -1,10 +1,24 @@
 <nav class="navbar bg-body-tertiary navbar-expand-sm">
   <div class="container-fluid">
     <div class="navbar-brand">
-      <a class="tw-no-underline" href="<%= ENV['HOME_PAGE'] %>" target="_blank" rel="noopener noreferrer">
-        <%= image_tag "logos/logo-h-black-302x91.png", alt: "Logo", width: "100", height: "28", class: "d-inline-block align-text-top" %>
+      <a
+        class="tw-no-underline"
+        href="<%= ENV['HOME_PAGE'] %>"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <%= image_tag "logos/logo-h-black-302x91.png",
+        alt: "Logo",
+        width: "100",
+        height: "28",
+        class: "d-inline-block align-text-top" %>
       </a>
-      <a class="tw-no-underline tw-text-black tw-font-[KorailRoundGothicBold] tw-font-light" href="/">
+      <a
+        class="
+          tw-no-underline tw-text-black tw-font-[KorailRoundGothicBold] tw-font-light
+        "
+        href="/"
+      >
         업무포털
       </a>
     </div>
@@ -21,15 +35,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-md-0 ">
-        <!--        <li class="nav-item">-->
-        <!--          <a class="nav-link active" aria-current="page" href="#">Home</a>-->
-        <!--        </li>-->
-        <!--        <li class="nav-item">-->
-        <!--          <a class="nav-link" href="#">Link</a>-->
-        <!--        </li>-->
+        <!--
+        <li class="nav-item">--> <!--
+          <a class="nav-link active" aria-current="page" href="#">Home</a>--> <!--
+        </li>--> <!--
+        <li class="nav-item">--> <!--
+          <a class="nav-link" href="#">Link</a>--> <!--
+        </li>-->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            업무일지
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            업무
           </a>
           <ul class="dropdown-menu">
             <li>
@@ -39,27 +60,19 @@
               <%= link_to "업무일지 추가", "/api/v1/diary/new", class: "dropdown-item tw-text-sm" %>
             </li>
             <li>
-              <%= link_to "나의 업무일지", "/api/v1/diary/list?type=my", class: "dropdown-item tw-text-sm" %>
-            </li>
-            <li>
               <%= link_to "업무일지 달력", "/api/v1/diary/calendar", class: "dropdown-item tw-text-sm" %>
-            </li>
-            <% if @current_user.is_admin? %>
-              <li>
-                <%= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
-              </li>
-              <!--              <li>-->
-              <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
-              <!--              </li>-->
-            <% end %>
-            <li>
-              <hr class="dropdown-divider">
             </li>
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            현금출납부
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            회계
           </a>
           <ul class="dropdown-menu">
             <li>
@@ -69,27 +82,14 @@
               <%= link_to "입출금내역 달력", "/api/v1/cashio/calendar", class: "dropdown-item tw-text-sm" %>
             </li>
             <li>
-              <%= link_to "#{Cashio.has_base_balance? ? '입출금내역 추가' : '초기이월잔액 입력'}", "#{Cashio.has_base_balance? ? '/api/v1/cashio/new' : '/api/v1/cashio/new_base_balance'}", class: "dropdown-item tw-text-sm" %>
+              <%= link_to "#{Cashio.has_base_balance? ? "입출금내역 추가" : "초기이월잔액 입력"}",
+              "#{Cashio.has_base_balance? ? "/api/v1/cashio/new" : "/api/v1/cashio/new_base_balance"}",
+              class: "dropdown-item tw-text-sm" %>
             </li>
 
-            <%# if @current_user.is_admin? %>
-            <!--              <li>-->
-            <%#= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
-            <!--              </li>-->
-            <!--              <li>-->
-            <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
-            <!--              </li>-->
-            <%# end %>
             <li>
               <hr class="dropdown-divider">
             </li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            차계부
-          </a>
-          <ul class="dropdown-menu">
             <li>
               <%= link_to "차량 목록", "/api/v1/car/car_list", class: "dropdown-item tw-text-sm" %>
             </li>
@@ -97,22 +97,43 @@
               <%= link_to "차량 추가", "/api/v1/car/new_car", class: "dropdown-item tw-text-sm" %>
             </li>
 
-            <%# if @current_user.is_admin? %>
-            <!--              <li>-->
-            <%#= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
-            <!--              </li>-->
-            <!--              <li>-->
-            <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
-            <!--              </li>-->
-            <%# end %>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            행정
+          </a>
+          <ul class="dropdown-menu">
+
+            <li>
+              <%= link_to "직원 목록", "/api/v1/user/list", class: "dropdown-item tw-text-sm" %>
+            </li>
             <li>
               <hr class="dropdown-divider">
+            </li>
+            <li>
+              <%= link_to "연차 목록", "/api/v1/vacations", class: "dropdown-item tw-text-sm" %>
+            </li>
+            <li>
+              <%= link_to "연차 추가", "/api/v1/vacations/new", class: "dropdown-item tw-text-sm" %>
             </li>
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            회의록
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            회의
           </a>
           <ul class="dropdown-menu">
             <li>
@@ -122,26 +143,22 @@
               <%= link_to "회의록 추가", "/api/v1/meeting/new", class: "dropdown-item tw-text-sm" %>
             </li>
 
-            <%# if @current_user.is_admin? %>
-            <!--              <li>-->
-            <%#= link_to "🔐 승인되지 않은 업무일지", "/api/v1/diary/list?type=unadmitted", class: "dropdown-item tw-text-sm" %>
-            <!--              </li>-->
-            <!--              <li>-->
-            <%#= link_to "🔐 백업파일", "/api/v1/diary/back_up", class: "dropdown-item tw-text-sm" %>
-            <!--              </li>-->
-            <%# end %>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
           </ul>
         </li>
-        <!--        <li class="nav-item">-->
-        <!--          <a class="nav-link disabled" aria-disabled="true">Disabled</a>-->
-        <!--        </li>-->
+        <!--
+        <li class="nav-item">--> <!--
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>--> <!--
+        </li>-->
       </ul>
       <ul class="navbar-nav mb-2 mb-md-0">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             계정
           </a>
           <ul class="dropdown-menu">
@@ -154,13 +171,20 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item disabled tw-text-sm" href="#">계정: <%= @current_user.name %></a></li>
+            <li><a class="dropdown-item disabled tw-text-sm" href="#">계정:
+                <%= @current_user.name %></a></li>
           </ul>
         </li>
       </ul>
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             알림
             <% unless @unread_noti_count == 0 %>
               <span class="badge bg-danger">
@@ -169,17 +193,26 @@
             <% end %>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <%= render '/api/v1/notification/notification' %>
+            <%= render "/api/v1/notification/notification" %>
           </ul>
         </li>
       </ul>
-
       <!-- >
-      <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+      <button
+        class="btn btn-outline-primary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight"
+        aria-controls="offcanvasRight"
+      >
         <i class="bi bi-bell position-relative">
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-           <%#= Notification.where(read: false, user: @current_user).count %>
-        </span>
+          <span
+            class="
+              position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger
+            "
+          >
+            <%#= Notification.where(read: false, user: @current_user).count %>
+          </span>
         </i>
       </button>
       -->
@@ -190,9 +223,11 @@
             role: "search",
             method: :get,
             data: { turbo: false }
-          ) do |form|
-      %>
-        <%= form.text_field :q, value: @query, placeholder: "검색어를 입력하세요", class: "form-control form-control-sm me-2" %>
+          ) do |form| %>
+        <%= form.text_field :q,
+                        value: @query,
+                        placeholder: "검색어를 입력하세요",
+                        class: "form-control form-control-sm me-2" %>
         <div class="btn btn-sm btn-outline-primary">
           <%= form.submit value: "검색" %>
         </div>

@@ -36,7 +36,7 @@ class User < ApplicationRecord
       temp1 = hire_date.next_year
       temp2 = hire_date.next_year.end_of_year
 
-      hire_date.month - 1 + (((temp2 - temp1) / 365) * 15).round
+      hire_date.month - 1 + (((temp2 - temp1) / 365) * 15).floor
     elsif experience == 0
       12 - hire_date.month
     end
@@ -48,7 +48,7 @@ class User < ApplicationRecord
 
   def used_vacations_in(year)
     va = vacation_histories_array_in(year)
-    va.select { |v| v[:type] == '연차' }.count + va.select { |v| v[:type] == '반차' }.count * 0.5
+    va.select { |v| v[:type] == '연' }.count + va.select { |v| v[:type] == '반' }.count * 0.5
   end
 
   def remaining_vacations_in(year)
@@ -56,7 +56,8 @@ class User < ApplicationRecord
   end
 
   def vacation_histories_in(year)
-    vacation_histories.where('start_date >= ? AND end_date <= ?', "#{year}-01-01", "#{year}-12-31")
+    vacation_histories.where('start_date >= ? AND end_date <= ?', "#{year}-01-01",
+                             "#{year}-12-31").order(start_date: :asc)
   end
 
   def vacation_histories_array_in(year)
@@ -64,6 +65,6 @@ class User < ApplicationRecord
     vacation_histories_in(year).each do |vacation|
       res.push(*vacation.date_range)
     end
-    res
+    res.sort_by { |v| v[:date] }
   end
 end

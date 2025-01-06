@@ -11,7 +11,6 @@ class Api::V1::CarController < ApplicationController
   end
 
   def detail
-
   end
 
   def repair_list
@@ -37,9 +36,9 @@ class Api::V1::CarController < ApplicationController
     )
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      car_id: c.id,
+      car_id: c.id
     }
   end
 
@@ -58,13 +57,13 @@ class Api::V1::CarController < ApplicationController
       price: params[:price],
       footnote: params[:footnote],
       admitted: false,
-      car: @car,
+      car: @car
     )
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      car_repair_id: cr.id,
+      car_repair_id: cr.id
     }
   end
 
@@ -82,7 +81,7 @@ class Api::V1::CarController < ApplicationController
       insurance_company: params[:insurance_company],
       insurance_start: params[:insurance_start],
       insurance_end: params[:insurance_end],
-      insurance_desc: params[:insurance_desc],
+      insurance_desc: params[:insurance_desc]
     )
   end
 
@@ -94,13 +93,13 @@ class Api::V1::CarController < ApplicationController
       center: params[:center],
       desc: params[:desc],
       price: params[:price],
-      footnote: params[:footnote],
+      footnote: params[:footnote]
     )
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      car_repair_id: cr.id,
+      car_repair_id: cr.id
     }
   end
 
@@ -121,9 +120,9 @@ class Api::V1::CarController < ApplicationController
     )
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      car_id: car.id,
+      car_id: car.id
     }
   end
 
@@ -133,12 +132,15 @@ class Api::V1::CarController < ApplicationController
       disposed_at: nil,
       status: 'use'
     )
-    redirect_to "/api/v1/car/car_list"
+    redirect_to '/api/v1/car/car_list'
   end
 
   def fuel_list
+    @year = params[:year].to_i || Date.today.year
     @car = Car.find_by(id: params[:car_id])
-    @fuels = CarFuel.where(car: @car).order(refueled_at: :desc, odo: :desc)
+    @fuels = CarFuel.where(car: @car).order(refueled_at: :desc, odo: :desc).where(
+      'refueled_at >= ? AND refueled_at <= ?', "#{@year}-01-01", "#{@year}-12-31"
+    )
     @sum_of_price = @fuels.sum(:price)
   end
 
@@ -163,13 +165,13 @@ class Api::V1::CarController < ApplicationController
       unit_price: params[:unit_price],
       fuel_type: params[:fuel_type],
       admitted: false,
-      car: @car,
+      car: @car
     )
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      car_fuel_id: cf.id,
+      car_fuel_id: cf.id
     }
   end
 
@@ -182,35 +184,35 @@ class Api::V1::CarController < ApplicationController
       price: params[:price],
       footnote: params[:footnote],
       unit_price: params[:unit_price],
-      fuel_type: params[:fuel_type],
+      fuel_type: params[:fuel_type]
     )
     render json: {
       status: :ok,
-      message: "Success!",
+      message: 'Success!',
       code: :success,
-      car_fuel_id: cf.id,
+      car_fuel_id: cf.id
     }
   end
 
   def admit
     unless @current_user.is_admin?
-      flash.alert = "권한이 없어요"
-      redirect_to "/api/v1/car/car_list" and return
+      flash.alert = '권한이 없어요'
+      redirect_to '/api/v1/car/car_list' and return
     end
 
     if params[:what] == 'repair'
       crf = CarRepair
-              .find_by(id: params[:id])
-              .update(admitted: params[:is_admitted])
+            .find_by(id: params[:id])
+            .update(admitted: params[:is_admitted])
     elsif params[:what] == 'fuel'
       crf = CarFuel
-              .find_by(id: params[:id])
-              .update(admitted: params[:is_admitted])
+            .find_by(id: params[:id])
+            .update(admitted: params[:is_admitted])
     end
     render json: {
       status: :ok,
-      message: "Success!",
-      code: :success,
+      message: 'Success!',
+      code: :success
     }
   end
 
@@ -219,9 +221,9 @@ class Api::V1::CarController < ApplicationController
     car_id = cr.car.id
     if @current_user.is_admin? || cr.admitted == false
       cr.destroy!
-      flash.alert = "정비내역 1건이 삭제되었습니다."
+      flash.alert = '정비내역 1건이 삭제되었습니다.'
     else
-      flash.alert = "권한이 없어요"
+      flash.alert = '권한이 없어요'
     end
     redirect_to "/api/v1/car/repair_list/#{car_id}"
   end
@@ -231,9 +233,9 @@ class Api::V1::CarController < ApplicationController
     car_id = cf.car.id
     if @current_user.is_admin? || cf.admitted == false
       cf.destroy!
-      flash.alert = "주유내역 1건이 삭제되었습니다."
+      flash.alert = '주유내역 1건이 삭제되었습니다.'
     else
-      flash.alert = "권한이 없어요"
+      flash.alert = '권한이 없어요'
     end
     redirect_to "/api/v1/car/fuel_list/#{car_id}"
   end
@@ -262,11 +264,11 @@ class Api::V1::CarController < ApplicationController
 
   def xlsx_repair_list_all
     @cars = Car.all
-    render xlsx: 'xlsx_repair_list_all', filename: "정비내역 전체.xlsx", formats: :xlsx
+    render xlsx: 'xlsx_repair_list_all', filename: '정비내역 전체.xlsx', formats: :xlsx
   end
 
   def xlsx_fuel_list_all
     @cars = Car.all
-    render xlsx: 'xlsx_fuel_list_all', filename: "주유내역 전체.xlsx", formats: :xlsx
+    render xlsx: 'xlsx_fuel_list_all', filename: '주유내역 전체.xlsx', formats: :xlsx
   end
 end
