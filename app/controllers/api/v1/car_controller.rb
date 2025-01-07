@@ -136,7 +136,7 @@ class Api::V1::CarController < ApplicationController
   end
 
   def fuel_list
-    @year = params[:year].to_i || Date.today.year
+    @year = params[:year].blank? ? Date.today.year : params[:year].to_i
     @car = Car.find_by(id: params[:car_id])
     @fuels = CarFuel.where(car: @car).order(refueled_at: :desc, odo: :desc).where(
       'refueled_at >= ? AND refueled_at <= ?', "#{@year}-01-01", "#{@year}-12-31"
