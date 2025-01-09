@@ -11,7 +11,7 @@ class Api::V1::VacationsController < ApplicationController
   ## 엑셀 형식과 같은 테이블 형태
   def index
     @year = params[:year].blank? ? Date.today.year : params[:year].to_i
-    @users = User.where(status: :employed).where.not(hire_date: nil).where('hire_date <= ?', Date.new(@year, 12, 31))
+    @users = User.where(status: :employed).where.not(hire_date: nil).where('hire_date <= ?', Date.new(@year, 12, 31)).order(hire_date: :asc)
     @hashs = [
       { name: '이름', render: lambda(&:name), class_name: 'text-center' },
       { name: '입사일', render: lambda(&:hire_date), class_name: 'text-center' },

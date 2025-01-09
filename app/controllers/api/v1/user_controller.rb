@@ -3,7 +3,7 @@ class Api::V1::UserController < ApplicationController
   before_action :current_user
 
   def list
-    @users = User.all
+    @users = User.all.order(hire_date: :asc)
     @hashs = [
       { name: '이름', render: lambda(&:name), class_name: 'text-center' },
       { name: '사번', render: lambda(&:eid), class_name: 'text-center' },
