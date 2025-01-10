@@ -3,7 +3,7 @@
 <div data-controller="user">
   <%= form_with url: '/api/v1/user/update', method: :post, class: "w-full", id: "newUserForm" do |form| %>
     <%= element_in_form(form, :name, "이름") do |f, n, cl|
-      f.text_field(n, class: cl, value: @user.name, disabled: true)
+      f.text_field(n, class: cl, value: @user.name)
     end %>
     <%= element_in_form(form, :hire_date, "입사일") do |f, n, cl|
       f.date_field(n, class: cl, max: "9999-12-31", value: @user.hire_date)
