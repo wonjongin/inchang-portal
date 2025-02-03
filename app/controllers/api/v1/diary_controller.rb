@@ -80,7 +80,7 @@ class Api::V1::DiaryController < ApplicationController
     @next = next_or_priv(true, @year, @month)
     @priv = next_or_priv(false, @year, @month)
     @day_list = Diary.order(date: :desc).where(date: Date.civil(@year, @month, 1)..Date.civil(@year, @month, -1))
-                     .pluck(:date).uniq!
+                     .pluck(:date).uniq
     @day_list = [] if @day_list.nil?
   end
 
@@ -232,7 +232,7 @@ class Api::V1::DiaryController < ApplicationController
           row[:end_time].gsub(' ', '').split(':')[1].to_i, 0
         ).strftime('%F %T')
       end
-      e = Event.create do |t|
+      Event.create do |t|
         t.start_time = start_time
         t.end_time = end_time
         t.desc = row[:content]
