@@ -18,6 +18,10 @@ class Api::V1::LoginController < ApplicationController
       flash.now[:alert] = "없는 회원입니다."
       redirect_to '/api/v1/login', alert: "없는 회원입니다." and return
     end
+    if u.status == 'resigned'
+      flash.now[:alert] = "퇴사한 회원입니다."
+      redirect_to '/api/v1/login', alert: "퇴사한 회원입니다." and return
+    end
     encoded = Digest::SHA256.hexdigest(params[:pw] + ENV['SALT'])
     if encoded == u.pw
       session[:user_id] = u.id
