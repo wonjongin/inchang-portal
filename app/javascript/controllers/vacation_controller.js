@@ -17,6 +17,7 @@ export default class extends Controller {
     const form = document.getElementById("newVacationForm");
 
     if (
+      form.elements["name"].value === "" ||
       form.elements["start_date"].value === "" ||
       form.elements["end_date"].value === "" ||
       form.elements["reason"].value === "" ||
@@ -45,6 +46,7 @@ export default class extends Controller {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
+        name: form.elements["name"].value,
         start_date: form.elements["start_date"].value,
         end_date: form.elements["end_date"].value,
         reason: form.elements["reason"].value,

@@ -74,14 +74,24 @@ class Api::V1::VacationsController < ApplicationController
   end
 
   def create
-    v = VacationHistory.create(
-      user: @current_user,
-      reason: params[:reason],
-      is_approved: false,
-      start_date: params[:start_date],
-      end_date: params[:end_date],
-      vacation_type: params[:vacation_type]
-    )
+  
+    user = User.find_by(name: params[:name])
+    if user.nil?
+      render json: {
+        status: :fail,
+        code: :not_found_user,
+        message: "There is no user of #{params[:name]}",
+      } and return
+    end
+    
+    v = VacationHistory.create do |v|
+      v.user = user
+      v.reason = params[:reason]
+      v.is_approved = false
+      v.start_date = params[:start_date]
+      v.end_date = params[:end_date]
+      v.vacation_type = params[:vacation_type]
+    end
 
     render json: {
       status: :ok,
