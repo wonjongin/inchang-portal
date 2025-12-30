@@ -74,7 +74,7 @@
     <% end %>
 
     <%= link_to("목록", "/api/v1/vacations", class: "btn btn-outline-primary") %>
-
+    <%= link_to("엑셀 다운로드", "/api/v1/vacations/download_xlsx/#{@vacation.id}", class: "btn btn-outline-primary", target: "_blank") %>
     <% if @current_user.is_admin? %>
       <div class="btn btn-outline-danger">
         <%= button_to(

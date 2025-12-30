@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       delete 'vacations/delete/:vacation_id', to: 'vacations#delete'
       post 'vacations/approve/:vacation_id', to: 'vacations#approve'
       post 'vacations/disapprove/:vacation_id', to: 'vacations#disapprove'
+      get 'vacations/download_xlsx/:vacation_id', to: 'vacations#download_xlsx'
       get 'user/list'
       get 'user/edit/:user_id', to: 'user#edit'
       post 'user/update/:user_id', to: 'user#update'

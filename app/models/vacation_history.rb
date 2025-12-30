@@ -46,4 +46,14 @@ class VacationHistory < ApplicationRecord
 
     '✅'
   end
+
+  def year_to_yearcode(year)
+    # 2024 -> K
+    # 2025 -> L
+    # 2026 -> M
+    # 2027 -> N
+    # ...
+    arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    return arr[year.to_i - 2014].to_s
+  end
 end

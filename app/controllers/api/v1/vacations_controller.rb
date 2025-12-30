@@ -142,4 +142,17 @@ class Api::V1::VacationsController < ApplicationController
 
     redirect_to '/api/v1/vacations'
   end
+
+  def download_xlsx
+    v = VacationHistory.find(params[:vacation_id])
+    
+    typed = "■   연차   □   병가   □   정기   □   반차   □   공가   □   경조사   □   기타" if v.vacation_type == "annual"
+    typed = "□   연차   □   병가   □   정기   ■   반차   □   공가   □   경조사   □   기타" if v.vacation_type == "half_day"
+    body = "위와 같은 사유로 인하여 휴가를 신청하오니 허가하여 주시기 바랍니다.{{n}}{{n}}{{n}}{{n}}{{n}}#{v.created_at.strftime('%Y년   %m월   %d일')}{{n}}{{n}}{{n}}{{n}}{{n}}{{n}}                                                                                                                                                                                          신청자 :   #{v.user.name.split().join(' ')}    (인){{n}}{{n}}{{n}}인 창 피 엠 티"
+    duration = "#{v.start_date.strftime('%Y년   %m월   %d일')}부터   #{v.end_date.strftime('%Y년   %m월   %d일')}까지 < #{v.total_days}일간>"
+    
+    output = %x{python3 lib/replace_xl.py "app/assets/data/vacation_template.xlsx" "tmp/vacation_#{v.id}.xlsx" "C6::#{v.user.name.split().join(' ')}::F6::#{v.user.position}::C8::#{typed}::C9::#{duration}::C10::#{v.reason}::C11::#{body}"}
+    puts output
+    send_file "tmp/vacation_#{v.id}.xlsx", filename: "#{v.year_to_yearcode(v.created_at.year)}#{v.created_at.strftime('%m%d')}-연차-#{v.user.name}.xlsx", type: "application/vnd.openxmlformates-officedocument.spreadsheetml.sheet"
+  end
 end
