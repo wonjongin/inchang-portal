@@ -33,7 +33,7 @@ class Api::V1::MeetingController < ApplicationController
       admitted: 'not',
     )
     m.update(
-      params.require(:meeting).permit(:at, :title, :is_exterior, :attendee, :description, :footnote, images: [])
+      params.require(:meeting).permit(:at, :title, :is_exterior, :attendee, :description, images: [])
     )
     render json: {
       status: :ok,
@@ -59,7 +59,7 @@ class Api::V1::MeetingController < ApplicationController
     m = Meeting.find_by(id: params[:meeting_id])
     m.update(user: author)
     m.update(
-      params.require(:meeting).permit(:at, :title, :is_exterior, :attendee, :description, :footnote)
+      params.require(:meeting).permit(:at, :title, :is_exterior, :attendee, :description)
     )
     m.images.attach(params[:meeting][:images])
     render json: {

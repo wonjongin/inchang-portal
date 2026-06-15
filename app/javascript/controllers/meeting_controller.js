@@ -71,7 +71,7 @@ export default class extends Controller {
       is_exterior: form.elements["is_exterior"].value,
       attendee: form.elements["attendee"].value,
       description: form.elements["description"].value,
-      footnote: form.elements["footnote"].value,
+      // footnote: form.elements["footnote"].value,
     };
     Object.keys(fd).forEach((key) => {
       formData.append(`meeting[${key}]`, fd[key]);
