@@ -5,11 +5,19 @@ class Api::V1::MeetingController < ApplicationController
   def list
     @filter = params[:filter]
     @filter = 'all' if @filter == nil
-    if @filter == 'all'
-      @meetings = Meeting.all.order(at: :desc)
+    if params[:year].nil? || params[:month].nil?
+      today = Date.today
+      @year = today.year
+      @month = today.month
     else
-      @meetings = Meeting.where(is_exterior: @filter).order(at: :desc)
+      @year = params[:year].to_i
+      @month = params[:month].to_i
     end
+    @next = next_or_priv(true, @year, @month)
+    @priv = next_or_priv(false, @year, @month)
+    @meetings = Meeting.where(at: Date.civil(@year, @month, 1)..Date.civil(@year, @month, -1))
+    @meetings = @meetings.where(is_exterior: @filter) unless @filter == 'all'
+    @meetings = @meetings.order(at: :desc)
   end
 
   def detail
@@ -108,5 +116,21 @@ class Api::V1::MeetingController < ApplicationController
     end
 
     redirect_to "/api/v1/meeting/detail/#{params[:meeting_id]}"
+  end
+
+  private
+
+  def next_or_priv(is_next, year, month)
+    if is_next
+      if month == 12
+        [year + 1, 1].join('/')
+      else
+        [year, month + 1].join('/')
+      end
+    elsif month == 1
+      [year - 1, 12].join('/')
+    else
+      [year, month - 1].join('/')
+    end
   end
 end

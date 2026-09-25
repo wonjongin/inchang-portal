@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       post 'car_log/update/:carlog_id', to: 'car_log#update'
       delete 'car_log/delete/:carlog_id', to: 'car_log#delete'
       get 'meeting/list'
+      get 'meeting/list/:year/:month', to: 'meeting#list'
       get 'meeting/new'
       get 'meeting/detail/:meeting_id', to: 'meeting#detail'
       post 'meeting/create'

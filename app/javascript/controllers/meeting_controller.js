@@ -20,6 +20,7 @@ export default class extends Controller {
       if (event.keyCode === 13 && event.target.nodeName === "INPUT") {
         event.preventDefault();
         var form = event.target.form;
+        if (!form) return;
         var index = Array.prototype.indexOf.call(form, event.target);
         console.log(index);
         if (form.elements[index + 1] === undefined) {
@@ -104,4 +105,11 @@ export default class extends Controller {
     }
   }
 
+  goto(event) {
+    const year = document.querySelector("#year").value;
+    const month = document.querySelector("#month").value;
+
+    let url = '/api/v1/meeting/list/' + year + '/' + month + '?filter=' + event.params.filter;
+    window.location.replace(url);
+  }
 }

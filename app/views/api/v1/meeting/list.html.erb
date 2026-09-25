@@ -1,5 +1,17 @@
 <h1 class="tw-text-2xl">회의 목록</h1>
 <br>
+<div class="input-group input-group-sm mb-3 tw-max-w-xs">
+  <%= link_to "<", "/api/v1/meeting/list/#{@priv}?filter=#{@filter}", class: "btn btn-outline-primary" %>
+  <input type="text" class="form-control" placeholder="2023" aria-label="year" id="year" value="<%= @year %>">
+  <span class="input-group-text">년</span>
+  <input type="text" class="form-control" placeholder="8" aria-label="month" id="month" value="<%= @month %>">
+  <span class="input-group-text">월</span>
+  <button class="btn btn-outline-primary"
+          data-controller="meeting"
+          data-action="click->meeting#goto"
+          data-meeting-filter-param="<%= @filter %>">이동</button>
+  <%= link_to ">", "/api/v1/meeting/list/#{@next}?filter=#{@filter}", class: "btn btn-outline-primary" %>
+</div>
 <div class="tw-flex tw-justify-end">
   <div class="btn-group btn-group-sm tw-mr-4" role="group" aria-label="Basic outlined example">
     <%= link_to("회의 추가", "/api/v1/meeting/new", class: "btn btn-outline-primary") %>
