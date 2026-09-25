@@ -95,6 +95,37 @@ export default class extends Controller {
     }
   }
 
+  // 시각 입력란에 숫자만 받고 ':' 자동 삽입 (예: 930 -> 9:30, 0930 -> 09:30)
+  maskTime(event) {
+    const input = event.target;
+    if (!this.isTimeInput(input)) {
+      return;
+    }
+    const digits = input.value.replace(/\D/g, "").slice(0, 4);
+    if (digits.length === 3) {
+      input.value = digits.slice(0, 1) + ":" + digits.slice(1);
+    } else if (digits.length === 4) {
+      input.value = digits.slice(0, 2) + ":" + digits.slice(2);
+    } else {
+      input.value = digits;
+    }
+  }
+
+  // 입력란을 벗어날 때 한 자리 시를 두 자리로 보정 (예: 9:30 -> 09:30)
+  padTime(event) {
+    const input = event.target;
+    if (!this.isTimeInput(input)) {
+      return;
+    }
+    if (/^\d:\d\d$/.test(input.value)) {
+      input.value = "0" + input.value;
+    }
+  }
+
+  isTimeInput(input) {
+    return input.name === "desc_start_time[]" || input.name === "desc_end_time[]";
+  }
+
   goto(event) {
     const year = document.querySelector("#year").value;
     const month = document.querySelector("#month").value;

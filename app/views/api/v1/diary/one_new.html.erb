@@ -2,7 +2,7 @@
 <br>
 <%# url: '/api/v1/diary/create2', method: :post, %>
 <div data-controller="diary">
-  <%= form_with url: '/api/v1/diary/create3', method: :post, class: "w-full", id: "newDiaryForm" do |form| %>
+  <%= form_with url: '/api/v1/diary/create3', method: :post, class: "w-full", id: "newDiaryForm", data: { action: "input->diary#maskTime focusout->diary#padTime" } do |form| %>
     <div class="row g-2 mb-3 sm:tw-max-w-xs">
       <%#= form.label "날 짜:", class: "col-sm-3 form-label tw-text-justify after:tw-content-[''] after:tw-inline-block after:tw-w-full before:tw-content-[''] before:tw-inline-block before:tw-w-full tw-leading-[0]" %>
       <%= form.label "날 짜:", class: "col-sm-3 form-label tw-text-justify", style: "text-align-last: justify;" %>
